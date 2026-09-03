@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Piyush Chaudhari</title>
+<link>https://pc-piyush.github.io/teaching/</link>
+<atom:link href="https://pc-piyush.github.io/teaching/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.9.37</generator>
+<lastBuildDate>Thu, 27 Aug 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>GMS 6803 Data Science for Clinical Research</title>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="course-materials" class="level2">
+<h2 class="anchored" data-anchor-id="course-materials">Course Materials</h2>
+<div id="listing-materials" class="quarto-listing quarto-listing-container-default">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="U2xpZGVzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="416">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../F26_GMS6803/week-2/EHR.html" class="no-external">Electronic Health Records</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../F26_GMS6803/week-2/EHR.html" class="no-external">Fall 2026</a>
+</div>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('U2xpZGVz'); return false;">Slides</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDI='); return false;">Week 2</div>
+
+</div>
+<div class="delink listing-description"><a href="../F26_GMS6803/week-2/EHR.html" class="no-external">
+<!-- desc(5A0113B34292)[max=175]:F26_GMS6803/week-2/EHR.html -->
+</a></div>
+</div>
+<div class="metadata">
+<a href="../F26_GMS6803/week-2/EHR.html" class="no-external">
+<div class="listing-date">
+August 28, 2026
+</div>
+<div class="listing-author">
+Piyush Chaudhari | Qian Li
+</div>
+<div class="listing-reading-time">3 min</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="26">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../F26_GMS6803/week-2/HipergatorSetup.html" class="no-external">HiperGator Setup</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../F26_GMS6803/week-2/HipergatorSetup.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('UmVzb3VyY2Vz'); return false;">Resources</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDI='); return false;">Week 2</div>
+
+</div>
+<div class="delink listing-description"><a href="../F26_GMS6803/week-2/HipergatorSetup.html" class="no-external">
+<p>Setting up HiperGator for GMS 6803</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="../F26_GMS6803/week-2/HipergatorSetup.html" class="no-external">
+<div class="listing-date">
+August 28, 2026
+</div>
+<div class="listing-author">
+Piyush Chaudhari
+</div>
+<div class="listing-reading-time">1 min</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="U2xpZGVzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="277">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../F26_GMS6803/week-2/i2b2.html" class="no-external">Introduction to i2b2</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../F26_GMS6803/week-2/i2b2.html" class="no-external">Fall 2026</a>
+</div>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('U2xpZGVz'); return false;">Slides</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDI='); return false;">Week 2</div>
+
+</div>
+<div class="delink listing-description"><a href="../F26_GMS6803/week-2/i2b2.html" class="no-external">
+<p>i2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="../F26_GMS6803/week-2/i2b2.html" class="no-external">
+<div class="listing-date">
+August 28, 2026
+</div>
+<div class="listing-author">
+Piyush Chaudhari | Qian Li
+</div>
+<div class="listing-reading-time">2 min</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDE=" data-listing-date-sort="1787544000000" data-listing-file-modified-sort="1788402550737" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../F26_GMS6803/week-1/Resources.html" class="no-external">Course Resources</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../F26_GMS6803/week-1/Resources.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('UmVzb3VyY2Vz'); return false;">Resources</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDE='); return false;">Week 1</div>
+
+</div>
+<div class="delink listing-description"><a href="../F26_GMS6803/week-1/Resources.html" class="no-external">
+<p>Useful traings and resources for GMS 6803 Data Science for Clinical Research</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="../F26_GMS6803/week-1/Resources.html" class="no-external">
+<div class="listing-date">
+August 24, 2026
+</div>
+<div class="listing-author">
+Piyush Chaudhari
+</div>
+<div class="listing-reading-time">1 min</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+<!-- <center>![](https://miro.medium.com/1*x7P7gqjo8k2_bj2rTQWAfg.jpeg){.lightbox .r-stretch group="my-gallery" width="98%" height="auto"}</center> -->
+
+
+
+</section>
+
+ ]]></description>
+  <category>Teaching</category>
+  <category>Fall 2026</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/</guid>
+  <pubDate>Thu, 27 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

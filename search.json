@@ -1,0 +1,205 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "GMS 6803 Data Science for Clinical Research\n                    \n                \n                \n                    Fall 2026\n                \n                \n                    August 27, 2026\n                \n                \n                    This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights\n                \n            \n\n            \n            \n                \n                    \n                            Teaching\n                        \n                    \n                    \n                            Fall 2026\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 Course materials »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#course-teaching",
+    "href": "index.html#course-teaching",
+    "title": "Teaching",
+    "section": "",
+    "text": "GMS 6803 Data Science for Clinical Research\n                    \n                \n                \n                    Fall 2026\n                \n                \n                    August 27, 2026\n                \n                \n                    This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights\n                \n            \n\n            \n            \n                \n                    \n                            Teaching\n                        \n                    \n                    \n                            Fall 2026\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 Course materials »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#guest-lectures",
+    "href": "index.html#guest-lectures",
+    "title": "Teaching",
+    "section": "Guest Lectures",
+    "text": "Guest Lectures"
+  },
+  {
+    "objectID": "F26_GMS6803/week-1/Resources.html",
+    "href": "F26_GMS6803/week-1/Resources.html",
+    "title": "Course Resources",
+    "section": "",
+    "text": "The teaching team has created a GitHub repository for the course to share course materials, sample scripts, and other resources"
+  },
+  {
+    "objectID": "F26_GMS6803/week-1/Resources.html#course-github-repository",
+    "href": "F26_GMS6803/week-1/Resources.html#course-github-repository",
+    "title": "Course Resources",
+    "section": "",
+    "text": "The teaching team has created a GitHub repository for the course to share course materials, sample scripts, and other resources"
+  },
+  {
+    "objectID": "F26_GMS6803/week-1/Resources.html#training-resources-from-uf-research-computing",
+    "href": "F26_GMS6803/week-1/Resources.html#training-resources-from-uf-research-computing",
+    "title": "Course Resources",
+    "section": "Training Resources from UF Research Computing",
+    "text": "Training Resources from UF Research Computing\n\nHiperGator New User Training\nOnce the New User Training is completed, students are recommended to check out additional trainings on this page - HiperGator Training\nUF Research Computing also offers Practicum AI training module"
+  },
+  {
+    "objectID": "F26_GMS6803/week-1/Resources.html#questions-or-concerns",
+    "href": "F26_GMS6803/week-1/Resources.html#questions-or-concerns",
+    "title": "Course Resources",
+    "section": "Questions or Concerns",
+    "text": "Questions or Concerns\n\nIn case you have any questions -\n\nPost on Canvas Discussion Panel\nPost on GitHub issues\nOffice Hours\n\nDr. Mei Liu (Thursday 9-11 AM or by appointment)\nDr. Yi Guo (Monday 2-4 PM or by appointment)"
+  },
+  {
+    "objectID": "F26_GMS6803/content.html",
+    "href": "F26_GMS6803/content.html",
+    "title": "Piyush Chaudhari",
+    "section": "",
+    "text": "Introduction\ni2b2 CDM- Star schema, flow of data, etc.\nWhat kind of questions can i2b2 answer\nData availbility in i2b2"
+  },
+  {
+    "objectID": "F26_GMS6803/content.html#i2b2",
+    "href": "F26_GMS6803/content.html#i2b2",
+    "title": "Piyush Chaudhari",
+    "section": "",
+    "text": "Introduction\ni2b2 CDM- Star schema, flow of data, etc.\nWhat kind of questions can i2b2 answer\nData availbility in i2b2"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/i2b2.html#i2b2",
+    "href": "F26_GMS6803/week-2/i2b2.html#i2b2",
+    "title": "Introduction to i2b2",
+    "section": "i2b2",
+    "text": "i2b2\n\n\n\n\n\n\n\n\n\nFig 1. i2b2 Star Schema\n\n\n\n\n\n\n\ni2b2 is Informatics for Integrating Biology & the Bedside Cohort Discovery System\ni2b2 is an NIH-funded National Center for Biomedical Computing (NCBC) based at Partners’ HealthCare System in Boston\nEnables investigators to identify potential study cohorts using clinical data resources\nIntended for protocol development for grant or IRB submission\nProvides access to curated data through a web client\nReturns only patient counts"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/i2b2.html#feasibility-and-cohort-discovery",
+    "href": "F26_GMS6803/week-2/i2b2.html#feasibility-and-cohort-discovery",
+    "title": "Introduction to i2b2",
+    "section": "Feasibility and Cohort Discovery",
+    "text": "Feasibility and Cohort Discovery\n\nHow many men with hypertension diagnoses had at least one inpatient encounter between January and December 2018?​\nHow many women ages 45-65 had successful breast cancer surgery?​\nHow many children were diagnosed with diabetes and had Hemoglobin A1c greater than 7% in the same financial encounter?​"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/i2b2.html#data-availability-in-i2b2",
+    "href": "F26_GMS6803/week-2/i2b2.html#data-availability-in-i2b2",
+    "title": "Introduction to i2b2",
+    "section": "Data Availability in i2b2",
+    "text": "Data Availability in i2b2\n\ni2b2 data guide​\n\nGo to UF Health IDR i2b2 training page here​\nClick on The i2b2 Data Guide\n\nData is refreshed quarterly, starting June 2011​\nData is represented as closely as possible to the original source​ in the i2b2 Common Data Model"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/i2b2.html#i2b2-client-demo",
+    "href": "F26_GMS6803/week-2/i2b2.html#i2b2-client-demo",
+    "title": "Introduction to i2b2",
+    "section": "i2b2 Client Demo",
+    "text": "i2b2 Client Demo\n\n\n\n\nUF Health i2b2 Webclient"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html",
+    "title": "HiperGator Setup",
+    "section": "",
+    "text": "ssh piyushchaudhari@hpg.rc.ufl.edu"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-setup-check",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-setup-check",
+    "title": "HiperGator Setup",
+    "section": "",
+    "text": "ssh piyushchaudhari@hpg.rc.ufl.edu"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#check-group-membership",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#check-group-membership",
+    "title": "HiperGator Setup",
+    "section": "Check Group Membership",
+    "text": "Check Group Membership\nid"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#create-shortcutsymlink-to-the-course-directory",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#create-shortcutsymlink-to-the-course-directory",
+    "title": "HiperGator Setup",
+    "section": "Create Shortcut/SymLink to the Course Directory",
+    "text": "Create Shortcut/SymLink to the Course Directory\nln -s /blue/gms6803 gms6803"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-jupyter-hub-and-on-demand",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-jupyter-hub-and-on-demand",
+    "title": "HiperGator Setup",
+    "section": "HiperGator Jupyter Hub and On Demand",
+    "text": "HiperGator Jupyter Hub and On Demand\n\nJupyter Hub: jhub.rc.ufl.edu\nOn Demand: ood.rc.ufl.edu"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#representation-of-clinical-data",
+    "href": "F26_GMS6803/week-2/EHR.html#representation-of-clinical-data",
+    "title": "Electronic Health Records",
+    "section": "Representation of Clinical Data",
+    "text": "Representation of Clinical Data\n\nDigital version of a patient’s medical data and history\nMaintained overtime by a healthcare provider\nStakeholders: Patients and healthcare providers such as physicians, nurses, billing team, …\n\n\n\n\n\nStructured Data Elements\n\nDiagnoses\nProcedures\nMedications\nLaboratory results\nVital signs\n\n\n\n\nUnstructured Data Elements\n\nClinical Notes\nImaging Order Reports\nPathology Reports\nPatient Portal Messages"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#electronic-health-records-ehr",
+    "href": "F26_GMS6803/week-2/EHR.html#electronic-health-records-ehr",
+    "title": "Electronic Health Records",
+    "section": "Electronic Health Records (EHR)",
+    "text": "Electronic Health Records (EHR)\n\n\n\n\n\n\n\n\nFig 1. EPIC Systems\n\n\n\n\n\n\n\n\n\n\nFig 2. Cerner"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#clinical-data-warehouse-repository",
+    "href": "F26_GMS6803/week-2/EHR.html#clinical-data-warehouse-repository",
+    "title": "Electronic Health Records",
+    "section": "Clinical Data Warehouse/ Repository",
+    "text": "Clinical Data Warehouse/ Repository\n\n\n\n\nWhy?\n\n\n\nEHR is designed to support clinical care and workflows, not necessarily research\nEHR data is comprised of data from multiple sources and is not readily usable for downstream analysis, which gives rise to the need for a clinical data warehouse or repository\n\n\n\n\n\n\nClinical Data Warehouse (CDW) is a database that consolidates data from a variety of clinical sources to present a unified view of a single patient\nIt is optimized for record retrieval and reporting, which can be used for research, quality improvement, and operational purposes\nTypically, CDWs include but are not limited to data elements like patient demographics, diagnoses, procedures, medications, laboratory results, and vital signs"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#uf-health-integrated-data-repository-idr",
+    "href": "F26_GMS6803/week-2/EHR.html#uf-health-integrated-data-repository-idr",
+    "title": "Electronic Health Records",
+    "section": "UF Health Integrated Data Repository (IDR)",
+    "text": "UF Health Integrated Data Repository (IDR)\n\nLarge-scale clinical data warehouse (CDW)\nUF Health data ~4 million patients\nDeveloped over decades by Shands and UF Health decision support services/IT analytics, and CTSI\nSupports both Epic-generated and non-Epic generated data\nSupports clinical, operational, and research missions"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#idr-data-lineage",
+    "href": "F26_GMS6803/week-2/EHR.html#idr-data-lineage",
+    "title": "Electronic Health Records",
+    "section": "IDR Data Lineage",
+    "text": "IDR Data Lineage\n\n\n\n\nFig 3. UF Health Data Lineage"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#data-modalities-curated-by-idr-research-data-services",
+    "href": "F26_GMS6803/week-2/EHR.html#data-modalities-curated-by-idr-research-data-services",
+    "title": "Electronic Health Records",
+    "section": "Data Modalities curated by IDR Research Data Services",
+    "text": "Data Modalities curated by IDR Research Data Services\n\nStructured Data\nClinical Notes\nRadiology Images and Reports\nPathology Reports\nMyChart Patient Portal Data\nSocial Determinants of Health data from EPIC\nGenomic Module"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#key-idr-research-data-services-initiatives",
+    "href": "F26_GMS6803/week-2/EHR.html#key-idr-research-data-services-initiatives",
+    "title": "Electronic Health Records",
+    "section": "Key IDR Research Data Services Initiatives",
+    "text": "Key IDR Research Data Services Initiatives\n\n\nSelf-Service Tools for Cohort Discovery and Data Extraction\n\nUF Health i2b2\nOneFlorida+ i2b2\nOHDSI ATLAS\n\nData Standardization and Harmonization with Common Data Models\n\nOMOP Common Data Model\nPCORnet\ni2b2\n\nMultimodal Data Curation for research\nDigital Twin - deploying computable phenotypes and establishing loyalty cohorts\nCollaboration with research teams\n\nUF Clinical and Translational Science Institute (CTSI)\nUF Health Cancer Institute\nIntelligent Clinical Center Center (IC3)\nOneFlorida+ Clinical Research Consortium\nCollege of Dentistry"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/EHR.html#contact-idr-research-data-services",
+    "href": "F26_GMS6803/week-2/EHR.html#contact-idr-research-data-services",
+    "title": "Electronic Health Records",
+    "section": "Contact IDR Research Data Services",
+    "text": "Contact IDR Research Data Services\n\n\n\n\nUF Health IDR\n\n\nEmail IDR at IRBDataRequest@ahc.ufl.edu for any questions or concerns"
+  },
+  {
+    "objectID": "F26_GMS6803/index.html",
+    "href": "F26_GMS6803/index.html",
+    "title": "GMS 6803 Data Science for Clinical Research",
+    "section": "",
+    "text": "Fall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\n\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "F26_GMS6803/index.html#course-materials",
+    "href": "F26_GMS6803/index.html#course-materials",
+    "title": "GMS 6803 Data Science for Clinical Research",
+    "section": "",
+    "text": "Fall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\n\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "F26_GMS6803/documents/example-note.html",
+    "href": "F26_GMS6803/documents/example-note.html",
+    "title": "Example course note",
+    "section": "",
+    "text": "This is a regular HTML document (not a slide deck). Anything in documents/ that has a title, date, and description will appear in the listing on the course home page alongside the weekly slides, sorted by date.\nDelete or replace this file with real content."
+  }
+]

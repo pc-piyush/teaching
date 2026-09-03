@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Piyush Chaudhari</title>
+<link>https://pc-piyush.github.io/teaching/F26_GMS6803/</link>
+<atom:link href="https://pc-piyush.github.io/teaching/F26_GMS6803/index.xml" rel="self" type="application/rss+xml"/>
+<description>This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights</description>
+<generator>quarto-1.9.37</generator>
+<lastBuildDate>Fri, 28 Aug 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title></title>
+  <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/EHR.html</link>
+  <description><![CDATA[ undefined ]]></description>
+  <category>Slides</category>
+  <category>Week 2</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/EHR.html</guid>
+  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>HiperGator Setup</title>
+  <dc:creator>Piyush Chaudhari</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/HipergatorSetup.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="hipergator-setup-check" class="level2">
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ssh</span> piyushchaudhari@hpg.rc.ufl.edu</span></code></pre></div></div>
+</section>
+<section id="check-group-membership" class="level2">
+<h2 class="anchored" data-anchor-id="check-group-membership">Check Group Membership</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">id</span></span></code></pre></div></div>
+</section>
+<section id="create-shortcutsymlink-to-the-course-directory" class="level2">
+<h2 class="anchored" data-anchor-id="create-shortcutsymlink-to-the-course-directory">Create Shortcut/SymLink to the Course Directory</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ln</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-s</span> /blue/gms6803 gms6803</span></code></pre></div></div>
+</section>
+<section id="hipergator-jupyter-hub-and-on-demand" class="level2">
+<h2 class="anchored" data-anchor-id="hipergator-jupyter-hub-and-on-demand">HiperGator Jupyter Hub and On Demand</h2>
+<ul>
+<li>Jupyter Hub: <a href="https://jhub.rc.ufl.edu">jhub.rc.ufl.edu</a></li>
+<li>On Demand: <a href="https://ood.rc.ufl.edu">ood.rc.ufl.edu</a></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>Resources</category>
+  <category>Week 2</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/HipergatorSetup.html</guid>
+  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title></title>
+  <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/i2b2.html</link>
+  <description><![CDATA[ undefined ]]></description>
+  <category>Slides</category>
+  <category>Week 2</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/i2b2.html</guid>
+  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Course Resources</title>
+  <dc:creator>Piyush Chaudhari</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-1/Resources.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="course-github-repository" class="level2">
+<h2 class="anchored" data-anchor-id="course-github-repository">Course GitHub Repository</h2>
+<p>The teaching team has created a <a href="https://github.com/GatorAIM/gms6803-clinical-data-science">GitHub repository</a> for the course to share course materials, sample scripts, and other resources</p>
+</section>
+<section id="training-resources-from-uf-research-computing" class="level2">
+<h2 class="anchored" data-anchor-id="training-resources-from-uf-research-computing">Training Resources from UF Research Computing</h2>
+<ul>
+<li><a href="https://docs.rc.ufl.edu/training/new_user_training/">HiperGator New User Training</a></li>
+<li>Once the New User Training is completed, students are recommended to check out additional trainings on this page - <a href="https://docs.rc.ufl.edu/training/HiPerGator_training/">HiperGator Training</a></li>
+<li>UF Research Computing also offers <a href="https://practicumai.org">Practicum AI</a> training module</li>
+</ul>
+</section>
+<section id="questions-or-concerns" class="level2">
+<h2 class="anchored" data-anchor-id="questions-or-concerns">Questions or Concerns</h2>
+<ul>
+<li>In case you have any questions -
+<ul>
+<li>Post on Canvas Discussion Panel</li>
+<li>Post on <a href="https://github.com/GatorAIM/gms6803-clinical-data-science">GitHub issues</a></li>
+<li>Office Hours
+<ul>
+<li>Dr.&nbsp;Mei Liu (Thursday 9-11 AM or by appointment)</li>
+<li>Dr.&nbsp;Yi Guo (Monday 2-4 PM or by appointment) <!-- - E-Mail Piyush ([piyushchaudhari@ufl.edu](mailto:piyushchaudhari@ufl.edu)) or Qi([qixu@ufl.edu](mailto:qixu@ufl.edu)) --></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>Resources</category>
+  <category>Week 1</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-1/Resources.html</guid>
+  <pubDate>Mon, 24 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

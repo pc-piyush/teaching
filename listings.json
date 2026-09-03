@@ -1,0 +1,17 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/F26_GMS6803/index.html"
+    ]
+  },
+  {
+    "listing": "/F26_GMS6803/index.html",
+    "items": [
+      "/F26_GMS6803/week-2/EHR.html",
+      "/F26_GMS6803/week-2/HipergatorSetup.html",
+      "/F26_GMS6803/week-2/i2b2.html",
+      "/F26_GMS6803/week-1/Resources.html"
+    ]
+  }
+]
