@@ -28,16 +28,16 @@ website:
     right:
       - text: "Home"
         href: "https://pc-piyush.github.io"
-      - text: "CV"
-        href: "https://pc-piyush.github.io/cv.html"
-      - text: "Research"
-        href: "https://pc-piyush.github.io/research/"
-      - text: "Teaching"
-        href: index.qmd
-      - text: "Presentations"
-        href: "https://pc-piyush.github.io/presentations/"
-      - text: "p.log()"
-        href: "https://pc-piyush.github.io/posts.html"
+      # - text: "CV"
+      #   href: "https://pc-piyush.github.io/cv.html"
+      # - text: "Research"
+      #   href: "https://pc-piyush.github.io/research/"
+      # - text: "Teaching"
+      #   href: index.qmd
+      # # - text: "Presentations"
+      # #   href: "https://pc-piyush.github.io/presentations/"
+      # - text: "p.log()"
+      #   href: "https://pc-piyush.github.io/posts.html"
   page-footer:
     background: "#373a3c"
     right:
@@ -52,8 +52,8 @@ website:
 format:
   html:
     theme:
-      light: ["html/uf.scss", "brand"]
-      dark: ["html/uf.scss", "brand"]
+      light: [brand, "html/dfb.scss"]
+      dark: [brand, "html/dfb_dark.scss"]
     toc: true
     page-layout: full
 

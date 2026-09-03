@@ -1,0 +1,378 @@
+/*-- scss:defaults --*/
+
+// Palette — same brand colors, dark surface
+$black:      #0E0E0F;
+$white:      #FAFAF7;
+$gold:       #FFCE00;
+$red:        #D6001C;
+$ink-dark:   #F2F0EA;
+$paper-dark: #161616;
+$card-dark:  #1F1F1F;
+$border-dark:#2E2C28;
+
+$font-family-sans-serif: "Georgia", sans-serif;
+$font-family-serif: "Georgia", serif;
+$font-family-monospace: "Georgia", monospace;
+$font-family-base: $font-family-serif;
+
+$body-bg: $paper-dark;
+$body-color: $ink-dark;
+$link-color: $gold;
+$link-hover-color: $red;
+$headings-font-family: $font-family-sans-serif;
+$headings-color: $white;
+$border-color: $border-dark;
+
+/*-- scss:rules --*/
+
+// @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+// Navbar — stays black with the same tri-color stripe in both modes
+.navbar {
+  background-color: $black !important;
+  border-bottom: 4px solid $black;
+  border-image: linear-gradient(to right, $black 0 33%, $red 33% 66%, $gold 66% 100%) 1;
+}
+.navbar-brand {
+  font-family: $font-family-sans-serif;
+  // text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  color: $white !important;
+}
+.navbar-nav .nav-link { color: $white !important; opacity: 0.92; }
+.navbar-nav .nav-link.active {
+  color: $gold !important;
+  border-bottom: 2px solid $red;
+}
+
+// Hero block — identical to light mode since it's already a black panel
+.hero {
+  background-color: $black;
+  color: $white;
+  padding: 4.5rem 2rem;
+  margin: -1.5rem -1.5rem 2.5rem -1.5rem;
+}
+.hero h1 { color: $white; }
+.hero h1 em { font-style: normal; color: $gold; }
+.hero p { color: #c9c9c4; max-width: 560px; }
+.hero .eyebrow {
+  font-family: $font-family-monospace;
+  color: $red;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+.hero .btn-cta {
+  display: inline-block;
+  background-color: $red;
+  color: $white !important;
+  border: 2px solid $red;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-family: $font-family-sans-serif;
+  font-size: 0.85rem;
+  padding: 0.7rem 1.5rem;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+.hero .btn-cta:hover {
+  background-color: transparent;
+  color: $red !important;
+}
+
+// Listing cards — dark surface, same tri-color top borders
+.quarto-grid-item {
+  background-color: $card-dark;
+  border: 1px solid $border-dark;
+  border-top: 5px solid $gold;
+  color: $ink-dark;
+}
+.quarto-grid-item:nth-child(3n+2) { border-top-color: $red; }
+.quarto-grid-item:nth-child(3n+3) { border-top-color: $white; }
+
+.listing-categories .listing-category {
+  font-family: $font-family-monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: $gold !important;
+  border-color: $gold !important;
+}
+
+// Footer
+.nav-footer {
+  background-color: $black !important;
+  color: #cfcfc9 !important;
+  font-family: $font-family-monospace;
+  font-size: 0.82rem;
+}
+.nav-footer a { color: $gold !important; }
+
+h1 {
+  margin-bottom: 0.2rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  border-bottom: 2px solid $gold;
+  padding-bottom: .3rem;
+}
+
+h3 {
+  margin-bottom: .2rem;
+}
+
+p {
+  line-height: 1.6;
+}
+
+hr {
+  opacity: .2;
+}
+
+.grid {
+  gap: 2rem;
+}
+
+.g-col-lg-4 {
+  border-right: 6px solid $gold;
+  padding-right: 2rem;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+  // color: #FFFFF0;
+}
+
+.g-col-lg-8 {
+  padding: 1rem 2rem;
+  // color: #FFFFF0;
+}
+
+ul {
+  margin-bottom: 1rem;
+}
+
+strong {
+  color: $gold;
+}
+
+@media (max-width: 992px) {
+  .g-col-lg-4 {
+    position: relative;
+    top: auto;
+  }
+}
+
+/* Base font */
+body {
+  font-size: 0.85rem;      // ~15px
+  line-height: 1.45;
+}
+
+/* Name */
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+  // color: #FFFFF0;
+}
+
+/* Section titles */
+h2 {
+  font-size: 1.05rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid $gold;
+  padding-bottom: 0.25rem;
+}
+
+/* Job titles */
+h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+  
+}
+
+/* Paragraphs and lists */
+p,
+li {
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Sidebar */
+.g-col-lg-4 {
+  font-size: 0.9rem;
+}
+
+.g-col-lg-4 h2 {
+  font-size: 1rem;
+}
+
+///////////////////////////////////////
+
+.quarto-title-block {
+  .quarto-title .quarto-categories {
+    padding-bottom: 0;
+    flex-wrap: wrap;
+    row-gap: 0.4em;
+  }
+
+  .project-details {
+    background-color: rgba($ink-dark, 0.1);
+    padding: 0.75em;
+    margin: 1em 0;
+  }
+
+  .quarto-title-meta-heading.manual {
+    margin-top: 2em !important;
+  }
+
+  .project-links {
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .project-link {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0 1em 0 0;
+    font-weight: bold;
+  }
+}
+
+.project-link a {
+  text-decoration: none;
+}
+
+i[class^="icon-"]:before {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.research {
+  .back-nav a {
+    color: shift-color($ink-dark, -50%);
+  }
+
+  .quarto-title .quarto-categories .quarto-category {
+    background-color: shift-color($ink-dark, -75%);
+    color: $ink-dark;
+    font-size: 0.65em;
+    opacity: 1;
+  }
+
+  .project-categories {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.35em 0 0.35em;
+    padding-top: 0.35em;
+    padding-left: 0.5em;
+    padding-bottom: 0;
+    row-gap: 0.4em;
+    column-gap: 0.4em;
+    font-family: $headings-font-family;
+
+    .project-category {
+      padding: 0.25em 0.75em 0.25em 0em;
+      font-size: 0.7em;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.project-list {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2em;
+
+    li.project {
+      margin-bottom: 2.5em;
+      border-left: 6px solid shift-color($ink-dark, -90%);
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .project-content {
+    padding-left: 0.5em;
+
+    .status {
+      font-size: 1rem;
+      font-weight: 250;
+      padding: 0.2em;
+      margin-right: 0.5em;
+    }
+  }
+
+  ul.project-links {
+    margin-bottom: 0;
+  }
+
+  .project-details-listing {
+    margin-top: 0.8em;
+    background-color: shift-color($card-dark, -0%);
+    font-size: 0.9rem;
+
+    // @media (max-width: map-get($grid-breakpoints, md)) {
+    //   font-size: 0.95rem;
+    // }
+
+    .project-link {
+      display: inline-block;
+      white-space: nowrap;
+      padding: 0.5em 0.5em 0.5em 1em;
+    }
+
+    .details {
+      background-color: $gold;
+      padding-right: 1.5em;
+
+      a {
+        color: $paper-dark;
+      }
+    }
+  }
+}
+
+#refs {
+  background-color: #f4f4f9; 
+  padding: 20px;
+  border-radius: 8px;
+}
+
+:root {
+  --bib-bg: $paper;
+  --bib-text: #1E293B;
+  --bib-border: #C7D2FE;
+}
+
+/* DARK MODE (Quarto Bootstrap theme switch) */
+[data-bs-theme="dark"] {
+  --bib-bg: $ink;
+  --bib-text: #E0E7FF;
+  --bib-border: #4F46E5;
+}
+
+.pub-card {
+  background: var(--bib-bg);
+  color: var(--bib-text);
+  border: 1px solid var(--bib-border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.pub-card pre,
+.pub-card code {
+  background: var(--bib-bg) !important;
+  color: var(--bib-text) !important;
+}
