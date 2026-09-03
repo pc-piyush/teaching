@@ -34,7 +34,7 @@
 
 /* other quarto variables */
 :root {
-  --quarto-font-monospace: Georgia;
+  --quarto-font-monospace: "Georgia", monospace;
 }
 
 /* syntax highlight based on Pandoc's rules */
@@ -216,4 +216,4 @@ code span.wa {
   content: "</";
 }
 
-/*# sourceMappingURL=f3219c361cd340437c64f090fa0d21d8.css.map */
+/*# sourceMappingURL=d9e56a1480a321c6e755da10a83dbfb8.css.map */
