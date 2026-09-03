@@ -1,0 +1,130 @@
+color:
+  palette:
+    gray: "#495057"
+    dark: "#212529"
+    white: "#FFFFFF"
+    light-gray: "#F3F4F6"
+    dark-gray: "#1F2937"
+    charcoal: "#111827"
+    black: "#000000"
+    # blues
+    soft-blue: "#4F7CAC"
+    royal-blue: "#2563EB"
+    # lavender / purple
+    lavender: "#C4B5FD"
+    soft-purple: "#8B5CF6"
+    deep-purple: "#5B21B6"
+    # pink accents
+    muted-pink: "#E9A8D4"
+    rose: "#DB2777"
+    gray-100: "#f8f9fa" 
+    gray-200: "#e9ecef" 
+    gray-300: "#dee2e6" 
+    gray-400: "#ced4da" 
+    gray-500: "#adb5bd" 
+    gray-600: "#868e96" 
+    gray-700: "#495057" 
+    gray-800: "#373a3c" 
+    gray-900: "#212529" 
+    blue:    "#2780e3" 
+    indigo:  "#6610f2" 
+    purple:  "#170C3A" 
+    pink:    "#A52C60" 
+    red:     "#CF4446" 
+    orange:  "#EE6A24" 
+    light-orange:  "#FB9E07" 
+    yellow:  "#F6D645" 
+    green:   "#118230" 
+    teal:    "#20c997" 
+    cyan:    "#3093CF" 
+    off-white: "#FAF9F6"
+    ivory: "#FFFFF0"
+    white-smoke: "#F5F5F5"
+    cream: "#FFFDD0"
+    eggshell: "#F0EAD6"
+    nice-purple: "#190433"
+    teal_other: "#165a67"
+
+    #new
+    blue-50:  "#F4F7FF"
+    blue-100: "#E8EEFF"
+    blue-200: "#D6E2FF"
+    blue-300: "#B6C7FF"
+    blue-400: "#8EA7FF"
+    blue-500: "#6B88F5"
+    blue-600: "#4E6AF3"
+    blue-700: "#3551D8"
+    blue-800: "#283EA8"
+    blue-900: "#1B2D7A"
+
+    # Purples
+    purple-50:  "#FAF5FF"
+    purple-100: "#F2E9FF"
+    purple-200: "#E2D2FF"
+    purple-300: "#CBB3FF"
+    purple-400: "#B69DFF"
+    purple-500: "#9B8CFF"
+    purple-600: "#7D68F8"
+    purple-700: "#674FD8"
+    purple-800: "#5037AE"
+    purple-900: "#38257A"
+
+    #DFB
+    dfb-black: "#0E0E0F"
+    dfb-white: "#FAFAF7"
+    dfb-gold:  "#FFCE00"
+    dfb-red:   "#D6001C"
+    dfb-ink:   "#1A1A1A"
+    dfb-paper: "#F4F2EC"
+    dfb-ink-dark:   "#F2F0EA"
+    dfb-paper-dark: "#161616"
+
+  primary:
+      light: dfb-red
+      dark: dfb-red
+  secondary:
+      light: dfb-gold
+      dark: dfb-gold
+  foreground: 
+      light: dfb-ink
+      dark: dfb-ink-dark
+  background: 
+      light: dfb-paper
+      dark: dfb-paper-dark
+  tertiary: muted-pink
+  success: royal-blue
+  info: dfb-gold
+  warning: rose
+  danger: 
+    light: dfb-red
+    dark: dfb-red
+  light: muted-pink
+  dark: muted-pink
+  link:
+      light: dfb-red
+      dark: dfb-gold
+typography:
+  fonts:
+    - family: Josefin Sans
+      source: bunny
+    - family: Public Sans
+      source: bunny
+    - family: Libre Baskerville
+      source: bunny
+    - family: JetBrains Mono
+      source: bunny
+    - family: Arial
+      source: system
+    - family: Georgia
+      source: system
+    - family: Consolas
+      source: system
+  base:
+    family: Georgia
+  headings:
+    color:
+      light: red
+      dark: gold
+    family: Georgia
+  monospace:
+    family: Georgia

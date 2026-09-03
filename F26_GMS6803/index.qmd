@@ -1,0 +1,40 @@
+---
+title: "GMS 6803 Data Science for Clinical Research"
+subtitle: "Fall 2026"
+date: "2026-08-27"
+description: "This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights"
+categories: ["Teaching","Fall 2026"]
+
+listing:
+   - id: materials
+     contents:
+       - "week-*/*.qmd"
+      #  - "documents/*.qmd"
+      #  - "documents/*.html"
+     type: default
+     sort: "date desc"
+     categories: true
+     feed: true
+     fields: [title, subtitle, author, date, description, categories, reading-time]
+     date-format: "MMMM D, YYYY"
+
+navbar: false
+
+page-layout: full
+include-back-link: false
+toc-location: right
+toc: true
+brand: ../brand/_brand.yml
+format:
+  html:
+    theme:
+      light: ["../html/uf.scss","brand"]
+      dark: ["../html/uf.scss","brand"]
+---
+
+## Course Materials
+
+::: {#materials}
+:::
+
+<!-- <center>![](https://miro.medium.com/1*x7P7gqjo8k2_bj2rTQWAfg.jpeg){.lightbox .r-stretch group="my-gallery" width="98%" height="auto"}</center> -->

@@ -1,0 +1,40 @@
+---
+title: "HiperGator Setup"
+author: "Piyush Chaudhari"
+date: '2026-08-28'
+description: "Setting up HiperGator for GMS 6803"
+categories: [Resources, "Week 2"]
+navbar: false
+brand: ../../brand/_brand.yml
+engine: knitr
+---
+
+## HiperGator Setup Check
+
+
+```bash
+ssh piyushchaudhari@hpg.rc.ufl.edu
+```
+
+## Check Group Membership
+
+
+```bash
+id
+```
+
+
+## Create Shortcut/SymLink to the Course Directory
+
+
+```bash
+ln -s /blue/gms6803 gms6803
+```
+
+
+## HiperGator Jupyter Hub and On Demand
+
+- Jupyter Hub: [jhub.rc.ufl.edu](https://jhub.rc.ufl.edu)
+- On Demand: [ood.rc.ufl.edu](https://ood.rc.ufl.edu)
+
+

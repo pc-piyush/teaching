@@ -1,0 +1,209 @@
+/*-- scss:defaults --*/
+
+// University of Florida brand colors
+// Extracted directly from the official "Momentum" UF PowerPoint template
+// (ppt/theme/theme1.xml) — matches https://brandcenter.ufl.edu/colors/
+
+$uf-black:        #000000; // dk1
+$uf-white:        #FFFFFF; // lt1
+$uf-dark-blue:    #002657; // dk2 / tx2  (Dark Blue)
+$uf-cool-grey-3:  #C7C9C8; // lt2
+$uf-orange:       #FA4616; // accent1   (Core Orange)
+$uf-blue:         #0020A5; // accent2   (Core Blue)
+$uf-alachua:      #F2A900; // accent3
+$uf-gator:        #228848; // accent4
+$uf-perennial:    #692A60; // accent5
+$uf-bottlebrush:  #D32737; // accent6
+$uf-cool-grey-11: #343741; // hlink / folHlink
+$uf-orange-light: #fb7651;
+
+// Base document colors — regular content slides are white with black body text
+// and orange titles, per the template's "Title and Content" layout
+$body-bg:     $uf-white;
+$body-color:  $uf-black;
+$link-color:  $uf-orange-light;
+
+$presentation-heading-color: $uf-orange;
+$presentation-heading-font-weight: 700;
+
+$presentation-font-size-root: 32px;
+$font-family-sans-serif: "Aptos", "Calibri", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$presentation-heading-font: $font-family-sans-serif;
+
+$code-block-bg: $uf-cool-grey-11;
+$code-color: $uf-white;
+
+// The gradient used on Title / Section Header / Quote slides in the template
+$uf-gradient: linear-gradient(180deg, $uf-dark-blue 0%, $uf-blue 100%);
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+// TITLE SLIDE — matches the template's "Title Slide" layout: dark-blue-to-blue
+// vertical gradient, bold white text, bottom-anchored, left-aligned.
+// ---------------------------------------------------------------------------
+.reveal .slides section.title-slide,
+.reveal .title-slide {
+  text-align: left;
+
+  h1.title {
+    color: $uf-white;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 2.2em;
+  }
+  p.subtitle {
+    color: $uf-white;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    opacity: 0.9;
+  }
+
+  .quarto-title-author-name,
+  .quarto-title-affiliation,
+  .date {
+    color: $uf-cool-grey-3;
+    text-transform: uppercase;
+    font-size: 0.6em;
+  }
+
+}
+
+.reveal .backgrounds .slide-background:first-child,
+.reveal .slide-background.title-slide {
+  background: $uf-gradient;
+}
+
+// ---------------------------------------------------------------------------
+// SECTION DIVIDER — apply with:  ## Section Title {.uf-section}
+// Matches the template's "Section Header" layout (same gradient, big white type)
+// ---------------------------------------------------------------------------
+.reveal section.uf-section {
+  background: $uf-gradient;
+
+  h1, h2 {
+    color: $uf-white;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 2em;
+    border: none;
+  }
+  p, li, a {
+    color: $uf-white;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// QUOTE SLIDE — apply with:  ## {.uf-quote}
+// Matches the template's "Quote" layout: gradient background, large statement type
+// ---------------------------------------------------------------------------
+.reveal section.uf-quote {
+  background: $uf-gradient;
+  display: flex;
+  align-items: center;
+
+  blockquote {
+    border: none;
+    background: transparent;
+    color: $uf-white;
+    font-size: 1.6em;
+    font-weight: 700;
+    font-style: normal;
+    text-align: left;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// REGULAR CONTENT SLIDES — white background, orange titles, black body text
+// ---------------------------------------------------------------------------
+.reveal h2 {
+  color: $uf-orange;
+  font-weight: 700;
+  border: none; // template does not use rule lines under headings
+}
+
+.reveal h1, .reveal h3, .reveal h4 {
+  color: $uf-orange;
+}
+
+.reveal .slides {
+  color: $uf-blue;
+}
+
+// Standard round bullets, matching the template's default body style
+.reveal ul {
+  list-style: disc;
+}
+.reveal ul ul {
+  list-style: circle;
+}
+
+// Links
+.reveal a {
+  color: $uf-blue;
+  &:hover {
+    color: $uf-orange;
+  }
+}
+
+// Emphasis / strong
+.reveal strong {
+  color: $uf-orange;
+}
+
+// Blockquotes on regular (non-.uf-quote) slides
+.reveal blockquote {
+  border-left: 5px solid $uf-orange;
+  background: rgba($uf-cool-grey-3, 0.25);
+  padding: 0.5em 1em;
+  font-style: italic;
+  color: $uf-black;
+}
+
+// Code
+.reveal pre code {
+  background-color: $uf-cool-grey-11;
+  color: $uf-white;
+}
+.reveal code {
+  color: $uf-bottlebrush;
+}
+
+// Tables
+.reveal table thead {
+  background-color: $uf-blue;
+  color: $uf-white;
+}
+.reveal table tbody tr:nth-child(even) {
+  background-color: rgba($uf-cool-grey-3, 0.25);
+}
+
+// Slide numbers — orange chip, as in the template's Slide Number Placeholder area
+.reveal .slide-number {
+  background-color: $uf-orange;
+  color: $uf-white;
+}
+
+.reveal .footer {
+  color: $uf-cool-grey-11;
+  font-size: 0.5em;
+}
+
+// Callouts / panel tabs pick up orange as the accent
+.reveal .callout {
+  border-left-color: $uf-orange;
+}
+.reveal .panel-tabset .nav-link.active {
+  color: $uf-orange;
+  border-color: $uf-orange;
+}
+.reveal .progress {
+  color: $uf-orange;
+}
+
+// Selection highlight
+.reveal ::selection {
+  background: $uf-alachua;
+  color: $uf-black;
+}

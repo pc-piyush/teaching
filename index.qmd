@@ -1,0 +1,40 @@
+---
+title: "Teaching"
+# subtitle: "Teaching and Guest Lectures"
+listing:
+   - id: teaching
+     contents:
+       - "*/index.qmd"
+      #  - "documents/*.qmd"
+      #  - "documents/*.html"
+     sort: "date desc"
+     categories: true
+     feed: true
+     template: "html/teaching/listing.ejs"
+     date-format: "MMMM D, YYYY"
+
+# navbar: false
+
+page-layout: full
+include-back-link: false
+toc-location: right
+toc: true
+brand: brand/_brand.yml
+format:
+  html:
+    theme:
+      light: ["html/uf.scss","html/teaching/listing.scss","brand"]
+      dark: ["html/uf.scss","html/teaching/listing.scss","brand"]
+---
+
+## Course Teaching
+
+::: {#teaching}
+:::
+
+## Guest Lectures
+
+```{=html}
+<!-- :::
+::: -->
+```

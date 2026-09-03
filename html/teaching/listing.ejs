@@ -1,0 +1,49 @@
+```{=html}
+<div class="research project-list">
+<ul class="list">
+    <% for (const item of items) { %>
+        <li class="project" <%=metadataAttrs(item) %>>
+            <div class="project-content listing-pub-info">
+                <p class="listing-title">
+                    <% if (item.path) { %>
+                        <a href="<%- item.path %>" class="listing-name"><%= item.title %></a>
+                    <% } else { %>
+                        <%= item.title %>
+                    <% } %>
+                </p>
+                <% if (item.subtitle) { %>
+                    <p class="listing-subtitle"><%= item.subtitle %></p>
+                <% } %>
+                <% if (item.date) { %>
+                    <p class="listing-date"><%= item.date %></p>
+                <% } %>
+                <% if (item.description) { %>
+                    <p class="listing-description"><%= item.description %></p>
+                <% } %>
+            </div>
+
+            <% if(item.categories) { %>
+            <div class="project-categories">
+                <% for (const cat of item.categories) { %>
+                    <div class="project-category"><a href="#category=<%= cat %>">
+                            <%= cat %>
+                        </a></div>
+                    <% } %>
+            </div>
+            <% } %>
+            <% if(item.path) { %>
+                <div class="project-details-listing">
+                    <ul class="project-links">
+                        <li class="project-link details">
+                            <a href="<%- item.path %>" class="listing-name">
+                                <i class="fa-solid fa-circle-info"></i> Course materials &raquo;
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <% } %>
+        </li>
+        <% } %>
+</ul>
+</div>
+```
