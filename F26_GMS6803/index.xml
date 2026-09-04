@@ -10,16 +10,16 @@
 <atom:link href="https://pc-piyush.github.io/teaching/F26_GMS6803/index.xml" rel="self" type="application/rss+xml"/>
 <description>This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights</description>
 <generator>quarto-1.9.37</generator>
-<lastBuildDate>Fri, 28 Aug 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 04 Sep 2026 04:00:00 GMT</lastBuildDate>
 <item>
   <title></title>
   <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
-  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/EHR.html</link>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-3/EHR.html</link>
   <description><![CDATA[ undefined ]]></description>
   <category>Slides</category>
-  <category>Week 2</category>
-  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/EHR.html</guid>
-  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+  <category>Week 3</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-3/EHR.html</guid>
+  <pubDate>Fri, 04 Sep 2026 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>HiperGator Setup</title>
