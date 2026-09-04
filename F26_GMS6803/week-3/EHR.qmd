@@ -2,9 +2,9 @@
 title: "Electronic Health Records"
 subtitle: "Fall 2026"
 author: "Piyush Chaudhari | Qian Li"
-date: '2026-08-28'
+date: '2026-09-04'
 description: ""
-categories: ["Slides", "Week 2"]
+categories: ["Slides", "Week 3"]
 format:
     revealjs:
         axe:
@@ -198,9 +198,9 @@ Cerner](https://software-finder-prod.blr1.digitaloceanspaces.com/Cerner_s_Ambula
 
 ------------------------------------------------------------------------
 
-## Contact IDR Research Data Services
+## Contact IDR Research Data Services {.smaller}
 
-<iframe src="https://idr.ufhealth.org" width="100%" height="50%" style="border:1px solid #f67505;">
+<iframe src="https://idr.ufhealth.org" width="100%" height="70%" style="border:1px solid #f67505;">
 
 </iframe>
 
