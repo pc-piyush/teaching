@@ -30,6 +30,13 @@ $presentation-font-size-root: 32px;
 $font-family-sans-serif: "Aptos", "Calibri", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $presentation-heading-font: $font-family-sans-serif;
 
+// brand/_brand.yml sets typography.base/monospace to Georgia (meant for the
+// html site theme); pin reveal's own font vars directly so slide body text
+// stays on the narrower UF sans-serif instead of wrapping more than
+// expected, and code blocks stay monospace instead of rendering as serif.
+$mainFont: $font-family-sans-serif;
+$codeFont: "SF Mono", "Consolas", "Menlo", monospace;
+
 $code-block-bg: $uf-cool-grey-11;
 $code-color: $uf-white;
 

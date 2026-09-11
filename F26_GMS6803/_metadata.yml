@@ -1,0 +1,7 @@
+# Cascades to all week-*/*.qmd revealjs slides in this course.
+# uf.scss gives code blocks a dark background ($code-block-bg); Pandoc's
+# default highlight style uses dark text meant for a light background,
+# so without this the code chunk text is nearly invisible.
+format:
+  revealjs:
+    highlight-style: atom-one-dark

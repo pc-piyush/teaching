@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Piyush Chaudhari</title>
+<link>https://pc-piyush.github.io/teaching/F26_GMS6803/</link>
+<atom:link href="https://pc-piyush.github.io/teaching/F26_GMS6803/index.xml" rel="self" type="application/rss+xml"/>
+<description>This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights</description>
+<generator>quarto-1.9.37</generator>
+<lastBuildDate>Fri, 11 Sep 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>{B4F502887207:/F26_GMS6803/week-4/OMOP.html}</title>
+  <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-4/OMOP.html</link>
+  <description>{B4F502887207:/F26_GMS6803/week-4/OMOP.html}</description>
+  <category>Slides</category>
+  <category>Week 4</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-4/OMOP.html</guid>
+  <pubDate>Fri, 11 Sep 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/F26_GMS6803/week-4/SQL_1.html}</title>
+  <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-4/SQL_1.html</link>
+  <description>{B4F502887207:/F26_GMS6803/week-4/SQL_1.html}</description>
+  <category>Slides</category>
+  <category>Week 4</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-4/SQL_1.html</guid>
+  <pubDate>Fri, 11 Sep 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/F26_GMS6803/week-3/EHR.html}</title>
+  <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-3/EHR.html</link>
+  <description>{B4F502887207:/F26_GMS6803/week-3/EHR.html}</description>
+  <category>Slides</category>
+  <category>Week 3</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-3/EHR.html</guid>
+  <pubDate>Fri, 04 Sep 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/F26_GMS6803/week-2/HipergatorSetup.html}</title>
+  <dc:creator>Piyush Chaudhari</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/HipergatorSetup.html</link>
+  <description>{B4F502887207:/F26_GMS6803/week-2/HipergatorSetup.html}</description>
+  <category>Resources</category>
+  <category>Week 2</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/HipergatorSetup.html</guid>
+  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/F26_GMS6803/week-2/i2b2.html}</title>
+  <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/i2b2.html</link>
+  <description>{B4F502887207:/F26_GMS6803/week-2/i2b2.html}</description>
+  <category>Slides</category>
+  <category>Week 2</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-2/i2b2.html</guid>
+  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/F26_GMS6803/week-1/Resources.html}</title>
+  <dc:creator>Piyush Chaudhari</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-1/Resources.html</link>
+  <description>{B4F502887207:/F26_GMS6803/week-1/Resources.html}</description>
+  <category>Resources</category>
+  <category>Week 1</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-1/Resources.html</guid>
+  <pubDate>Mon, 24 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

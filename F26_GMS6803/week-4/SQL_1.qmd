@@ -1,0 +1,164 @@
+---
+title: "Structured Query Language (SQL)"
+subtitle: "Fall 2026"
+author: "Piyush Chaudhari | Qian Li"
+date: '2026-09-11'
+description: ""
+categories: ["Slides", "Week 4"]
+format:
+    revealjs:
+        highlight-style: atom-one-dark
+        axe:
+           output: console
+        slide-number: true
+        chalkboard: 
+            buttons: true
+        preview-links: auto
+        logo: ../../photos/PC_UF.png
+        theme: ../../html/uf.scss
+
+footer: "[GMS 6803: Data Science for Clinical Research](https://github.com/GatorAIM/gms6803-clinical-data-science)"
+include-in-header:
+  - text: |
+      <style>
+      #title-slide .quarto-title-author-name {
+        color: #FFFFFF;
+      }
+
+      #title-slide .quarto-title-affiliation {
+        color: #FFFFFF;
+      }
+      #title-slide .date {
+        color: #FFFFFF;
+      }
+
+            #title-slide .subtitle {
+        color: #FFFFFF;
+      }
+      </style>
+editor: 
+  markdown: 
+    wrap: 72
+toc-location: right
+toc: false
+brand: ../../brand/_brand.yml
+---
+
+## What is SQL?
+
+- **SQL (Structured Query Language)** is the standard language for
+  talking to a **relational database**, a database that stores data
+  in **tables** of rows and columns
+
+- It's **declarative**: you describe *what* data you want, and the
+  database engine figures out *how* to retrieve it
+
+- Every clinical data warehouse you'll touch (OMOP, EHR extracts,
+  REDCap exports loaded into a DB) is queried with SQL
+
+- In this class we'll use **DuckDB**, an embedded, in-process SQL
+  engine: no server to install or connect to, it just runs inside
+  R/Python (or standalone) and can query files directly
+
+------------------------------------------------------------------------
+
+## Core Building Blocks
+
+- **Table**: a collection of records for one type of entity (e.g.
+  `person`, `condition_occurrence`), organized into **rows**
+  (records) and **columns** (attributes)
+
+- **Primary key**: a column (or set of columns) that uniquely
+  identifies each row in a table (e.g. `person_id`)
+
+- **Foreign key**: a column in one table that points to the primary
+  key of another table, letting SQL **join** related tables together
+
+- A **query** is a statement written in SQL that asks the database a
+  question and returns a table as the answer
+
+- In DuckDB, a "table" can even be a CSV or Parquet file queried
+  directly, with no separate load step:
+
+```sql
+SELECT *
+FROM 'condition_occurrence.parquet'
+LIMIT 10;
+```
+
+------------------------------------------------------------------------
+
+## What Can You Do with SQL?
+
+::: {.callout-tip collapse="true" appearance="minimal"}
+These four operations are often called **CRUD**: Create, Read,
+Update, Delete
+:::
+
+- **SELECT**: retrieve (read) data from one or more tables *(what
+  we'll focus on in this class)*
+
+- **INSERT**: add new rows to a table
+
+- **UPDATE**: modify existing rows
+
+- **DELETE**: remove rows
+
+- SQL also lets you **filter** (`WHERE`), **combine tables**
+  (`JOIN`), **aggregate** (`GROUP BY`, `COUNT`, `AVG`), and **sort**
+  (`ORDER BY`) results:
+
+```sql
+SELECT gender_concept_id, COUNT(*) AS n_patients
+FROM person
+GROUP BY gender_concept_id
+ORDER BY n_patients DESC;
+```
+
+---
+
+## DuckDB
+
+- Embedded, in-process OLAP (Online Analytical Processing) database and needs no server to manage
+- Reads Parquet/CSV natively, fast on analytic (columnar) workloads
+- Speaks standard SQL, integrates directly with Python/Pandas/Arrow
+
+Reference : [**https://duckdb.org/**](https://duckdb.org/)
+
+---
+
+## Connecting to DuckDB {.smaller}
+
+:::::::: columns
+::::::: center
+:::: {.column width="50%"}
+
+- Connect to a persistent OMOP database file
+
+```python
+import duckdb
+con = duckdb.connect("omop.duckdb")
+```
+
+- Run a query and get a Pandas DataFrame back
+
+``` python
+df = con.execute("SELECT * FROM person LIMIT 5").fetchdf()
+print(df)
+```
+
+- Use the Relational API style
+
+``` python
+con.sql("SELECT * FROM person LIMIT 5").show()
+```
+
+- Close the connection when done
+
+``` python
+con.close()
+```
+
+::::
+:::::::
+::::::::
