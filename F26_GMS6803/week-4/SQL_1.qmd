@@ -47,14 +47,14 @@ brand: ../../brand/_brand.yml
 ## What is SQL?
 
 - **SQL (Structured Query Language)** is the standard language for
-  talking to a **relational database**, a database that stores data
-  in **tables** of rows and columns
+  talking to a **relational database**, a database that stores data in
+  **tables** of rows and columns
 
 - It's **declarative**: you describe *what* data you want, and the
   database engine figures out *how* to retrieve it
 
-- Every clinical data warehouse you'll touch (OMOP, EHR extracts,
-  REDCap exports loaded into a DB) is queried with SQL
+- Every clinical data warehouse you'll touch (OMOP, EHR extracts, REDCap
+  exports loaded into a DB) is queried with SQL
 
 - In this class we'll use **DuckDB**, an embedded, in-process SQL
   engine: no server to install or connect to, it just runs inside
@@ -65,14 +65,14 @@ brand: ../../brand/_brand.yml
 ## Core Building Blocks
 
 - **Table**: a collection of records for one type of entity (e.g.
-  `person`, `condition_occurrence`), organized into **rows**
-  (records) and **columns** (attributes)
+  `person`, `condition_occurrence`), organized into **rows** (records)
+  and **columns** (attributes)
 
-- **Primary key**: a column (or set of columns) that uniquely
-  identifies each row in a table (e.g. `person_id`)
+- **Primary key**: a column (or set of columns) that uniquely identifies
+  each row in a table (e.g. `person_id`)
 
-- **Foreign key**: a column in one table that points to the primary
-  key of another table, letting SQL **join** related tables together
+- **Foreign key**: a column in one table that points to the primary key
+  of another table, letting SQL **join** related tables together
 
 - A **query** is a statement written in SQL that asks the database a
   question and returns a table as the answer
@@ -80,7 +80,7 @@ brand: ../../brand/_brand.yml
 - In DuckDB, a "table" can even be a CSV or Parquet file queried
   directly, with no separate load step:
 
-```sql
+``` sql
 SELECT *
 FROM 'condition_occurrence.parquet'
 LIMIT 10;
@@ -91,12 +91,12 @@ LIMIT 10;
 ## What Can You Do with SQL?
 
 ::: {.callout-tip collapse="true" appearance="minimal"}
-These four operations are often called **CRUD**: Create, Read,
-Update, Delete
+These four operations are often called **CRUD**: Create, Read, Update,
+Delete
 :::
 
-- **SELECT**: retrieve (read) data from one or more tables *(what
-  we'll focus on in this class)*
+- **SELECT**: retrieve (read) data from one or more tables *(what we'll
+  focus on in this class)*
 
 - **INSERT**: add new rows to a table
 
@@ -104,38 +104,38 @@ Update, Delete
 
 - **DELETE**: remove rows
 
-- SQL also lets you **filter** (`WHERE`), **combine tables**
-  (`JOIN`), **aggregate** (`GROUP BY`, `COUNT`, `AVG`), and **sort**
-  (`ORDER BY`) results:
+- SQL also lets you **filter** (`WHERE`), **combine tables** (`JOIN`),
+  **aggregate** (`GROUP BY`, `COUNT`, `AVG`), and **sort** (`ORDER BY`)
+  results:
 
-```sql
+``` sql
 SELECT gender_concept_id, COUNT(*) AS n_patients
 FROM person
 GROUP BY gender_concept_id
 ORDER BY n_patients DESC;
 ```
 
----
+------------------------------------------------------------------------
 
 ## DuckDB
 
-- Embedded, in-process OLAP (Online Analytical Processing) database and needs no server to manage
+- Embedded, in-process OLAP (Online Analytical Processing) database and
+  needs no server to manage
 - Reads Parquet/CSV natively, fast on analytic (columnar) workloads
 - Speaks standard SQL, integrates directly with Python/Pandas/Arrow
 
 Reference : [**https://duckdb.org/**](https://duckdb.org/)
 
----
+------------------------------------------------------------------------
 
 ## Connecting to DuckDB {.smaller}
 
-:::::::: columns
-::::::: center
-:::: {.column width="50%"}
-
+<!-- ::::: columns
+:::: center
+::: {.column width="50%"} -->
 - Connect to a persistent OMOP database file
 
-```python
+``` python
 import duckdb
 con = duckdb.connect("omop.duckdb")
 ```
@@ -158,7 +158,6 @@ con.sql("SELECT * FROM person LIMIT 5").show()
 ``` python
 con.close()
 ```
-
+<!-- :::
 ::::
-:::::::
-::::::::
+::::: -->
