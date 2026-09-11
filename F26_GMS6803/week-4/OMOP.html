@@ -17,8 +17,8 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Piyush Chaudhari | Qian Li">
-  <meta name="dcterms.date" content="2026-08-28">
-  <title>Piyush Chaudhari – Introduction to i2b2</title>
+  <meta name="dcterms.date" content="2026-09-11">
+  <title>Piyush Chaudhari – OMOP Common Data Model</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -150,8 +150,8 @@
     color: #FFFFFF;
   }
   </style>
-<meta name="twitter:title" content="Introduction to i2b2 – Piyush Chaudhari">
-<meta name="twitter:description" content="i2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview">
+<meta name="twitter:title" content="OMOP Common Data Model – Piyush Chaudhari">
+<meta name="twitter:description" content="Fall 2026">
 <meta name="twitter:creator" content="@iampiyushvc">
 <meta name="twitter:card" content="summary">
 </head>
@@ -160,7 +160,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Introduction to i2b2</h1>
+  <h1 class="title">OMOP Common Data Model</h1>
   <p class="subtitle">Fall 2026</p>
 
 <div class="quarto-title-authors">
@@ -171,104 +171,495 @@ Piyush Chaudhari | Qian Li
 </div>
 </div>
 
-  <p class="date">2026-08-28</p>
+  <p class="date">2026-09-11</p>
 </section>
-<section id="i2b2" class="slide level2">
-<h2>i2b2</h2>
+<section id="omop-common-data-model" class="slide level2">
+<h2>OMOP Common Data Model</h2>
 <div class="columns">
 <div class="center">
-<div class="column" style="width:60%;">
-<div style="font-size: 80%;">
-<!-- <img src="https://hbpmedical.github.io/specifications/images/i2b2_schema.gif" style="width:100%; height:auto;"> -->
-<center>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="https://www.documentation-snds.health-data-hub.fr/assets/img/i2b2_fig_2.7b016acc.png" class="lightbox" data-gallery="my-gallery" title="Fig 1. i2b2 Star Schema"><img data-src="https://www.documentation-snds.health-data-hub.fr/assets/img/i2b2_fig_2.7b016acc.png" class="r-stretch" style="width:98.0%" alt="Fig 1. i2b2 Star Schema"></a></p>
-<figcaption>Fig 1. i2b2 Star Schema</figcaption>
-</figure>
-</div>
-</center>
-</div>
-</div><div class="column" style="width:40%;">
+<div class="column" style="width:75%;">
+<!-- ::: {style="font-size: 80%;"} -->
+<p>The <a href="https://ohdsi.github.io/CommonDataModel/"><strong>Observational Medical Outcomes Partnership</strong></a> (OMOP) Common Data Model (CDM) is an open community data standard, designed to standardize the structure and content of observational data and to enable efficient analyses that can produce reliable evidence</p>
+<!-- ::: -->
+</div><div class="column" style="width:25%;">
 <div style="font-size: 75%;">
-<ul>
-<li><strong>i2b2</strong> is <strong>I</strong>nformatics for <strong>I</strong>ntegrating <strong>B</strong>iology &amp; the <strong>B</strong>edside Cohort Discovery System</li>
-<li>i2b2 is an NIH-funded National Center for Biomedical Computing (NCBC) based at Partners’ HealthCare System in Boston</li>
-<li>Enables investigators to <strong>identify potential study cohorts</strong> using clinical data resources</li>
-<li>Intended for protocol development for grant or IRB submission</li>
-<li>Provides access to curated data through a web client</li>
-<li>Returns <strong>only patient counts</strong></li>
-</ul>
+<img data-src="https://avatars.githubusercontent.com/u/6570077?s=200&amp;v=4.png" class="r-stretch" style="width:98.0%">
 </div>
 </div></div>
 </div>
 </section>
+<section id="omop-common-data-model-1" class="slide level2">
+<h2>OMOP Common Data Model</h2>
+<ul>
+<li><p>The OMOP Common Data Model organizes data into <strong>clinical event tables</strong> (facts about a patient over time), a <strong>person/demographic table</strong>, and <strong>standardized vocabulary tables</strong></p></li>
+<li><p>Every clinical fact is represented using a standard concept, which is why most columns end in <code>_concept_id</code> and resolve through <code>concept</code></p></li>
+</ul>
+<center>
+<a href="https://ohdsi.github.io/CommonDataModel/man/images/cdm55.png" class="lightbox" data-gallery="my-gallery"><img data-src="https://ohdsi.github.io/CommonDataModel/man/images/cdm55.png" class="r-stretch" style="width:50.0%"></a>
+</center>
+</section>
+<section id="person" class="slide level2 smaller">
+<h2>person</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>One row per patient, this is the anchor table every other table joins back to via person_id</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>person_id</code></td>
+<td>Unique patient identifier (primary key)</td>
+</tr>
+<tr class="even">
+<td><code>gender_concept_id</code></td>
+<td>Standard concept for sex/gender</td>
+</tr>
+<tr class="odd">
+<td><code>year_of_birth</code>, <code>month_of_birth</code>, <code>day_of_birth</code></td>
+<td>Birth date components</td>
+</tr>
+<tr class="even">
+<td><code>race_concept_id</code>, <code>ethnicity_concept_id</code></td>
+<td>Standard demographic concepts</td>
+</tr>
+<tr class="odd">
+<td><code>location_id</code></td>
+<td>FK to <code>location</code> (address/geography)</td>
+</tr>
+<tr class="even">
+<td><code>provider_id</code></td>
+<td>FK to <code>provider</code> (usual care provider)</td>
+</tr>
+<tr class="odd">
+<td><code>care_site_id</code></td>
+<td>FK to <code>care_site</code> (usual site of care)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="observation_period" class="slide level2 smaller">
+<h2>observation_period</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Defines the span(s) of time during which a patient’s data is considered complete/observable. Critical for cohort eligibility and lookback/washout logic.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>observation_period_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>observation_period_start_date</code></td>
+<td>Start of observable window</td>
+</tr>
+<tr class="even">
+<td><code>observation_period_end_date</code></td>
+<td>End of observable window</td>
+</tr>
+<tr class="odd">
+<td><code>period_type_concept_id</code></td>
+<td>How the period was derived (e.g., from EHR, insurance enrollment)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="visit_occurrence" class="slide level2 smaller">
+<h2>visit_occurrence</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>One row per patient encounter (inpatient stay, outpatient visit, ER visit, etc.). Most clinical event tables optionally link back to the visit during which they occurred.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>visit_occurrence_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>visit_concept_id</code></td>
+<td>Type of visit (inpatient, outpatient, ER, etc.)</td>
+</tr>
+<tr class="even">
+<td><code>visit_start_date</code> / <code>visit_end_date</code></td>
+<td>Encounter start/end</td>
+</tr>
+<tr class="odd">
+<td><code>visit_type_concept_id</code></td>
+<td>Provenance of the visit record</td>
+</tr>
+<tr class="even">
+<td><code>care_site_id</code></td>
+<td>FK to <code>care_site</code></td>
+</tr>
+<tr class="odd">
+<td><code>admitted_from_concept_id</code>, <code>discharged_to_concept_id</code></td>
+<td>Admission/discharge disposition</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="condition_occurrence" class="slide level2 smaller">
+<h2>condition_occurrence</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Diagnoses - problems, complaints, and clinical impressions recorded for a patient.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>condition_occurrence_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>condition_concept_id</code></td>
+<td>Standard concept for the diagnosis (joins to <code>concept</code>)</td>
+</tr>
+<tr class="even">
+<td><code>condition_start_date</code> / <code>condition_end_date</code></td>
+<td>Onset/resolution dates</td>
+</tr>
+<tr class="odd">
+<td><code>condition_type_concept_id</code></td>
+<td>Provenance (e.g., primary diagnosis, billing code)</td>
+</tr>
+<tr class="even">
+<td><code>visit_occurrence_id</code></td>
+<td>FK to the visit during which it was recorded</td>
+</tr>
+<tr class="odd">
+<td><code>condition_status_concept_id</code></td>
+<td>e.g., admitting vs.&nbsp;final diagnosis</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="drug_exposure" class="slide level2 smaller">
+<h2>drug_exposure</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Records of drug utilization - prescriptions, administrations, and dispensations.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>drug_exposure_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>drug_concept_id</code></td>
+<td>Standard concept for the drug (joins to <code>concept</code>, typically RxNorm)</td>
+</tr>
+<tr class="even">
+<td><code>drug_exposure_start_date</code> / <code>drug_exposure_end_date</code></td>
+<td>Exposure window</td>
+</tr>
+<tr class="odd">
+<td><code>quantity</code>, <code>days_supply</code>, <code>refills</code></td>
+<td>Dosing/supply details</td>
+</tr>
+<tr class="even">
+<td><code>route_concept_id</code></td>
+<td>Route of administration</td>
+</tr>
+<tr class="odd">
+<td><code>visit_occurrence_id</code></td>
+<td>FK to the visit during which it was prescribed/administered</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="measurement" class="slide level2 smaller">
+<h2>measurement</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Quantitative and qualitative clinical measurements - labs, vitals, and other structured test results.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>measurement_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>measurement_concept_id</code></td>
+<td>Standard concept for the test (joins to <code>concept</code>, typically LOINC)</td>
+</tr>
+<tr class="even">
+<td><code>measurement_date</code> / <code>measurement_datetime</code></td>
+<td>When the measurement was taken</td>
+</tr>
+<tr class="odd">
+<td><code>value_as_number</code></td>
+<td>Numeric result (e.g., lab value)</td>
+</tr>
+<tr class="even">
+<td><code>value_as_concept_id</code></td>
+<td>Coded result, when the value isn’t numeric</td>
+</tr>
+<tr class="odd">
+<td><code>unit_concept_id</code></td>
+<td>Unit of measure</td>
+</tr>
+<tr class="even">
+<td><code>range_low</code>, <code>range_high</code></td>
+<td>Reference range for the test</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="procedure_occurrence" class="slide level2 smaller">
+<h2>procedure_occurrence</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Records of procedures performed - surgeries, imaging, therapeutic interventions.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>procedure_occurrence_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>procedure_concept_id</code></td>
+<td>Standard concept for the procedure</td>
+</tr>
+<tr class="even">
+<td><code>procedure_date</code></td>
+<td>When the procedure occurred</td>
+</tr>
+<tr class="odd">
+<td><code>visit_occurrence_id</code></td>
+<td>FK to the associated visit</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="observation" class="slide level2 smaller">
+<h2>observation</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>A catch-all clinical fact table for observations that don’t fit condition/drug/procedure/measurement - e.g., family history, social history, survey responses.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>observation_id</code></td>
+<td>Primary key</td>
+</tr>
+<tr class="even">
+<td><code>person_id</code></td>
+<td>FK to <code>person</code></td>
+</tr>
+<tr class="odd">
+<td><code>observation_concept_id</code></td>
+<td>Standard concept for what was observed</td>
+</tr>
+<tr class="even">
+<td><code>observation_date</code></td>
+<td>Date of the observation</td>
+</tr>
+<tr class="odd">
+<td><code>value_as_number</code>, <code>value_as_string</code>, <code>value_as_concept_id</code></td>
+<td>Result, in whichever form applies</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="concept" class="slide level2 smaller">
+<h2>concept</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>The vocabulary backbone of OMOP (Standardized Vocabulary). Every <code>*_concept_id</code> column across every table is a foreign key into this table.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>concept_id</code></td>
+<td>Primary key - the number stored in every event table</td>
+</tr>
+<tr class="even">
+<td><code>concept_name</code></td>
+<td>Human-readable name</td>
+</tr>
+<tr class="odd">
+<td><code>domain_id</code></td>
+<td>Which clinical area it belongs to (Condition, Drug, Measurement, etc.)</td>
+</tr>
+<tr class="even">
+<td><code>vocabulary_id</code></td>
+<td>Source vocabulary (SNOMED, RxNorm, LOINC, ICD10CM, etc.)</td>
+</tr>
+<tr class="odd">
+<td><code>concept_class_id</code></td>
+<td>Finer-grained classification within the vocabulary</td>
+</tr>
+<tr class="even">
+<td><code>standard_concept</code></td>
+<td><code>'S'</code> if this is the standard concept to use for analysis</td>
+</tr>
+<tr class="odd">
+<td><code>concept_code</code></td>
+<td>The original code within its source vocabulary</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="standard-concepts" class="slide level2">
+<h2>Standard Concepts</h2>
+<ul>
+<li><p><strong>OMOP</strong> maps heterogeneous source codes (ICD-10, local lab codes, etc.) onto a single standard vocabulary per domain, so analytic queries only need to filter on standard <code>concept_id</code> values</p></li>
+<li><p>The <code>concept_relationship</code> and <code>concept_ancestor</code> tables support mapping between source and standard, and traversing concept hierarchies (e.g., “all descendants of Type 2 Diabetes”)</p></li>
+</ul>
+</section>
+<section id="connectivity-of-omop-tables" class="slide level2">
+<h2>Connectivity of OMOP Tables</h2>
+<center>
+<a href="https://ohdsi.github.io/CommonDataModel/man/images/cdm55.png" class="lightbox" data-gallery="my-gallery-2"><img data-src="https://ohdsi.github.io/CommonDataModel/man/images/cdm55.png" class="r-stretch" style="width:50.0%"></a>
+</center>
+<p>Every clinical event table has a <code>person_id</code> (<strong>who</strong>) and usually a <code>visit_occurrence_id</code> (<strong>during which visit</strong>), and every <code>*_concept_id</code> resolves through <code>concept</code> (<strong>what, in standardized concept term</strong>)</p>
+</section>
 <section class="slide level2">
 
-<iframe src="https://i2b2.org/features/" width="100%" height="85%" style="border:1px solid #f67505;">
+<iframe src="https://www.ohdsi.org/software-tools/" width="100%" height="100%" style="border:1px solid #f67505;">
 </iframe>
-<div style="font-size: 60%;">
-<center>
-<a href="https://i2b2.org/features/">i2b2 Community Webpage</a>
-</center>
-</div>
-</section>
-<section id="feasibility-and-cohort-discovery" class="slide level2">
-<h2>Feasibility and Cohort Discovery</h2>
-<ul>
-<li><strong>How many</strong> men with hypertension diagnoses had at least one inpatient encounter between January and December 2018?​</li>
-<li><strong>How many</strong> women ages 45-65 had successful breast cancer surgery?​</li>
-<li><strong>How many</strong> children were diagnosed with diabetes and had Hemoglobin A1c greater than 7% in the same financial encounter?​</li>
-</ul>
-</section>
-<section id="data-availability-in-i2b2" class="slide level2">
-<h2>Data Availability in i2b2</h2>
-<ul>
-<li><strong>i2b2 data guide</strong>​
-<ul>
-<li><p>Go to UF Health IDR i2b2 training page <a href="https://idr.ufhealth.org/research-services/feasibility-cohort-discovery/uf-health-i2b2-training-tools/"><code>here</code></a>​</p></li>
-<li><p>Click on <a href="https://idr.ufhealth.org/wordpress/files/2021/09/DataGuide_2021_August.pdf"><code>The i2b2 Data Guide</code></a></p></li>
-</ul></li>
-<li>Data is refreshed quarterly, starting June 2011​</li>
-<li>Data is represented as closely as possible to the original source​ in the i2b2 Common Data Model</li>
-</ul>
-</section>
-<section id="i2b2-client-demo" class="slide level2">
-<h2>i2b2 Client Demo</h2>
-<iframe src="https://i2b2.idr.ufhealth.org" width="100%" height="75%" style="border:1px solid #f67505;">
-</iframe>
-<div style="font-size: 60%;">
-<center>
-<a href="https://i2b2.idr.ufhealth.org">UF Health i2b2 Webclient</a>
-</center>
-</div>
-<!-- ## i2b2
-
-:::::::: columns
-::::::: center
-:::: {.column width="50%"}
-::: {style="font-size: 80%;"}
-1.  Arrhythmogenic Right Ventricular Cardiomyopathy (ARVC)
-2.  Familial Breast Cancer (FBC)
-3.  Familial Hypercholesterolemia (FH)
-4.  Hypertrophic Cardiomyopathy (HCM)
-5.  Adult Hypophosphatasia (HPP)
-:::
-::::
-
-:::: {.column width="50%"}
-::: {style="font-size: 80%;"}
-6.  Long QT Syndrome (LQTS)
-7.  Lynch Syndrome (LS)
-8.  Monogenic Diabetes (MD)
-9.  Polycystic Kidney Disease (PKD)
-10. von Willebrand Disease (VWD)
-:::
-::::
-:::::::
-::::::::
-
---- -->
 
 
 </section>

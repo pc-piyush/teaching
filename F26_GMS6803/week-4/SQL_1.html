@@ -10,15 +10,12 @@
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/quarto-axe/axe-check.js" type="module"></script>
 <script id="quarto-axe-checker-options" type="text/plain">eyJvdXRwdXQiOiJjb25zb2xlIn0=</script>
-<link href="../../site_libs/reveal-theme/reveal-theme-fbdf5483e0ddfe31285d6b14cbe1ea0e.min.css" rel="stylesheet" append-hash="true" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
+<link href="../../site_libs/reveal-theme/reveal-theme-fbdf5483e0ddfe31285d6b14cbe1ea0e.min.css" rel="stylesheet" append-hash="true" data-mode="light"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Piyush Chaudhari | Qian Li">
-  <meta name="dcterms.date" content="2026-08-28">
-  <title>Piyush Chaudhari – Introduction to i2b2</title>
+  <meta name="dcterms.date" content="2026-09-11">
+  <title>Piyush Chaudhari – Structured Query Language (SQL)</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -39,6 +36,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-ccedef62f3f7d3fb1deceeab23a8485f.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -150,8 +213,8 @@
     color: #FFFFFF;
   }
   </style>
-<meta name="twitter:title" content="Introduction to i2b2 – Piyush Chaudhari">
-<meta name="twitter:description" content="i2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview">
+<meta name="twitter:title" content="Structured Query Language (SQL) – Piyush Chaudhari">
+<meta name="twitter:description" content="Fall 2026">
 <meta name="twitter:creator" content="@iampiyushvc">
 <meta name="twitter:card" content="summary">
 </head>
@@ -160,7 +223,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Introduction to i2b2</h1>
+  <h1 class="title">Structured Query Language (SQL)</h1>
   <p class="subtitle">Fall 2026</p>
 
 <div class="quarto-title-authors">
@@ -171,104 +234,86 @@ Piyush Chaudhari | Qian Li
 </div>
 </div>
 
-  <p class="date">2026-08-28</p>
+  <p class="date">2026-09-11</p>
 </section>
-<section id="i2b2" class="slide level2">
-<h2>i2b2</h2>
-<div class="columns">
-<div class="center">
-<div class="column" style="width:60%;">
-<div style="font-size: 80%;">
-<!-- <img src="https://hbpmedical.github.io/specifications/images/i2b2_schema.gif" style="width:100%; height:auto;"> -->
-<center>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="https://www.documentation-snds.health-data-hub.fr/assets/img/i2b2_fig_2.7b016acc.png" class="lightbox" data-gallery="my-gallery" title="Fig 1. i2b2 Star Schema"><img data-src="https://www.documentation-snds.health-data-hub.fr/assets/img/i2b2_fig_2.7b016acc.png" class="r-stretch" style="width:98.0%" alt="Fig 1. i2b2 Star Schema"></a></p>
-<figcaption>Fig 1. i2b2 Star Schema</figcaption>
-</figure>
-</div>
-</center>
-</div>
-</div><div class="column" style="width:40%;">
-<div style="font-size: 75%;">
+<section id="what-is-sql" class="slide level2">
+<h2>What is SQL?</h2>
 <ul>
-<li><strong>i2b2</strong> is <strong>I</strong>nformatics for <strong>I</strong>ntegrating <strong>B</strong>iology &amp; the <strong>B</strong>edside Cohort Discovery System</li>
-<li>i2b2 is an NIH-funded National Center for Biomedical Computing (NCBC) based at Partners’ HealthCare System in Boston</li>
-<li>Enables investigators to <strong>identify potential study cohorts</strong> using clinical data resources</li>
-<li>Intended for protocol development for grant or IRB submission</li>
-<li>Provides access to curated data through a web client</li>
-<li>Returns <strong>only patient counts</strong></li>
-</ul>
-</div>
-</div></div>
-</div>
-</section>
-<section class="slide level2">
-
-<iframe src="https://i2b2.org/features/" width="100%" height="85%" style="border:1px solid #f67505;">
-</iframe>
-<div style="font-size: 60%;">
-<center>
-<a href="https://i2b2.org/features/">i2b2 Community Webpage</a>
-</center>
-</div>
-</section>
-<section id="feasibility-and-cohort-discovery" class="slide level2">
-<h2>Feasibility and Cohort Discovery</h2>
-<ul>
-<li><strong>How many</strong> men with hypertension diagnoses had at least one inpatient encounter between January and December 2018?​</li>
-<li><strong>How many</strong> women ages 45-65 had successful breast cancer surgery?​</li>
-<li><strong>How many</strong> children were diagnosed with diabetes and had Hemoglobin A1c greater than 7% in the same financial encounter?​</li>
+<li><p><strong>SQL (Structured Query Language)</strong> is the standard language for talking to a <strong>relational database</strong>, a database that stores data in <strong>tables</strong> of rows and columns</p></li>
+<li><p>It’s <strong>declarative</strong>: you describe <em>what</em> data you want, and the database engine figures out <em>how</em> to retrieve it</p></li>
+<li><p>Every clinical data warehouse you’ll touch (OMOP, EHR extracts, REDCap exports loaded into a DB) is queried with SQL</p></li>
+<li><p>In this class we’ll use <strong>DuckDB</strong>, an embedded, in-process SQL engine: no server to install or connect to, it just runs inside R/Python (or standalone) and can query files directly</p></li>
 </ul>
 </section>
-<section id="data-availability-in-i2b2" class="slide level2">
-<h2>Data Availability in i2b2</h2>
+<section id="core-building-blocks" class="slide level2">
+<h2>Core Building Blocks</h2>
 <ul>
-<li><strong>i2b2 data guide</strong>​
-<ul>
-<li><p>Go to UF Health IDR i2b2 training page <a href="https://idr.ufhealth.org/research-services/feasibility-cohort-discovery/uf-health-i2b2-training-tools/"><code>here</code></a>​</p></li>
-<li><p>Click on <a href="https://idr.ufhealth.org/wordpress/files/2021/09/DataGuide_2021_August.pdf"><code>The i2b2 Data Guide</code></a></p></li>
-</ul></li>
-<li>Data is refreshed quarterly, starting June 2011​</li>
-<li>Data is represented as closely as possible to the original source​ in the i2b2 Common Data Model</li>
+<li><p><strong>Table</strong>: a collection of records for one type of entity (e.g. <code>person</code>, <code>condition_occurrence</code>), organized into <strong>rows</strong> (records) and <strong>columns</strong> (attributes)</p></li>
+<li><p><strong>Primary key</strong>: a column (or set of columns) that uniquely identifies each row in a table (e.g.&nbsp;<code>person_id</code>)</p></li>
+<li><p><strong>Foreign key</strong>: a column in one table that points to the primary key of another table, letting SQL <strong>join</strong> related tables together</p></li>
+<li><p>A <strong>query</strong> is a statement written in SQL that asks the database a question and returns a table as the answer</p></li>
+<li><p>In DuckDB, a “table” can even be a CSV or Parquet file queried directly, with no separate load step:</p></li>
 </ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb1-2"><a></a><span class="kw">FROM</span> <span class="st">'condition_occurrence.parquet'</span></span>
+<span id="cb1-3"><a></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="i2b2-client-demo" class="slide level2">
-<h2>i2b2 Client Demo</h2>
-<iframe src="https://i2b2.idr.ufhealth.org" width="100%" height="75%" style="border:1px solid #f67505;">
-</iframe>
-<div style="font-size: 60%;">
-<center>
-<a href="https://i2b2.idr.ufhealth.org">UF Health i2b2 Webclient</a>
-</center>
+<section id="what-can-you-do-with-sql" class="slide level2">
+<h2>What Can You Do with SQL?</h2>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>These four operations are often called <strong>CRUD</strong>: Create, Read, Update, Delete</p>
 </div>
-<!-- ## i2b2
-
-:::::::: columns
-::::::: center
-:::: {.column width="50%"}
-::: {style="font-size: 80%;"}
-1.  Arrhythmogenic Right Ventricular Cardiomyopathy (ARVC)
-2.  Familial Breast Cancer (FBC)
-3.  Familial Hypercholesterolemia (FH)
-4.  Hypertrophic Cardiomyopathy (HCM)
-5.  Adult Hypophosphatasia (HPP)
-:::
+</div>
+</div>
+<ul>
+<li><p><strong>SELECT</strong>: retrieve (read) data from one or more tables <em>(what we’ll focus on in this class)</em></p></li>
+<li><p><strong>INSERT</strong>: add new rows to a table</p></li>
+<li><p><strong>UPDATE</strong>: modify existing rows</p></li>
+<li><p><strong>DELETE</strong>: remove rows</p></li>
+<li><p>SQL also lets you <strong>filter</strong> (<code>WHERE</code>), <strong>combine tables</strong> (<code>JOIN</code>), <strong>aggregate</strong> (<code>GROUP BY</code>, <code>COUNT</code>, <code>AVG</code>), and <strong>sort</strong> (<code>ORDER BY</code>) results:</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a></a><span class="kw">SELECT</span> gender_concept_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_patients</span>
+<span id="cb2-2"><a></a><span class="kw">FROM</span> person</span>
+<span id="cb2-3"><a></a><span class="kw">GROUP</span> <span class="kw">BY</span> gender_concept_id</span>
+<span id="cb2-4"><a></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_patients <span class="kw">DESC</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="duckdb" class="slide level2">
+<h2>DuckDB</h2>
+<ul>
+<li>Embedded, in-process OLAP (Online Analytical Processing) database and needs no server to manage</li>
+<li>Reads Parquet/CSV natively, fast on analytic (columnar) workloads</li>
+<li>Speaks standard SQL, integrates directly with Python/Pandas/Arrow</li>
+</ul>
+<p>Reference : <a href="https://duckdb.org/"><strong>https://duckdb.org/</strong></a></p>
+</section>
+<section id="connecting-to-duckdb" class="slide level2 smaller">
+<h2>Connecting to DuckDB</h2>
+<!-- ::::: columns
+:::: center
+::: {.column width="50%"} -->
+<ul>
+<li>Connect to a persistent OMOP database file</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">import</span> duckdb</span>
+<span id="cb3-2"><a></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(<span class="st">"omop.duckdb"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Run a query and get a Pandas DataFrame back</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>df <span class="op">=</span> con.execute(<span class="st">"SELECT * FROM person LIMIT 5"</span>).fetchdf()</span>
+<span id="cb4-2"><a></a><span class="bu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Use the Relational API style</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>con.sql(<span class="st">"SELECT * FROM person LIMIT 5"</span>).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Close the connection when done</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>con.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- :::
 ::::
-
-:::: {.column width="50%"}
-::: {style="font-size: 80%;"}
-6.  Long QT Syndrome (LQTS)
-7.  Lynch Syndrome (LS)
-8.  Monogenic Diabetes (MD)
-9.  Polycystic Kidney Disease (PKD)
-10. von Willebrand Disease (VWD)
-:::
-::::
-:::::::
-::::::::
-
---- -->
+::::: -->
 
 
 </section>
@@ -658,38 +703,6 @@ Piyush Chaudhari | Qian Li
         }
       });
       </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-    (function() {
-      let previousOnload = window.onload;
-      window.onload = () => {
-        if (previousOnload) {
-          previousOnload();
-        }
-        lightboxQuarto.on('slide_before_load', (data) => {
-          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-          const href = trigger.getAttribute('href');
-          if (href !== null) {
-            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-            if (imgEl !== null) {
-              const srcAttr = imgEl.getAttribute("src");
-              if (srcAttr && srcAttr.startsWith("data:")) {
-                slideConfig.href = srcAttr;
-              }
-            }
-          } 
-        });
-      
-        lightboxQuarto.on('slide_after_load', (data) => {
-          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(slideNode);
-          }
-        });
-      
-      };
-      
-    })();
-              </script>
     
 
 </body></html>
