@@ -16,6 +16,7 @@ $uf-perennial:    #692A60; // accent5
 $uf-bottlebrush:  #D32737; // accent6
 $uf-cool-grey-11: #343741; // hlink / folHlink
 $uf-orange-light: #fb7651;
+$uf-light-blue:    #a4cde9;
 
 // Base document colors — regular content slides are white with black body text
 // and orange titles, per the template's "Title and Content" layout
@@ -30,7 +31,7 @@ $presentation-font-size-root: 32px;
 $font-family-sans-serif: "Aptos", "Calibri", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $presentation-heading-font: $font-family-sans-serif;
 
-$code-block-bg: $uf-cool-grey-11;
+$code-block-bg: $uf-light-blue;
 $code-color: $uf-white;
 
 // The gradient used on Title / Section Header / Quote slides in the template
