@@ -1,47 +1,0 @@
-[ 1/10] F26_GMS6803/week-4/SQL_1.qmd
-
-[ 2/10] F26_GMS6803/week-4/OMOP.qmd
-
-[ 3/10] F26_GMS6803/week-3/EHR.qmd
-
-[ 4/10] F26_GMS6803/week-2/HipergatorSetup.qmd
-
-
-
-processing file: HipergatorSetup.qmd
-
-1/1
-
-output file: HipergatorSetup.knit.md
-
-
-[ 5/10] F26_GMS6803/week-2/i2b2.qmd
-
-[ 6/10] F26_GMS6803/content.md
-
-[ 7/10] F26_GMS6803/index.qmd
-
-[ 8/10] F26_GMS6803/week-1/Resources.qmd
-
-[ 9/10] F26_GMS6803/documents/example-note.qmd
-
-[10/10] index.qmd
-
-
-
-(ERROR) NotFound: No such file or directory (os error 2): rename '/Users/piyushchaudhari/UF Dropbox/Piyush Chaudhari/Website Template/Piyush's Website/teaching/F26_GMS6803/index.html' -> '/Users/piyushchaudhari/UF Dropbox/Piyush Chaudhari/Website Template/Piyush's Website/teaching/_site/F26_GMS6803/index.html'
-
-Stack trace:
-    at Object.renameSync (ext:deno_fs/30_fs.js:264:3)
-    at safeMoveSync (file:///Applications/quarto/bin/quarto.js:3222:10)
-    at renderProject (file:///Applications/quarto/bin/quarto.js:137210:9)
-    at eventLoopTick (ext:core/01_core.js:179:7)
-    at async _Command.actionHandler (file:///Applications/quarto/bin/quarto.js:142481:24)
-    at async _Command.execute (file:///Applications/quarto/bin/quarto.js:102102:7)
-    at async _Command.parseCommand (file:///Applications/quarto/bin/quarto.js:101979:14)
-    at async quarto4 (file:///Applications/quarto/bin/quarto.js:187653:5)
-    at async file:///Applications/quarto/bin/quarto.js:187681:5
-    at async file:///Applications/quarto/bin/quarto.js:187536:14
-    at async mainRunner (file:///Applications/quarto/bin/quarto.js:187538:5)
-    at async file:///Applications/quarto/bin/quarto.js:187674:3
-
