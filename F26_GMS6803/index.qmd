@@ -9,6 +9,7 @@ listing:
    - id: materials
      contents:
        - "week-*/*.qmd"
+       - "index.qmd"
       #  - "documents/*.qmd"
       #  - "documents/*.html"
      type: default
