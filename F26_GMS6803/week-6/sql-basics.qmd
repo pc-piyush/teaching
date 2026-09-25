@@ -4,7 +4,7 @@ subtitle: "A reactive walkthrough with Quarto, reveal.js and marimo"
 author: "Piyush Chaudhari"
 date: '2026-09-25'
 description: ""
-categories: ["Slides", "Week 5"]
+categories: ["Slides", "Week 6"]
 engine: marimo
 format:
   revealjs:
@@ -46,7 +46,6 @@ header: |
   from pathlib import Path
 
 footer: "[GMS 6803: Data Science for Clinical Research](https://github.com/GatorAIM/gms6803-clinical-data-science)"
-
 ---
 
 ## Learning SQL with OMOP
@@ -55,10 +54,10 @@ footer: "[GMS 6803: Data Science for Clinical Research](https://github.com/Gator
 ::: {.column width="44%"}
 Every OMOP extract uses **the same tables and column names**, so a query written here can run for any OMOP dataset at any insitution.
 
-- Clinical facts live in *event tables* 
+- Clinical facts live in *event tables*
 - Their meaning lives in **`concept`**, the vocabulary table
 
-Most of the queries that we will see, you will - 
+Most of the queries that we will see, you will -
 
 1.  filter an event table,
 2.  join to `person`,
@@ -272,16 +271,13 @@ def styled(chart, w=520, h=300):
 
 ::::: columns
 ::: {.column width="40%"}
-
-- A synthetic OMOP CDM subset stored in a **DuckDB** database file, `omop.duckdb` 
-<!-- (rebuild it with `uv run build_omop_db.py`) -->
+- A synthetic OMOP CDM subset stored in a **DuckDB** database file, `omop.duckdb` <!-- (rebuild it with `uv run build_omop_db.py`) -->
 
 - Concept IDs are real standard concepts (SNOMED, RxNorm, LOINC)
 
 - People, dates and values are simulated
 
 - Every chart and table in this deck is a live query against it
-
 :::
 
 ::: {.column width="60%"}
@@ -357,7 +353,6 @@ styled(_bars + _labels, w=480, h=260)
 
 ::::: columns
 ::: {.column width="42%"}
-
 - `FROM` names the table
 
 - `SELECT` picks the columns you want back
@@ -365,7 +360,6 @@ styled(_bars + _labels, w=480, h=260)
 - `LIMIT` keeps the preview small while you explore
 
 - Avoid `SELECT *` in real extracts since OMOP tables are wide, and naming columns documents intent
-
 :::
 
 ::: {.column width="58%"}
@@ -400,7 +394,6 @@ mo.vstack([yob, sex_pick], gap=1.2)
 - `BETWEEN` is inclusive on both ends
 
 - Filtering on `gender_concept_id`, not a text label, is the OMOP way
-
 :::
 ::::
 
@@ -435,7 +428,6 @@ mo.vstack([sort_col, sort_dir, top_n], gap=1.2)
 ```
 
 ::: muted
-
 - Without `ORDER BY`, row order is not guaranteed, so `LIMIT` alone returns an arbitrary sample
 :::
 ::::
@@ -457,8 +449,7 @@ mo.vstack([show_sql(order_sql), mo.ui.table(run(order_sql), page_size=8, selecti
 
 ::::: columns
 ::: {.column width="45%"}
-
-- Event tables store integers 
+- Event tables store integers
 
 - `concept` holds the names
 
@@ -601,13 +592,11 @@ mo.vstack([domain_pick, count_what], gap=1.2)
 ```
 
 ::: muted
-
 - `COUNT(*)` counts records
 
 - `COUNT(DISTINCT person_id)` counts patients
 
 In EHR data these differ a lot
-
 :::
 ::::
 
@@ -686,13 +675,9 @@ mo.vstack([visit_types, grain], gap=1.2)
 ```
 
 ::: muted
+**DuckDB** `date_trunc('year', d)`
 
-**DuckDB** 
-`date_trunc('year', d)`
-
-**SQL Server**
-`DATEFROMPARTS(YEAR(d),1,1)` or `DATETRUNC(year, d)`
-
+**SQL Server** `DATEFROMPARTS(YEAR(d),1,1)` or `DATETRUNC(year, d)`
 :::
 ::::
 
@@ -780,7 +765,6 @@ mo.vstack([show_sql(lab_sql),
 
 ::::: columns
 ::: {.column width="50%"}
-
 Age bands come from a `CASE` expression, then `GROUP BY`
 
 **Click a bar** (shift-click for several) to filter the table
@@ -843,8 +827,7 @@ mo.vstack([mo.md(f"Showing: **{', '.join(_picked)}**"),
 
 :::::: columns
 :::: {.column width="32%"}
-
-Question: 
+Question:
 
 *Of patients with type 2 diabetes, how many started metformin within N days of diagnosis?*
 
@@ -904,8 +887,8 @@ Pattern matching, subqueries, set operations and window functions
 
 ## [LIKE]{.kw .where} finds concepts by text
 
-:::::: columns
-:::: {.column width="34%"}
+:::::::: columns
+:::::: {.column width="34%"}
 ```{python .marimo}
 like_pat = mo.ui.text(value="%chronic%", label="Pattern", full_width=True)
 like_ci = mo.ui.switch(value=True, label="Case-insensitive (ILIKE)")
@@ -914,26 +897,20 @@ mo.vstack([like_pat, like_ci, like_not], gap=1.2)
 ```
 
 ::: muted
-
 - `%` matches any run of characters
 - `_` exactly one
-
 :::
 
 ::: {.callout-note collapse="true" appearance="minimal"}
-
 Try `%disease`, `_etformin`, `%in%`, `%blood%`
-
 :::
 
 ::: muted
-
 - Use `LIKE` to *find* concept IDs, then filter event tables on the IDs
 
 - Text search misses synonyms and is slow on the full vocabulary
-
 :::
-::::
+::::::
 
 ::: {.column width="66%"}
 ```{python .marimo}
@@ -953,7 +930,7 @@ mo.vstack([
 ])
 ```
 :::
-::::::
+::::::::
 
 ## String Functions: CONCAT, SPLIT_PART, REGEXP_EXTRACT
 
@@ -966,13 +943,11 @@ str_domain
 ```
 
 ::: muted
-
 - `||` concatenates
 
 - `SPLIT_PART` and `regexp_extract` pull pieces out of a string
 
 - Source values in OMOP (`*_source_value`) are free text, so these functions do most of the cleanup.
-
 :::
 ::::
 
@@ -997,9 +972,9 @@ mo.vstack([show_sql(str_sql), mo.ui.table(run(str_sql), page_size=6, selection=N
 
 :::::: columns
 ::: {.column width="34%"}
-Question: 
+Question:
 
-*Which patients have a condition but no record of the usual drug?* 
+*Which patients have a condition but no record of the usual drug?*
 
 This is a classic care gap query
 
@@ -1045,11 +1020,9 @@ mo.vstack([
 ```
 
 ::: muted
-
 - `EXISTS` stops at the first match, so it never duplicates rows the way a `JOIN` can
 
 - `NOT IN` breaks if the subquery returns a `NULL`; prefer `NOT EXISTS`
-
 :::
 ::::
 ::::::
@@ -1137,15 +1110,13 @@ use_coalesce
 ```
 
 ::: muted
-
 - `race_concept_id = 0` means “no matching concept”, so the `LEFT JOIN` returns `NULL`
 
 - `COALESCE` swaps in a label
 
-`- FILTER (WHERE …)` counts a subset inside one group, turning rows into columns 
+`- FILTER (WHERE …)` counts a subset inside one group, turning rows into columns
 
 - `NULLIF(x, 0)` returns `NULL` when `x` is 0, so a division gives `NULL` instead of an error
-
 :::
 ::::
 
@@ -1239,13 +1210,11 @@ mo.vstack([rank_person, rank_first], gap=1.2)
 ```
 
 ::: muted
-
 - On ties, `ROW_NUMBER` still counts 1, 2, 3, `RANK` repeats and then skips, and `DENSE_RANK` repeats without skipping
 
 - `ROW_NUMBER() … = 1` is the standard OMOP “first event per person” pattern
 
 - DuckDB also lets you write `QUALIFY rn = 1` instead of the outer query
-
 :::
 ::::
 
@@ -1298,7 +1267,6 @@ mo.vstack([lag_types, return_days], gap=1.2)
 ```
 
 ::: muted
-
 - `LEAD(x)` reads the next row's value in the window and `LAG(x)` reads the previous one
 
 - This is how readmission and gap-in-care measures are built
@@ -1349,13 +1317,11 @@ mo.vstack([roll_person, roll_k], gap=1.2)
 ```
 
 ::: muted
-
 - The frame says which rows around the current one feed the aggregate
 
 - `ROWS BETWEEN 2 PRECEDING AND CURRENT ROW` gives a 3-reading moving average
 
 - With only `ORDER BY`, the frame runs from the first row, giving a running total or max
-
 :::
 ::::
 
@@ -1433,9 +1399,7 @@ _res
 :::
 
 ::: muted
-
 OHDSI’s **SqlRender** translates one parameterised query into each dialect, which is how ATLAS and HADES packages stay portable
-
 :::
 
 ## Export the result
@@ -1452,9 +1416,7 @@ COPY (
 ```
 
 ::: muted
-
 SQL Server: `bcp` or `sqlcmd -s"|" -W`, then wrap values in quotes during the export query
-
 :::
 ::::
 

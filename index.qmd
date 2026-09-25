@@ -13,6 +13,17 @@ listing:
      template: "html/teaching/listing.ejs"
      date-format: "MMMM D, YYYY"
 
+  #  - id: teaching-tools
+  #    contents:
+  #      - "*/index.qmd"
+  #     #  - "documents/*.qmd"
+  #     #  - "documents/*.html"
+  #    sort: "date desc"
+  #    categories: true
+  #    feed: true
+  #    template: "html/teaching/listing.ejs"
+  #    date-format: "MMMM D, YYYY"
+
 # navbar: false
 
 page-layout: full
@@ -31,6 +42,13 @@ format:
 
 ::: {#teaching}
 :::
+
+<!-- ## Teaching Tools
+
+- [EasyGenetics](https://pc-piyush-easygenetics.share.connect.posit.cloud)
+
+<!-- ::: {#teaching-tools}
+::: --> 
 
 ## Guest Lectures
 

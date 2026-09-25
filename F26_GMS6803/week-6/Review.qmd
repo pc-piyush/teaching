@@ -1,10 +1,10 @@
 ---
-title: "OMOP Common Data Model"
+title: "Review"
 subtitle: "Fall 2026"
 author: "Piyush Chaudhari"
 date: '2026-09-25'
 description: ""
-categories: ["Slides", "Week 6"]
+categories: ["Resources", "Week 6"]
 format:
     revealjs:
         axe:
@@ -43,7 +43,17 @@ toc: false
 brand: ../../brand/_brand.yml
 ---
 
-## OMOP Common Data Model
+| Concept | Description |
+|------------------------------------|------------------------------------|
+| [`i2b2`](/F26_GMS6803/week-2/i2b2.html) | Creating a cohort definition in **i2b2** for preliminary analysis |
+| [`HiperGator`](/F26_GMS6803/week-2/HipergatorSetup.html) | Logging in **HiperGator** and connecting to the desired environment |
+| [`EHR`](/F26_GMS6803/week-3/EHR.html) | Data **types**- structured and unstructured, data **modalities**, **UF Health Integrated Data Repository** |
+| [`OMOP`](/F26_GMS6803/week-4/OMOP.html) | Introduction to the **OMOP** Common Data Model |
+| [`SQL`](/F26_GMS6803/week-6/sql-basics.html) | Introduction to **Structured Query Language** with OMOP CDM |
+| `Jupyter on HiperGator` | Running **Jupyter** notebooks on the HiperGator computing environment with Python and SQL |
+
+
+---
 
 ::::::: columns
 :::::: center
