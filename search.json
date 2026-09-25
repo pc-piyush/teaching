@@ -49,137 +49,137 @@
     "text": "Questions or Concerns\n\nIn case you have any questions -\n\nPost on Canvas Discussion Panel\nPost on GitHub issues\nOffice Hours\n\nDr. Mei Liu (Thursday 9-11 AM or by appointment)\nDr. Yi Guo (Monday 2-4 PM or by appointment)"
   },
   {
-    "objectID": "F26_GMS6803/week-6/Review.html#omop-common-data-model",
-    "href": "F26_GMS6803/week-6/Review.html#omop-common-data-model",
-    "title": "Review",
-    "section": "OMOP Common Data Model",
-    "text": "OMOP Common Data Model\n\nThe OMOP Common Data Model organizes data into clinical event tables (facts about a patient over time), a person/demographic table, and standardized vocabulary tables\nEvery clinical fact is represented using a standard concept, which is why most columns end in _concept_id and resolve through concept"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#person",
-    "href": "F26_GMS6803/week-6/Review.html#person",
-    "title": "Review",
-    "section": "person",
-    "text": "person\n\n\n\nOne row per patient, this is the anchor table every other table joins back to via person_id\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nperson_id\nUnique patient identifier (primary key)\n\n\ngender_concept_id\nStandard concept for sex/gender\n\n\nyear_of_birth, month_of_birth, day_of_birth\nBirth date components\n\n\nrace_concept_id, ethnicity_concept_id\nStandard demographic concepts\n\n\nlocation_id\nFK to location (address/geography)\n\n\nprovider_id\nFK to provider (usual care provider)\n\n\ncare_site_id\nFK to care_site (usual site of care)"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#observation_period",
-    "href": "F26_GMS6803/week-6/Review.html#observation_period",
-    "title": "Review",
-    "section": "observation_period",
-    "text": "observation_period\n\n\n\nDefines the span(s) of time during which a patient’s data is considered complete/observable. Critical for cohort eligibility and lookback/washout logic.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nobservation_period_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nobservation_period_start_date\nStart of observable window\n\n\nobservation_period_end_date\nEnd of observable window\n\n\nperiod_type_concept_id\nHow the period was derived (e.g., from EHR, insurance enrollment)"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#visit_occurrence",
-    "href": "F26_GMS6803/week-6/Review.html#visit_occurrence",
-    "title": "Review",
-    "section": "visit_occurrence",
-    "text": "visit_occurrence\n\n\n\nOne row per patient encounter (inpatient stay, outpatient visit, ER visit, etc.). Most clinical event tables optionally link back to the visit during which they occurred.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nvisit_occurrence_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nvisit_concept_id\nType of visit (inpatient, outpatient, ER, etc.)\n\n\nvisit_start_date / visit_end_date\nEncounter start/end\n\n\nvisit_type_concept_id\nProvenance of the visit record\n\n\ncare_site_id\nFK to care_site\n\n\nadmitted_from_concept_id, discharged_to_concept_id\nAdmission/discharge disposition"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#condition_occurrence",
-    "href": "F26_GMS6803/week-6/Review.html#condition_occurrence",
-    "title": "Review",
-    "section": "condition_occurrence",
-    "text": "condition_occurrence\n\n\n\nDiagnoses - problems, complaints, and clinical impressions recorded for a patient.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\ncondition_occurrence_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\ncondition_concept_id\nStandard concept for the diagnosis (joins to concept)\n\n\ncondition_start_date / condition_end_date\nOnset/resolution dates\n\n\ncondition_type_concept_id\nProvenance (e.g., primary diagnosis, billing code)\n\n\nvisit_occurrence_id\nFK to the visit during which it was recorded\n\n\ncondition_status_concept_id\ne.g., admitting vs. final diagnosis"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#drug_exposure",
-    "href": "F26_GMS6803/week-6/Review.html#drug_exposure",
-    "title": "Review",
-    "section": "drug_exposure",
-    "text": "drug_exposure\n\n\n\nRecords of drug utilization - prescriptions, administrations, and dispensations.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\ndrug_exposure_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\ndrug_concept_id\nStandard concept for the drug (joins to concept, typically RxNorm)\n\n\ndrug_exposure_start_date / drug_exposure_end_date\nExposure window\n\n\nquantity, days_supply, refills\nDosing/supply details\n\n\nroute_concept_id\nRoute of administration\n\n\nvisit_occurrence_id\nFK to the visit during which it was prescribed/administered"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#measurement",
-    "href": "F26_GMS6803/week-6/Review.html#measurement",
-    "title": "Review",
-    "section": "measurement",
-    "text": "measurement\n\n\n\nQuantitative and qualitative clinical measurements - labs, vitals, and other structured test results.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nmeasurement_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nmeasurement_concept_id\nStandard concept for the test (joins to concept, typically LOINC)\n\n\nmeasurement_date / measurement_datetime\nWhen the measurement was taken\n\n\nvalue_as_number\nNumeric result (e.g., lab value)\n\n\nvalue_as_concept_id\nCoded result, when the value isn’t numeric\n\n\nunit_concept_id\nUnit of measure\n\n\nrange_low, range_high\nReference range for the test"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#procedure_occurrence",
-    "href": "F26_GMS6803/week-6/Review.html#procedure_occurrence",
-    "title": "Review",
-    "section": "procedure_occurrence",
-    "text": "procedure_occurrence\n\n\n\nRecords of procedures performed - surgeries, imaging, therapeutic interventions.\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nprocedure_occurrence_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nprocedure_concept_id\nStandard concept for the procedure\n\n\nprocedure_date\nWhen the procedure occurred\n\n\nvisit_occurrence_id\nFK to the associated visit"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#observation",
-    "href": "F26_GMS6803/week-6/Review.html#observation",
-    "title": "Review",
-    "section": "observation",
-    "text": "observation\n\n\n\nA catch-all clinical fact table for observations that don’t fit condition/drug/procedure/measurement - e.g., family history, social history, survey responses.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nobservation_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nobservation_concept_id\nStandard concept for what was observed\n\n\nobservation_date\nDate of the observation\n\n\nvalue_as_number, value_as_string, value_as_concept_id\nResult, in whichever form applies"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#concept",
-    "href": "F26_GMS6803/week-6/Review.html#concept",
-    "title": "Review",
-    "section": "concept",
-    "text": "concept\n\n\n\nThe vocabulary backbone of OMOP (Standardized Vocabulary). Every *_concept_id column across every table is a foreign key into this table.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nconcept_id\nPrimary key - the number stored in every event table\n\n\nconcept_name\nHuman-readable name\n\n\ndomain_id\nWhich clinical area it belongs to (Condition, Drug, Measurement, etc.)\n\n\nvocabulary_id\nSource vocabulary (SNOMED, RxNorm, LOINC, ICD10CM, etc.)\n\n\nconcept_class_id\nFiner-grained classification within the vocabulary\n\n\nstandard_concept\n'S' if this is the standard concept to use for analysis\n\n\nconcept_code\nThe original code within its source vocabulary"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#standard-concepts",
-    "href": "F26_GMS6803/week-6/Review.html#standard-concepts",
-    "title": "Review",
-    "section": "Standard Concepts",
-    "text": "Standard Concepts\n\nOMOP maps heterogeneous source codes (ICD-10, local lab codes, etc.) onto a single standard vocabulary per domain, so analytic queries only need to filter on standard concept_id values\nThe concept_relationship and concept_ancestor tables support mapping between source and standard, and traversing concept hierarchies (e.g., “all descendants of Type 2 Diabetes”)"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#connectivity-of-omop-tables",
-    "href": "F26_GMS6803/week-6/Review.html#connectivity-of-omop-tables",
-    "title": "Review",
-    "section": "Connectivity of OMOP Tables",
-    "text": "Connectivity of OMOP Tables\n\n\n\nEvery clinical event table has a person_id (who) and usually a visit_occurrence_id (during which visit), and every *_concept_id resolves through concept (what, in standardized concept term)"
-  },
-  {
-    "objectID": "F26_GMS6803/content.html",
-    "href": "F26_GMS6803/content.html",
-    "title": "Piyush Chaudhari",
+    "objectID": "F26_GMS6803/index.html",
+    "href": "F26_GMS6803/index.html",
+    "title": "GMS 6803 Data Science for Clinical Research",
     "section": "",
-    "text": "Introduction\ni2b2 CDM- Star schema, flow of data, etc.\nWhat kind of questions can i2b2 answer\nData availbility in i2b2"
+    "text": "A reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "F26_GMS6803/content.html#i2b2",
-    "href": "F26_GMS6803/content.html#i2b2",
-    "title": "Piyush Chaudhari",
+    "objectID": "F26_GMS6803/index.html#course-materials",
+    "href": "F26_GMS6803/index.html#course-materials",
+    "title": "GMS 6803 Data Science for Clinical Research",
     "section": "",
-    "text": "Introduction\ni2b2 CDM- Star schema, flow of data, etc.\nWhat kind of questions can i2b2 answer\nData availbility in i2b2"
+    "text": "A reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html",
-    "href": "F26_GMS6803/week-2/HipergatorSetup.html",
-    "title": "HiperGator Setup",
-    "section": "",
-    "text": "ssh piyushchaudhari@hpg.rc.ufl.edu"
+    "objectID": "F26_GMS6803/week-2/i2b2.html#i2b2",
+    "href": "F26_GMS6803/week-2/i2b2.html#i2b2",
+    "title": "Introduction to i2b2",
+    "section": "i2b2",
+    "text": "i2b2\n\n\n\n\n\n\n\n\n\nFig 1. i2b2 Star Schema\n\n\n\n\n\n\n\ni2b2 is Informatics for Integrating Biology & the Bedside Cohort Discovery System\ni2b2 is an NIH-funded National Center for Biomedical Computing (NCBC) based at Partners’ HealthCare System in Boston\nEnables investigators to identify potential study cohorts using clinical data resources\nIntended for protocol development for grant or IRB submission\nProvides access to curated data through a web client\nReturns only patient counts"
   },
   {
-    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-setup-check",
-    "href": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-setup-check",
-    "title": "HiperGator Setup",
-    "section": "",
-    "text": "ssh piyushchaudhari@hpg.rc.ufl.edu"
+    "objectID": "F26_GMS6803/week-2/i2b2.html#feasibility-and-cohort-discovery",
+    "href": "F26_GMS6803/week-2/i2b2.html#feasibility-and-cohort-discovery",
+    "title": "Introduction to i2b2",
+    "section": "Feasibility and Cohort Discovery",
+    "text": "Feasibility and Cohort Discovery\n\nHow many men with hypertension diagnoses had at least one inpatient encounter between January and December 2018?​\nHow many women ages 45-65 had successful breast cancer surgery?​\nHow many children were diagnosed with diabetes and had Hemoglobin A1c greater than 7% in the same financial encounter?​"
   },
   {
-    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#check-group-membership",
-    "href": "F26_GMS6803/week-2/HipergatorSetup.html#check-group-membership",
-    "title": "HiperGator Setup",
-    "section": "Check Group Membership",
-    "text": "Check Group Membership\nid"
+    "objectID": "F26_GMS6803/week-2/i2b2.html#data-availability-in-i2b2",
+    "href": "F26_GMS6803/week-2/i2b2.html#data-availability-in-i2b2",
+    "title": "Introduction to i2b2",
+    "section": "Data Availability in i2b2",
+    "text": "Data Availability in i2b2\n\ni2b2 data guide​\n\nGo to UF Health IDR i2b2 training page here​\nClick on The i2b2 Data Guide\n\nData is refreshed quarterly, starting June 2011​\nData is represented as closely as possible to the original source​ in the i2b2 Common Data Model"
   },
   {
-    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#create-shortcutsymlink-to-the-course-directory",
-    "href": "F26_GMS6803/week-2/HipergatorSetup.html#create-shortcutsymlink-to-the-course-directory",
-    "title": "HiperGator Setup",
-    "section": "Create Shortcut/SymLink to the Course Directory",
-    "text": "Create Shortcut/SymLink to the Course Directory\nln -s /blue/gms6803 gms6803"
+    "objectID": "F26_GMS6803/week-2/i2b2.html#i2b2-client-demo",
+    "href": "F26_GMS6803/week-2/i2b2.html#i2b2-client-demo",
+    "title": "Introduction to i2b2",
+    "section": "i2b2 Client Demo",
+    "text": "i2b2 Client Demo\n\n\n\n\nUF Health i2b2 Webclient"
   },
   {
-    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-jupyter-hub-and-on-demand",
-    "href": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-jupyter-hub-and-on-demand",
-    "title": "HiperGator Setup",
-    "section": "HiperGator Jupyter Hub and On Demand",
-    "text": "HiperGator Jupyter Hub and On Demand\n\nJupyter Hub: jhub.rc.ufl.edu\nOn Demand: ood.rc.ufl.edu"
+    "objectID": "F26_GMS6803/week-3/EHR.html#representation-of-clinical-data",
+    "href": "F26_GMS6803/week-3/EHR.html#representation-of-clinical-data",
+    "title": "Electronic Health Records",
+    "section": "Representation of Clinical Data",
+    "text": "Representation of Clinical Data\n\nDigital version of a patient’s medical data and history\nMaintained overtime by a healthcare provider\nStakeholders: Patients and healthcare providers such as physicians, nurses, billing team, …\n\n\n\n\n\nStructured Data Elements\n\nDiagnoses\nProcedures\nMedications\nLaboratory results\nVital signs\n\n\n\n\nUnstructured Data Elements\n\nClinical Notes\nImaging Order Reports\nPathology Reports\nPatient Portal Messages"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#electronic-health-records-ehr",
+    "href": "F26_GMS6803/week-3/EHR.html#electronic-health-records-ehr",
+    "title": "Electronic Health Records",
+    "section": "Electronic Health Records (EHR)",
+    "text": "Electronic Health Records (EHR)\n\n\n\n\n\n\n\n\nFig 1. EPIC Systems\n\n\n\n\n\n\n\n\n\n\nFig 2. Cerner"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#clinical-data-warehouse-repository",
+    "href": "F26_GMS6803/week-3/EHR.html#clinical-data-warehouse-repository",
+    "title": "Electronic Health Records",
+    "section": "Clinical Data Warehouse/ Repository",
+    "text": "Clinical Data Warehouse/ Repository\n\n\n\n\nWhy?\n\n\n\nEHR is designed to support clinical care and workflows, not necessarily research\nEHR data is comprised of data from multiple sources and is not readily usable for downstream analysis, which gives rise to the need for a clinical data warehouse or repository\n\n\n\n\n\n\nClinical Data Warehouse (CDW) is a database that consolidates data from a variety of clinical sources to present a unified view of a single patient\nIt is optimized for record retrieval and reporting, which can be used for research, quality improvement, and operational purposes\nTypically, CDWs include but are not limited to data elements like patient demographics, diagnoses, procedures, medications, laboratory results, and vital signs"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#uf-health-integrated-data-repository-idr",
+    "href": "F26_GMS6803/week-3/EHR.html#uf-health-integrated-data-repository-idr",
+    "title": "Electronic Health Records",
+    "section": "UF Health Integrated Data Repository (IDR)",
+    "text": "UF Health Integrated Data Repository (IDR)\n\nLarge-scale clinical data warehouse (CDW)\nUF Health data ~4 million patients\nDeveloped over decades by Shands and UF Health decision support services/IT analytics, and CTSI\nSupports both Epic-generated and non-Epic generated data\nSupports clinical, operational, and research missions"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#idr-data-lineage",
+    "href": "F26_GMS6803/week-3/EHR.html#idr-data-lineage",
+    "title": "Electronic Health Records",
+    "section": "IDR Data Lineage",
+    "text": "IDR Data Lineage\n\n\n\n\nFig 3. UF Health Data Lineage"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#data-modalities-curated-by-idr-research-data-services",
+    "href": "F26_GMS6803/week-3/EHR.html#data-modalities-curated-by-idr-research-data-services",
+    "title": "Electronic Health Records",
+    "section": "Data Modalities curated by IDR Research Data Services",
+    "text": "Data Modalities curated by IDR Research Data Services\n\nStructured Data\nClinical Notes\nRadiology Images and Reports\nPathology Reports\nMyChart Patient Portal Data\nSocial Determinants of Health data from EPIC\nGenomic Module"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#key-idr-research-data-services-initiatives",
+    "href": "F26_GMS6803/week-3/EHR.html#key-idr-research-data-services-initiatives",
+    "title": "Electronic Health Records",
+    "section": "Key IDR Research Data Services Initiatives",
+    "text": "Key IDR Research Data Services Initiatives\n\n\nSelf-Service Tools for Cohort Discovery and Data Extraction\n\nUF Health i2b2\nOneFlorida+ i2b2\nOHDSI ATLAS\n\nData Standardization and Harmonization with Common Data Models\n\nOMOP Common Data Model\nPCORnet\ni2b2\n\nMultimodal Data Curation for research\nDigital Twin - deploying computable phenotypes and establishing loyalty cohorts\nCollaboration with research teams\n\nUF Clinical and Translational Science Institute (CTSI)\nUF Health Cancer Institute\nIntelligent Clinical Center Center (IC3)\nOneFlorida+ Clinical Research Consortium\nCollege of Dentistry"
+  },
+  {
+    "objectID": "F26_GMS6803/week-3/EHR.html#contact-idr-research-data-services",
+    "href": "F26_GMS6803/week-3/EHR.html#contact-idr-research-data-services",
+    "title": "Electronic Health Records",
+    "section": "Contact IDR Research Data Services",
+    "text": "Contact IDR Research Data Services\n\n\n\n\nUF Health IDR\n\n\nEmail IDR at IRBDataRequest@ahc.ufl.edu for any questions or concerns"
+  },
+  {
+    "objectID": "F26_GMS6803/week-4/SQL_1.html#what-is-sql",
+    "href": "F26_GMS6803/week-4/SQL_1.html#what-is-sql",
+    "title": "Structured Query Language (SQL)",
+    "section": "What is SQL?",
+    "text": "What is SQL?\n\nSQL (Structured Query Language) is the standard language for talking to a relational database, a database that stores data in tables of rows and columns\nIt’s declarative: you describe what data you want, and the database engine figures out how to retrieve it\nEvery clinical data warehouse you’ll touch (OMOP, EHR extracts, REDCap exports loaded into a DB) is queried with SQL\nIn this class we’ll use DuckDB, an embedded, in-process SQL engine: no server to install or connect to, it just runs inside R/Python (or standalone) and can query files directly"
+  },
+  {
+    "objectID": "F26_GMS6803/week-4/SQL_1.html#core-building-blocks",
+    "href": "F26_GMS6803/week-4/SQL_1.html#core-building-blocks",
+    "title": "Structured Query Language (SQL)",
+    "section": "Core Building Blocks",
+    "text": "Core Building Blocks\n\nTable: a collection of records for one type of entity (e.g. person, condition_occurrence), organized into rows (records) and columns (attributes)\nPrimary key: a column (or set of columns) that uniquely identifies each row in a table (e.g. person_id)\nForeign key: a column in one table that points to the primary key of another table, letting SQL join related tables together\nA query is a statement written in SQL that asks the database a question and returns a table as the answer\nIn DuckDB, a “table” can even be a CSV or Parquet file queried directly, with no separate load step:\n\nSELECT *\nFROM 'condition_occurrence.parquet'\nLIMIT 10;"
+  },
+  {
+    "objectID": "F26_GMS6803/week-4/SQL_1.html#what-can-you-do-with-sql",
+    "href": "F26_GMS6803/week-4/SQL_1.html#what-can-you-do-with-sql",
+    "title": "Structured Query Language (SQL)",
+    "section": "What Can You Do with SQL?",
+    "text": "What Can You Do with SQL?\n\n\n\nThese four operations are often called CRUD: Create, Read, Update, Delete\n\n\n\n\nSELECT: retrieve (read) data from one or more tables (what we’ll focus on in this class)\nINSERT: add new rows to a table\nUPDATE: modify existing rows\nDELETE: remove rows\nSQL also lets you filter (WHERE), combine tables (JOIN), aggregate (GROUP BY, COUNT, AVG), and sort (ORDER BY) results:\n\nSELECT gender_concept_id, COUNT(*) AS n_patients\nFROM person\nGROUP BY gender_concept_id\nORDER BY n_patients DESC;"
+  },
+  {
+    "objectID": "F26_GMS6803/week-4/SQL_1.html#duckdb",
+    "href": "F26_GMS6803/week-4/SQL_1.html#duckdb",
+    "title": "Structured Query Language (SQL)",
+    "section": "DuckDB",
+    "text": "DuckDB\n\nEmbedded, in-process OLAP (Online Analytical Processing) database and needs no server to manage\nReads Parquet/CSV natively, fast on analytic (columnar) workloads\nSpeaks standard SQL, integrates directly with Python/Pandas/Arrow\n\nReference : https://duckdb.org/"
+  },
+  {
+    "objectID": "F26_GMS6803/week-4/SQL_1.html#connecting-to-duckdb",
+    "href": "F26_GMS6803/week-4/SQL_1.html#connecting-to-duckdb",
+    "title": "Structured Query Language (SQL)",
+    "section": "Connecting to DuckDB",
+    "text": "Connecting to DuckDB\n\n\nConnect to a persistent OMOP database file\n\nimport duckdb\ncon = duckdb.connect(\"omop.duckdb\")\n\nRun a query and get a Pandas DataFrame back\n\ndf = con.execute(\"SELECT * FROM person LIMIT 5\").fetchdf()\nprint(df)\n\nUse the Relational API style\n\ncon.sql(\"SELECT * FROM person LIMIT 5\").show()\n\nClose the connection when done\n\ncon.close()"
   },
   {
     "objectID": "F26_GMS6803/week-4/OMOP.html#omop-common-data-model",
@@ -273,137 +273,53 @@
     "text": "Connectivity of OMOP Tables\n\n\n\nEvery clinical event table has a person_id (who) and usually a visit_occurrence_id (during which visit), and every *_concept_id resolves through concept (what, in standardized concept term)"
   },
   {
-    "objectID": "F26_GMS6803/week-4/SQL_1.html#what-is-sql",
-    "href": "F26_GMS6803/week-4/SQL_1.html#what-is-sql",
-    "title": "Structured Query Language (SQL)",
-    "section": "What is SQL?",
-    "text": "What is SQL?\n\nSQL (Structured Query Language) is the standard language for talking to a relational database, a database that stores data in tables of rows and columns\nIt’s declarative: you describe what data you want, and the database engine figures out how to retrieve it\nEvery clinical data warehouse you’ll touch (OMOP, EHR extracts, REDCap exports loaded into a DB) is queried with SQL\nIn this class we’ll use DuckDB, an embedded, in-process SQL engine: no server to install or connect to, it just runs inside R/Python (or standalone) and can query files directly"
-  },
-  {
-    "objectID": "F26_GMS6803/week-4/SQL_1.html#core-building-blocks",
-    "href": "F26_GMS6803/week-4/SQL_1.html#core-building-blocks",
-    "title": "Structured Query Language (SQL)",
-    "section": "Core Building Blocks",
-    "text": "Core Building Blocks\n\nTable: a collection of records for one type of entity (e.g. person, condition_occurrence), organized into rows (records) and columns (attributes)\nPrimary key: a column (or set of columns) that uniquely identifies each row in a table (e.g. person_id)\nForeign key: a column in one table that points to the primary key of another table, letting SQL join related tables together\nA query is a statement written in SQL that asks the database a question and returns a table as the answer\nIn DuckDB, a “table” can even be a CSV or Parquet file queried directly, with no separate load step:\n\nSELECT *\nFROM 'condition_occurrence.parquet'\nLIMIT 10;"
-  },
-  {
-    "objectID": "F26_GMS6803/week-4/SQL_1.html#what-can-you-do-with-sql",
-    "href": "F26_GMS6803/week-4/SQL_1.html#what-can-you-do-with-sql",
-    "title": "Structured Query Language (SQL)",
-    "section": "What Can You Do with SQL?",
-    "text": "What Can You Do with SQL?\n\n\n\nThese four operations are often called CRUD: Create, Read, Update, Delete\n\n\n\n\nSELECT: retrieve (read) data from one or more tables (what we’ll focus on in this class)\nINSERT: add new rows to a table\nUPDATE: modify existing rows\nDELETE: remove rows\nSQL also lets you filter (WHERE), combine tables (JOIN), aggregate (GROUP BY, COUNT, AVG), and sort (ORDER BY) results:\n\nSELECT gender_concept_id, COUNT(*) AS n_patients\nFROM person\nGROUP BY gender_concept_id\nORDER BY n_patients DESC;"
-  },
-  {
-    "objectID": "F26_GMS6803/week-4/SQL_1.html#duckdb",
-    "href": "F26_GMS6803/week-4/SQL_1.html#duckdb",
-    "title": "Structured Query Language (SQL)",
-    "section": "DuckDB",
-    "text": "DuckDB\n\nEmbedded, in-process OLAP (Online Analytical Processing) database and needs no server to manage\nReads Parquet/CSV natively, fast on analytic (columnar) workloads\nSpeaks standard SQL, integrates directly with Python/Pandas/Arrow\n\nReference : https://duckdb.org/"
-  },
-  {
-    "objectID": "F26_GMS6803/week-4/SQL_1.html#connecting-to-duckdb",
-    "href": "F26_GMS6803/week-4/SQL_1.html#connecting-to-duckdb",
-    "title": "Structured Query Language (SQL)",
-    "section": "Connecting to DuckDB",
-    "text": "Connecting to DuckDB\n\n\nConnect to a persistent OMOP database file\n\nimport duckdb\ncon = duckdb.connect(\"omop.duckdb\")\n\nRun a query and get a Pandas DataFrame back\n\ndf = con.execute(\"SELECT * FROM person LIMIT 5\").fetchdf()\nprint(df)\n\nUse the Relational API style\n\ncon.sql(\"SELECT * FROM person LIMIT 5\").show()\n\nClose the connection when done\n\ncon.close()"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#representation-of-clinical-data",
-    "href": "F26_GMS6803/week-3/EHR.html#representation-of-clinical-data",
-    "title": "Electronic Health Records",
-    "section": "Representation of Clinical Data",
-    "text": "Representation of Clinical Data\n\nDigital version of a patient’s medical data and history\nMaintained overtime by a healthcare provider\nStakeholders: Patients and healthcare providers such as physicians, nurses, billing team, …\n\n\n\n\n\nStructured Data Elements\n\nDiagnoses\nProcedures\nMedications\nLaboratory results\nVital signs\n\n\n\n\nUnstructured Data Elements\n\nClinical Notes\nImaging Order Reports\nPathology Reports\nPatient Portal Messages"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#electronic-health-records-ehr",
-    "href": "F26_GMS6803/week-3/EHR.html#electronic-health-records-ehr",
-    "title": "Electronic Health Records",
-    "section": "Electronic Health Records (EHR)",
-    "text": "Electronic Health Records (EHR)\n\n\n\n\n\n\n\n\nFig 1. EPIC Systems\n\n\n\n\n\n\n\n\n\n\nFig 2. Cerner"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#clinical-data-warehouse-repository",
-    "href": "F26_GMS6803/week-3/EHR.html#clinical-data-warehouse-repository",
-    "title": "Electronic Health Records",
-    "section": "Clinical Data Warehouse/ Repository",
-    "text": "Clinical Data Warehouse/ Repository\n\n\n\n\nWhy?\n\n\n\nEHR is designed to support clinical care and workflows, not necessarily research\nEHR data is comprised of data from multiple sources and is not readily usable for downstream analysis, which gives rise to the need for a clinical data warehouse or repository\n\n\n\n\n\n\nClinical Data Warehouse (CDW) is a database that consolidates data from a variety of clinical sources to present a unified view of a single patient\nIt is optimized for record retrieval and reporting, which can be used for research, quality improvement, and operational purposes\nTypically, CDWs include but are not limited to data elements like patient demographics, diagnoses, procedures, medications, laboratory results, and vital signs"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#uf-health-integrated-data-repository-idr",
-    "href": "F26_GMS6803/week-3/EHR.html#uf-health-integrated-data-repository-idr",
-    "title": "Electronic Health Records",
-    "section": "UF Health Integrated Data Repository (IDR)",
-    "text": "UF Health Integrated Data Repository (IDR)\n\nLarge-scale clinical data warehouse (CDW)\nUF Health data ~4 million patients\nDeveloped over decades by Shands and UF Health decision support services/IT analytics, and CTSI\nSupports both Epic-generated and non-Epic generated data\nSupports clinical, operational, and research missions"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#idr-data-lineage",
-    "href": "F26_GMS6803/week-3/EHR.html#idr-data-lineage",
-    "title": "Electronic Health Records",
-    "section": "IDR Data Lineage",
-    "text": "IDR Data Lineage\n\n\n\n\nFig 3. UF Health Data Lineage"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#data-modalities-curated-by-idr-research-data-services",
-    "href": "F26_GMS6803/week-3/EHR.html#data-modalities-curated-by-idr-research-data-services",
-    "title": "Electronic Health Records",
-    "section": "Data Modalities curated by IDR Research Data Services",
-    "text": "Data Modalities curated by IDR Research Data Services\n\nStructured Data\nClinical Notes\nRadiology Images and Reports\nPathology Reports\nMyChart Patient Portal Data\nSocial Determinants of Health data from EPIC\nGenomic Module"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#key-idr-research-data-services-initiatives",
-    "href": "F26_GMS6803/week-3/EHR.html#key-idr-research-data-services-initiatives",
-    "title": "Electronic Health Records",
-    "section": "Key IDR Research Data Services Initiatives",
-    "text": "Key IDR Research Data Services Initiatives\n\n\nSelf-Service Tools for Cohort Discovery and Data Extraction\n\nUF Health i2b2\nOneFlorida+ i2b2\nOHDSI ATLAS\n\nData Standardization and Harmonization with Common Data Models\n\nOMOP Common Data Model\nPCORnet\ni2b2\n\nMultimodal Data Curation for research\nDigital Twin - deploying computable phenotypes and establishing loyalty cohorts\nCollaboration with research teams\n\nUF Clinical and Translational Science Institute (CTSI)\nUF Health Cancer Institute\nIntelligent Clinical Center Center (IC3)\nOneFlorida+ Clinical Research Consortium\nCollege of Dentistry"
-  },
-  {
-    "objectID": "F26_GMS6803/week-3/EHR.html#contact-idr-research-data-services",
-    "href": "F26_GMS6803/week-3/EHR.html#contact-idr-research-data-services",
-    "title": "Electronic Health Records",
-    "section": "Contact IDR Research Data Services",
-    "text": "Contact IDR Research Data Services\n\n\n\n\nUF Health IDR\n\n\nEmail IDR at IRBDataRequest@ahc.ufl.edu for any questions or concerns"
-  },
-  {
-    "objectID": "F26_GMS6803/week-2/i2b2.html#i2b2",
-    "href": "F26_GMS6803/week-2/i2b2.html#i2b2",
-    "title": "Introduction to i2b2",
-    "section": "i2b2",
-    "text": "i2b2\n\n\n\n\n\n\n\n\n\nFig 1. i2b2 Star Schema\n\n\n\n\n\n\n\ni2b2 is Informatics for Integrating Biology & the Bedside Cohort Discovery System\ni2b2 is an NIH-funded National Center for Biomedical Computing (NCBC) based at Partners’ HealthCare System in Boston\nEnables investigators to identify potential study cohorts using clinical data resources\nIntended for protocol development for grant or IRB submission\nProvides access to curated data through a web client\nReturns only patient counts"
-  },
-  {
-    "objectID": "F26_GMS6803/week-2/i2b2.html#feasibility-and-cohort-discovery",
-    "href": "F26_GMS6803/week-2/i2b2.html#feasibility-and-cohort-discovery",
-    "title": "Introduction to i2b2",
-    "section": "Feasibility and Cohort Discovery",
-    "text": "Feasibility and Cohort Discovery\n\nHow many men with hypertension diagnoses had at least one inpatient encounter between January and December 2018?​\nHow many women ages 45-65 had successful breast cancer surgery?​\nHow many children were diagnosed with diabetes and had Hemoglobin A1c greater than 7% in the same financial encounter?​"
-  },
-  {
-    "objectID": "F26_GMS6803/week-2/i2b2.html#data-availability-in-i2b2",
-    "href": "F26_GMS6803/week-2/i2b2.html#data-availability-in-i2b2",
-    "title": "Introduction to i2b2",
-    "section": "Data Availability in i2b2",
-    "text": "Data Availability in i2b2\n\ni2b2 data guide​\n\nGo to UF Health IDR i2b2 training page here​\nClick on The i2b2 Data Guide\n\nData is refreshed quarterly, starting June 2011​\nData is represented as closely as possible to the original source​ in the i2b2 Common Data Model"
-  },
-  {
-    "objectID": "F26_GMS6803/week-2/i2b2.html#i2b2-client-demo",
-    "href": "F26_GMS6803/week-2/i2b2.html#i2b2-client-demo",
-    "title": "Introduction to i2b2",
-    "section": "i2b2 Client Demo",
-    "text": "i2b2 Client Demo\n\n\n\n\nUF Health i2b2 Webclient"
-  },
-  {
-    "objectID": "F26_GMS6803/index.html",
-    "href": "F26_GMS6803/index.html",
-    "title": "GMS 6803 Data Science for Clinical Research",
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html",
+    "title": "HiperGator Setup",
     "section": "",
-    "text": "Fall 2026\n\n\n\nResources\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n6 min\n\n\n\n\n\n\n\nA reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
+    "text": "ssh piyushchaudhari@hpg.rc.ufl.edu"
   },
   {
-    "objectID": "F26_GMS6803/index.html#course-materials",
-    "href": "F26_GMS6803/index.html#course-materials",
-    "title": "GMS 6803 Data Science for Clinical Research",
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-setup-check",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-setup-check",
+    "title": "HiperGator Setup",
     "section": "",
-    "text": "Fall 2026\n\n\n\nResources\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n6 min\n\n\n\n\n\n\n\nA reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
+    "text": "ssh piyushchaudhari@hpg.rc.ufl.edu"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#check-group-membership",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#check-group-membership",
+    "title": "HiperGator Setup",
+    "section": "Check Group Membership",
+    "text": "Check Group Membership\nid"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#create-shortcutsymlink-to-the-course-directory",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#create-shortcutsymlink-to-the-course-directory",
+    "title": "HiperGator Setup",
+    "section": "Create Shortcut/SymLink to the Course Directory",
+    "text": "Create Shortcut/SymLink to the Course Directory\nln -s /blue/gms6803 gms6803"
+  },
+  {
+    "objectID": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-jupyter-hub-and-on-demand",
+    "href": "F26_GMS6803/week-2/HipergatorSetup.html#hipergator-jupyter-hub-and-on-demand",
+    "title": "HiperGator Setup",
+    "section": "HiperGator Jupyter Hub and On Demand",
+    "text": "HiperGator Jupyter Hub and On Demand\n\nJupyter Hub: jhub.rc.ufl.edu\nOn Demand: ood.rc.ufl.edu"
+  },
+  {
+    "objectID": "F26_GMS6803/content.html",
+    "href": "F26_GMS6803/content.html",
+    "title": "Piyush Chaudhari",
+    "section": "",
+    "text": "Introduction\ni2b2 CDM- Star schema, flow of data, etc.\nWhat kind of questions can i2b2 answer\nData availbility in i2b2"
+  },
+  {
+    "objectID": "F26_GMS6803/content.html#i2b2",
+    "href": "F26_GMS6803/content.html#i2b2",
+    "title": "Piyush Chaudhari",
+    "section": "",
+    "text": "Introduction\ni2b2 CDM- Star schema, flow of data, etc.\nWhat kind of questions can i2b2 answer\nData availbility in i2b2"
   },
   {
     "objectID": "F26_GMS6803/week-6/sql-basics.html#learning-sql-with-omop",

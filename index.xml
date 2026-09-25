@@ -24,38 +24,7 @@
 <h2 class="anchored" data-anchor-id="course-materials">Course Materials</h2>
 <div id="listing-materials" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDY=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790296757247" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1071">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../F26_GMS6803/week-6/Review.html" class="no-external">Review</a>
-</h3>
-<div class="listing-subtitle">
-<a href="../F26_GMS6803/week-6/Review.html" class="no-external">Fall 2026</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('UmVzb3VyY2Vz'); return false;">Resources</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDY='); return false;">Week 6</div>
-
-</div>
-<div class="delink listing-description"><a href="../F26_GMS6803/week-6/Review.html" class="no-external">
-<!-- desc(5A0113B34292)[max=175]:F26_GMS6803/week-6/Review.html -->
-</a></div>
-</div>
-<div class="metadata">
-<a href="../F26_GMS6803/week-6/Review.html" class="no-external">
-<div class="listing-date">
-September 25, 2026
-</div>
-<div class="listing-author">
-Piyush Chaudhari
-</div>
-<div class="listing-reading-time">6 min</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="U2xpZGVzJTJDV2VlayUyMDY=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790295332911" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-word-count-sort="8586">
+<div class="quarto-post image-right" data-index="0" data-categories="U2xpZGVzJTJDV2VlayUyMDY=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790295332911" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-word-count-sort="8586">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-6/sql-basics.html" class="no-external">SQL Basics</a>
@@ -86,7 +55,7 @@ Piyush Chaudhari
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="U2xpZGVzJTJDV2VlayUyMDQ=" data-listing-date-sort="1789099200000" data-listing-file-modified-sort="1790277958134" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="994">
+<div class="quarto-post image-right" data-index="1" data-categories="U2xpZGVzJTJDV2VlayUyMDQ=" data-listing-date-sort="1789099200000" data-listing-file-modified-sort="1790277958134" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="994">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-4/OMOP.html" class="no-external">OMOP Common Data Model</a>
@@ -117,7 +86,7 @@ Piyush Chaudhari | Qian Li
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="U2xpZGVzJTJDV2VlayUyMDQ=" data-listing-date-sort="1789099200000" data-listing-file-modified-sort="1790265346185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="382">
+<div class="quarto-post image-right" data-index="2" data-categories="U2xpZGVzJTJDV2VlayUyMDQ=" data-listing-date-sort="1789099200000" data-listing-file-modified-sort="1790265346185" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="382">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-4/SQL_1.html" class="no-external">Structured Query Language (SQL)</a>
@@ -148,7 +117,7 @@ Piyush Chaudhari | Qian Li
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="U2xpZGVzJTJDV2VlayUyMDM=" data-listing-date-sort="1788494400000" data-listing-file-modified-sort="1789127536713" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="417">
+<div class="quarto-post image-right" data-index="3" data-categories="U2xpZGVzJTJDV2VlayUyMDM=" data-listing-date-sort="1788494400000" data-listing-file-modified-sort="1789127536713" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="417">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-3/EHR.html" class="no-external">Electronic Health Records</a>
@@ -179,7 +148,7 @@ Piyush Chaudhari | Qian Li
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="26">
+<div class="quarto-post image-right" data-index="4" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="26">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-2/HipergatorSetup.html" class="no-external">HiperGator Setup</a>
@@ -210,7 +179,7 @@ Piyush Chaudhari
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="U2xpZGVzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="277">
+<div class="quarto-post image-right" data-index="5" data-categories="U2xpZGVzJTJDV2VlayUyMDI=" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788402550738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="277">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-2/i2b2.html" class="no-external">Introduction to i2b2</a>
@@ -241,7 +210,7 @@ Piyush Chaudhari | Qian Li
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDE=" data-listing-date-sort="1787544000000" data-listing-file-modified-sort="1788529729880" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
+<div class="quarto-post image-right" data-index="6" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDE=" data-listing-date-sort="1787544000000" data-listing-file-modified-sort="1788529729880" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-1/Resources.html" class="no-external">Course Resources</a>
