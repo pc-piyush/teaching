@@ -10,7 +10,17 @@
 <atom:link href="https://pc-piyush.github.io/teaching/F26_GMS6803/index.xml" rel="self" type="application/rss+xml"/>
 <description>This course covers the collection and analytics of real-world health data (RWHD) with a focus on generating real-world evidence and actionable clinical insights</description>
 <generator>quarto-1.9.37</generator>
-<lastBuildDate>Fri, 11 Sep 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 25 Sep 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title></title>
+  <dc:creator>Piyush Chaudhari</dc:creator>
+  <link>https://pc-piyush.github.io/teaching/F26_GMS6803/week-5/sql-basics.html</link>
+  <description><![CDATA[ undefined ]]></description>
+  <category>Slides</category>
+  <category>Week 5</category>
+  <guid>https://pc-piyush.github.io/teaching/F26_GMS6803/week-5/sql-basics.html</guid>
+  <pubDate>Fri, 25 Sep 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title></title>
   <dc:creator>Piyush Chaudhari | Qian Li</dc:creator>
