@@ -1,6 +1,6 @@
 ---
 title: "SQL Basics"
-subtitle: "A reactive walkthrough with Quarto, reveal.js and marimo"
+subtitle: "A reactive walkthrough of SQL queries"
 author: "Piyush Chaudhari"
 date: '2026-09-25'
 description: ""
@@ -675,9 +675,16 @@ mo.vstack([visit_types, grain], gap=1.2)
 ```
 
 ::: muted
-**DuckDB** `date_trunc('year', d)`
 
-**SQL Server** `DATEFROMPARTS(YEAR(d),1,1)` or `DATETRUNC(year, d)`
+**DuckDB** 
+
+`date_trunc('year', d)`
+
+**SQL Server** 
+
+`DATEFROMPARTS(YEAR(d),1,1)` OR 
+`DATETRUNC(year, d)`
+
 :::
 ::::
 
@@ -1114,7 +1121,7 @@ use_coalesce
 
 - `COALESCE` swaps in a label
 
-`- FILTER (WHERE …)` counts a subset inside one group, turning rows into columns
+- `FILTER (WHERE …)` counts a subset inside one group, turning rows into columns
 
 - `NULLIF(x, 0)` returns `NULL` when `x` is 0, so a division gives `NULL` instead of an error
 :::
@@ -1464,3 +1471,12 @@ mo.vstack([
 ::: muted
 <!-- Next steps: concept ancestors (`concept_ancestor`) for descendant codes, and the OHDSI Eunomia dataset for practice at scale. -->
 :::
+
+## References
+
+These slides are made using the following tools - 
+
+- [DuckDB](https://duckdb.org/) - an in-process SQL OLAP database management system
+- [Quarto](https://quarto.org/) - a scientific and technical publishing system built on Pandoc
+- [Marimo](https://marimo.io/gallery) - a Python library for interactive data exploration and visualization
+
