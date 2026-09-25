@@ -1,0 +1,191 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+// UF palette, matched to pc-piyush.github.io/teaching course decks
+$uf-blue:      #0021A5;
+$uf-orange:    #FA4616;
+$uf-dark-blue: #002657;
+$uf-gray:      #C7C9C8;
+$uf-slate:     #343741;
+$uf-code-red:  #D32737;
+
+$paper:  #FFFFFF;
+$ink:    #1A1A1A;
+$muted:  #5F6168;
+$rule:   $uf-gray;
+
+// One colour per SQL clause, drawn from the UF primary and secondary palette
+$c-select: $uf-blue;
+$c-from:   $uf-dark-blue;
+$c-where:  #C63A0E;   // UF orange, darkened for white text
+$c-join:   #6A2A60;   // Perennial
+$c-group:  #22884C;   // Gator
+$c-having: #7A5C00;   // Alachua, darkened for white text
+$c-order:  $uf-code-red;   // Bottlebrush
+$c-window: $uf-slate;
+
+$body-bg: $paper;
+$body-color: $uf-blue;
+$link-color: $uf-blue;
+$font-family-sans-serif: Georgia, "Times New Roman", serif;
+$font-family-monospace: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+$presentation-font-size-root: 30px;
+$presentation-heading-font: Aptos, Calibri, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$presentation-heading-color: $uf-orange;
+$presentation-heading-font-weight: 700;
+$presentation-h2-font-size: 1.45em;
+$code-block-bg: $uf-slate;
+$code-block-border-color: $uf-slate;
+$code-color: $uf-code-red;
+
+/*-- scss:rules --*/
+.reveal .slides { color: $uf-blue; }
+.reveal a { color: $uf-blue; }
+.reveal a:hover { color: $uf-orange; }
+.reveal strong { color: $uf-orange; }
+
+.reveal .slides section h2 {
+  color: $uf-orange;
+  letter-spacing: -0.01em;
+  margin-bottom: .6em;
+  border: none;
+}
+
+.reveal p, .reveal li { line-height: 1.45; }
+.reveal .muted { color: $muted; font-size: .8em; }
+.reveal .small { font-size: .72em; }
+
+// Title slide: UF blue gradient, white uppercase title, left aligned
+.reveal .backgrounds .slide-background:first-child,
+.reveal .slide-background.title-slide {
+  background: linear-gradient(180deg, $uf-dark-blue 0%, $uf-blue 100%);
+}
+#title-slide {
+  text-align: left;
+  .title {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 2.2em;
+    line-height: 1.05;
+    max-width: 18ch;
+  }
+  .subtitle {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: .9em;
+    opacity: .9;
+    margin-top: .6em;
+  }
+  .quarto-title-authors { justify-content: flex-start; text-align: left; }
+  .quarto-title-author { padding-left: 0; }
+  .quarto-title-author-name, .date { color: $uf-gray; text-transform: uppercase; font-size: .6em; }
+}
+
+// Section divider slides: {.uf-section background-gradient="…"}
+.reveal section.uf-section {
+  h2 { color: #fff; text-transform: uppercase; font-size: 2em; }
+  p  { color: #fff; opacity: .9; }
+}
+
+// Clause chips: the one bold idea, used in text, diagrams and the recap
+.kw {
+  font-family: $font-family-monospace;
+  font-weight: 600;
+  font-size: .82em;
+  padding: .08em .45em;
+  border-radius: 4px;
+  color: #fff;
+  white-space: nowrap;
+}
+.reveal h2 .kw { font-size: .75em; vertical-align: .08em; }
+.kw.select { background: $c-select; }
+.kw.from   { background: $c-from; }
+.kw.where  { background: $c-where; }
+.kw.join   { background: $c-join; }
+.kw.group  { background: $c-group; }
+.kw.having { background: $c-having; }
+.kw.order  { background: $c-order; }
+.kw.window { background: $c-window; }
+
+// Code: dark slate blocks, red inline code
+.reveal code { font-family: $font-family-monospace; color: $uf-code-red; }
+.reveal pre code { font-size: .72em; line-height: 1.5; background-color: $uf-slate; color: #fff; }
+.reveal div.sourceCode {
+  background-color: $uf-slate;
+  border: none;
+  border-left: 4px solid $uf-orange;
+  border-radius: 0 6px 6px 0;
+}
+.reveal div.sourceCode pre, .reveal div.sourceCode pre code { background-color: $uf-slate; }
+
+// Tables: UF blue header, zebra rows
+.reveal table thead { background-color: $uf-blue; color: #fff; }
+.reveal table tbody tr:nth-child(even) { background-color: rgba(199, 201, 200, .25); }
+
+// Callouts, blockquotes, chrome
+.reveal .callout { font-size: .72em; border-left: 4px solid $uf-orange !important; }
+.reveal blockquote {
+  border-left: 5px solid $uf-orange;
+  background: rgba(199, 201, 200, .25);
+  padding: .5em 1em;
+  font-style: italic;
+  color: #000;
+}
+div.reveal .slide-number,
+div.reveal .slide-number a {
+  background-color: $uf-orange !important;
+  color: #fff !important;
+}
+.reveal .progress { color: $uf-orange; }
+
+// marimo islands inside slides: keep them compact and on-palette
+.reveal marimo-island, .reveal .marimo {
+  font-size: 18px;
+  --marimo-monospace-font: "JetBrains Mono", monospace;
+}
+.reveal marimo-island table { font-size: 15px; }
+.reveal marimo-island .vega-embed { max-width: 100%; }
+
+.reveal marimo-quarto-island pre,
+.reveal marimo-island pre {
+  font-size: 15px;
+  line-height: 1.45;
+  margin: .3em 0;
+  width: 100%;
+  box-shadow: none;
+}
+.reveal marimo-quarto-island pre code,
+.reveal marimo-island pre code { font-size: 15px; max-height: 300px; }
+
+// marimo renders show_sql() through Pygments (.codehilite); match the dark slate blocks
+.reveal marimo-island .codehilite,
+.reveal marimo-island .codehilite pre {
+  background-color: $uf-slate !important;
+  color: #fff;
+  border-radius: 0 6px 6px 0;
+}
+.reveal marimo-island .codehilite { border-left: 4px solid $uf-orange; }
+.reveal marimo-island .codehilite pre { padding: .5em .8em; }
+.reveal marimo-island .codehilite {
+  span, .n, .nv, .na, .nx, .nc, .nt, .w { color: #fff; }
+  .k, .kd, .kr, .kn, .ow { color: #FF9A73; font-weight: 600; }  // keywords: light UF orange
+  .nf, .nb  { color: #9FB4FF; }                                  // functions
+  .mi, .mf, .m { color: #FFD166; }                               // numbers
+  .s, .s1, .s2, .se { color: #8FD6A8; }                          // strings
+  .c, .c1, .cm { color: #A9ABB3; font-style: italic; }           // comments
+  .o, .p    { color: #D5D7DC; }
+}
+
+
+// Recap grid (pandoc wraps the chips in one <p>, so the grid goes on that)
+.recap > p {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: .45em 1em;
+  align-items: baseline;
+  font-size: .78em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section { transition: none !important; }
+}

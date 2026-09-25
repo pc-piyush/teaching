@@ -1,0 +1,1504 @@
+---
+title: "SQL Basics"
+subtitle: "A reactive walkthrough with Quarto, reveal.js and marimo"
+author: "Piyush Chaudhari"
+date: '2026-09-25'
+description: ""
+categories: ["Slides", "Week 5"]
+engine: marimo
+format:
+  revealjs:
+    axe:
+        output: console
+    slide-number: true
+    chalkboard: 
+        buttons: true
+    preview-links: auto
+    # logo: ../../photos/PC_UF.png
+    logo: photos/PC_UF.png
+    # theme: ../../html/uf.scss
+    theme: [default, omop.scss]
+    width: 1280
+    height: 760
+    margin: 0.06
+    # slide-number: c/t
+    scrollable: true
+    hash: true
+    transition: none
+    code-copy: true
+    mermaid:
+      theme: neutral
+pyproject: |
+  requires-python = ">=3.10"
+  dependencies = [
+      "marimo[sql]>=0.23.16",
+      "duckdb",
+      "pandas",
+      "numpy",
+      "altair",
+  ]
+header: |
+  import marimo as mo
+  import numpy as np
+  import pandas as pd
+  import altair as alt
+  import duckdb
+  from pathlib import Path
+
+footer: "[GMS 6803: Data Science for Clinical Research](https://github.com/GatorAIM/gms6803-clinical-data-science)"
+
+---
+
+## Learning SQL with OMOP
+
+::::: columns
+::: {.column width="44%"}
+Every OMOP extract uses **the same tables and column names**, so a query written here can run for any OMOP dataset at any insitution.
+
+- Clinical facts live in *event tables* 
+- Their meaning lives in **`concept`**, the vocabulary table
+
+Most of the queries that we will see, you will - 
+
+1.  filter an event table,
+2.  join to `person`,
+3.  join to `concept` to get readable names
+:::
+
+::: {.column width="56%"}
+```{mermaid}
+%%| fig-width: 7
+erDiagram
+    PERSON ||--o{ VISIT_OCCURRENCE : has
+    PERSON ||--o{ CONDITION_OCCURRENCE : has
+    PERSON ||--o{ DRUG_EXPOSURE : has
+    PERSON ||--o{ MEASUREMENT : has
+    VISIT_OCCURRENCE ||--o{ CONDITION_OCCURRENCE : "recorded during"
+    CONCEPT ||--o{ CONDITION_OCCURRENCE : "condition_concept_id"
+    CONCEPT ||--o{ DRUG_EXPOSURE : "drug_concept_id"
+    CONCEPT ||--o{ MEASUREMENT : "measurement_concept_id"
+    PERSON {
+        int person_id PK
+        int gender_concept_id FK
+        int year_of_birth
+    }
+    CONDITION_OCCURRENCE {
+        int person_id FK
+        int condition_concept_id FK
+        date condition_start_date
+    }
+    CONCEPT {
+        int concept_id PK
+        string concept_name
+        string domain_id
+    }
+```
+:::
+:::::
+
+## The dataset
+
+```{python .marimo}
+#| output: false
+# ---------------------------------------------------------------
+# Synthetic OMOP CDM v5.4 subset stored in omop.duckdb.
+# Concept IDs are real standard OMOP concepts; people, dates and
+# values are simulated. Rebuild with: uv run build_omop_db.py
+# ---------------------------------------------------------------
+# Resolve relative to this document, not wherever quarto was launched from.
+DB_PATH = (mo.notebook_dir() or Path.cwd()) / "omop.duckdb"
+if DB_PATH.exists():
+    con = duckdb.connect(str(DB_PATH), read_only=True)
+else:
+    # In the browser (Pyodide) omop.duckdb is not on the virtual
+    # filesystem, so rebuild the same seeded tables in memory.
+    # Keep in sync with build_omop_db.py.
+    _rng = np.random.default_rng(42)
+    _N = 1200
+    _t0 = pd.Timestamp("2016-01-01")
+    _span = (pd.Timestamp("2024-12-31") - _t0).days
+
+    _concept = pd.DataFrame(
+        [
+            (8507, "MALE", "Gender", "Gender"),
+            (8532, "FEMALE", "Gender", "Gender"),
+            (8527, "White", "Race", "Race"),
+            (8516, "Black or African American", "Race", "Race"),
+            (8515, "Asian", "Race", "Race"),
+            (38003563, "Hispanic or Latino", "Ethnicity", "Ethnicity"),
+            (38003564, "Not Hispanic or Latino", "Ethnicity", "Ethnicity"),
+            (9201, "Inpatient Visit", "Visit", "Visit"),
+            (9202, "Outpatient Visit", "Visit", "Visit"),
+            (9203, "Emergency Room Visit", "Visit", "Visit"),
+            (201826, "Type 2 diabetes mellitus", "Condition", "SNOMED"),
+            (320128, "Essential hypertension", "Condition", "SNOMED"),
+            (317576, "Coronary arteriosclerosis", "Condition", "SNOMED"),
+            (255573, "Chronic obstructive lung disease", "Condition", "SNOMED"),
+            (46271022, "Chronic kidney disease", "Condition", "SNOMED"),
+            (433736, "Obesity", "Condition", "SNOMED"),
+            (4329847, "Myocardial infarction", "Condition", "SNOMED"),
+            (440383, "Depressive disorder", "Condition", "SNOMED"),
+            (197320, "Acute renal failure syndrome", "Condition", "SNOMED"),
+            (1503297, "metformin", "Drug", "RxNorm"),
+            (1308216, "lisinopril", "Drug", "RxNorm"),
+            (1545958, "atorvastatin", "Drug", "RxNorm"),
+            (1112807, "aspirin", "Drug", "RxNorm"),
+            (1307046, "metoprolol", "Drug", "RxNorm"),
+            (1332418, "amlodipine", "Drug", "RxNorm"),
+            (3004410, "Hemoglobin A1c/Hemoglobin.total in Blood", "Measurement", "LOINC"),
+            (3016723, "Creatinine [Mass/volume] in Serum or Plasma", "Measurement", "LOINC"),
+            (3004249, "Systolic blood pressure", "Measurement", "LOINC"),
+        ],
+        columns=["concept_id", "concept_name", "domain_id", "vocabulary_id"],
+    )
+
+    # person -------------------------------------------------------------
+    _person = pd.DataFrame({
+        "person_id": np.arange(1, _N + 1),
+        "gender_concept_id": _rng.choice([8507, 8532], _N, p=[.48, .52]),
+        "year_of_birth": _rng.integers(1935, 2006, _N),
+        "month_of_birth": _rng.integers(1, 13, _N),
+        "race_concept_id": _rng.choice([8527, 8516, 8515, 0], _N, p=[.6, .2, .08, .12]),
+        "ethnicity_concept_id": _rng.choice([38003563, 38003564], _N, p=[.25, .75]),
+    })
+    _age = dict(zip(_person.person_id, 2024 - _person.year_of_birth))
+
+    # visit_occurrence ---------------------------------------------------
+    _nv = (_rng.poisson(4, _N) + 1).astype(np.intp)  # np.repeat needs intp (int32 in WASM)
+    _vp = np.repeat(_person.person_id.values, _nv)
+    _V = len(_vp)
+    _vtype = _rng.choice([9201, 9202, 9203], _V, p=[.12, .75, .13])
+    _vstart = _t0 + pd.to_timedelta(_rng.integers(0, _span, _V), unit="D")
+    _los = np.where(_vtype == 9201, _rng.integers(1, 11, _V), 0)
+    _visit = pd.DataFrame({
+        "visit_occurrence_id": np.arange(1, _V + 1),
+        "person_id": _vp,
+        "visit_concept_id": _vtype,
+        "visit_start_date": _vstart,
+        "visit_end_date": _vstart + pd.to_timedelta(_los, unit="D"),
+    })
+    _by_person = {p: g for p, g in _visit.groupby("person_id")}
+
+    # condition_occurrence ------------------------------------------------
+    _base = {201826: .16, 320128: .28, 317576: .09, 255573: .07, 46271022: .06,
+             433736: .15, 4329847: .03, 440383: .12, 197320: .04}
+    _crow = []
+    for _pid, _g in _by_person.items():
+        _scale = 0.35 + _age[_pid] / 55
+        for _cid, _p in _base.items():
+            if _rng.random() < min(_p * _scale, .85):
+                _v = _g.iloc[_rng.integers(0, len(_g))]
+                _crow.append((_pid, _cid, _v.visit_start_date, _v.visit_occurrence_id))
+    _cond = pd.DataFrame(_crow, columns=["person_id", "condition_concept_id",
+                                         "condition_start_date", "visit_occurrence_id"])
+    _cond.insert(0, "condition_occurrence_id", np.arange(1, len(_cond) + 1))
+    _has = _cond.groupby("person_id").condition_concept_id.apply(set).to_dict()
+
+    # drug_exposure -------------------------------------------------------
+    _drow = []
+    for _pid, _g in _by_person.items():
+        _cs = _has.get(_pid, set())
+        if 201826 in _cs and _rng.random() < .72:
+            _d0 = _cond[(_cond.person_id == _pid) & (_cond.condition_concept_id == 201826)].condition_start_date.iloc[0]
+            _drow.append((_pid, 1503297, _d0 + pd.Timedelta(days=int(_rng.integers(0, 240)))))
+        if 320128 in _cs:
+            for _dc in (1308216, 1332418):
+                if _rng.random() < .45:
+                    _drow.append((_pid, _dc, _g.visit_start_date.iloc[_rng.integers(0, len(_g))]))
+        if _cs & {317576, 4329847}:
+            for _dc in (1545958, 1112807, 1307046):
+                if _rng.random() < .6:
+                    _drow.append((_pid, _dc, _g.visit_start_date.iloc[_rng.integers(0, len(_g))]))
+    _drug = pd.DataFrame(_drow, columns=["person_id", "drug_concept_id", "drug_exposure_start_date"])
+    _drug["days_supply"] = _rng.choice([30, 90], len(_drug))
+    _drug["drug_exposure_end_date"] = _drug.drug_exposure_start_date + pd.to_timedelta(_drug.days_supply, unit="D")
+    _drug.insert(0, "drug_exposure_id", np.arange(1, len(_drug) + 1))
+
+    # measurement ---------------------------------------------------------
+    _mrow = []
+    for _v in _visit.itertuples():
+        _cs = _has.get(_v.person_id, set())
+        if _rng.random() < .35:
+            _a1c = _rng.normal(7.9, 1.3) if 201826 in _cs else _rng.normal(5.4, .35)
+            _mrow.append((_v.person_id, 3004410, _v.visit_start_date, round(max(_a1c, 4.0), 1), "%"))
+        if _rng.random() < .6:
+            _cr = _rng.lognormal(0, .2) * (1.9 if 197320 in _cs and _rng.random() < .5 else 1.0)
+            _cr *= 1.35 if 46271022 in _cs else 1.0
+            _mrow.append((_v.person_id, 3016723, _v.visit_start_date, round(_cr, 2), "mg/dL"))
+        if _rng.random() < .8:
+            _sbp = _rng.normal(141 if 320128 in _cs else 122, 13)
+            _mrow.append((_v.person_id, 3004249, _v.visit_start_date, round(_sbp), "mmHg"))
+    _meas = pd.DataFrame(_mrow, columns=["person_id", "measurement_concept_id",
+                                         "measurement_date", "value_as_number", "unit_source_value"])
+    _meas.insert(0, "measurement_id", np.arange(1, len(_meas) + 1))
+
+    # load into DuckDB with proper DATE columns ---------------------------
+    con = duckdb.connect()
+    for _name, _df in {"person": _person, "visit_occurrence": _visit,
+                       "condition_occurrence": _cond, "drug_exposure": _drug,
+                       "measurement": _meas, "concept": _concept}.items():
+        con.register("_tmp", _df)
+        _cols = ", ".join(
+            f"CAST({c} AS DATE) AS {c}" if c.endswith("_date") else c for c in _df.columns
+        )
+        con.execute(f"CREATE TABLE {_name} AS SELECT {_cols} FROM _tmp")
+        con.unregister("_tmp")
+
+
+def run(q):
+    """Run SQL against the OMOP connection and return a pandas DataFrame."""
+    return con.execute(q).df()
+
+
+def show_sql(q):
+    return mo.md(f"```sql\n{q.strip()}\n```")
+
+
+CLAUSE = {"select": "#0021A5", "from": "#002657", "where": "#C63A0E",
+          "join": "#6A2A60", "group": "#22884C", "having": "#7A5C00",
+          "order": "#D32737", "window": "#343741",
+          "ink": "#1A1A1A", "muted": "#5F6168"}
+
+
+def styled(chart, w=520, h=300):
+    return (chart.properties(width=w, height=h)
+            .configure(font="Georgia")
+            .configure_view(stroke=None)
+            .configure_axis(labelColor=CLAUSE["ink"], titleColor=CLAUSE["muted"],
+                            gridColor="#E6E7E6", domainColor="#C7C9C8",
+                            labelFontSize=13, titleFontSize=13)
+            .configure_legend(labelFontSize=13, titleFontSize=13))
+```
+
+::::: columns
+::: {.column width="40%"}
+
+- A synthetic OMOP CDM subset stored in a **DuckDB** database file, `omop.duckdb` 
+<!-- (rebuild it with `uv run build_omop_db.py`) -->
+
+- Concept IDs are real standard concepts (SNOMED, RxNorm, LOINC)
+
+- People, dates and values are simulated
+
+- Every chart and table in this deck is a live query against it
+
+:::
+
+::: {.column width="60%"}
+```{python .marimo}
+_counts = run("""
+    SELECT 'person' AS table_name, COUNT(*) AS n_rows FROM person
+    UNION ALL SELECT 'visit_occurrence', COUNT(*) FROM visit_occurrence
+    UNION ALL SELECT 'condition_occurrence', COUNT(*) FROM condition_occurrence
+    UNION ALL SELECT 'drug_exposure', COUNT(*) FROM drug_exposure
+    UNION ALL SELECT 'measurement', COUNT(*) FROM measurement
+    UNION ALL SELECT 'concept', COUNT(*) FROM concept
+""")
+_bars = alt.Chart(_counts).mark_bar(color=CLAUSE["from"], cornerRadiusEnd=3).encode(
+    x=alt.X("n_rows:Q", title="rows"),
+    y=alt.Y("table_name:N", sort="-x", title=None),
+    tooltip=["table_name", alt.Tooltip("n_rows:Q", format=",")],
+)
+_labels = _bars.mark_text(align="left", dx=4, color=CLAUSE["ink"]).encode(
+    text=alt.Text("n_rows:Q", format=","))
+styled(_bars + _labels, w=480, h=260)
+```
+:::
+:::::
+
+## SQL Query Syntax
+
+```{=html}
+<svg viewBox="0 0 1180 430" width="100%" role="img" aria-label="Written clause order versus logical evaluation order">
+  <style>
+    .lab { font: 700 20px 'JetBrains Mono', monospace; fill: #fff; }
+    .hd  { font: 700 22px Georgia, serif; fill: #1A1A1A; }
+    .note{ font: 17px Georgia, serif; fill: #5F6168; }
+    .ln  { stroke: #9A9C9B; stroke-width: 2; fill: none; }
+  </style>
+  <text class="hd" x="40" y="30">How you write it</text>
+  <text class="hd" x="640" y="30">How the database runs it</text>
+  <!-- written order -->
+  <g>
+    <rect x="40"  y="50"  width="260" height="40" rx="5" fill="#0021A5"/><text class="lab" x="56" y="77">SELECT</text>
+    <rect x="40"  y="97"  width="260" height="40" rx="5" fill="#002657"/><text class="lab" x="56" y="124">FROM</text>
+    <rect x="40"  y="144" width="260" height="40" rx="5" fill="#6A2A60"/><text class="lab" x="56" y="171">JOIN … ON</text>
+    <rect x="40"  y="191" width="260" height="40" rx="5" fill="#C63A0E"/><text class="lab" x="56" y="218">WHERE</text>
+    <rect x="40"  y="238" width="260" height="40" rx="5" fill="#22884C"/><text class="lab" x="56" y="265">GROUP BY</text>
+    <rect x="40"  y="285" width="260" height="40" rx="5" fill="#7A5C00"/><text class="lab" x="56" y="312">HAVING</text>
+    <rect x="40"  y="332" width="260" height="40" rx="5" fill="#D32737"/><text class="lab" x="56" y="359">ORDER BY</text>
+    <rect x="40"  y="379" width="260" height="40" rx="5" fill="#5F6168"/><text class="lab" x="56" y="406">LIMIT</text>
+  </g>
+  <!-- evaluation order -->
+  <g>
+    <rect x="640" y="50"  width="260" height="40" rx="5" fill="#002657"/><text class="lab" x="656" y="77">1  FROM</text>
+    <rect x="640" y="97"  width="260" height="40" rx="5" fill="#6A2A60"/><text class="lab" x="656" y="124">2  JOIN … ON</text>
+    <rect x="640" y="144" width="260" height="40" rx="5" fill="#C63A0E"/><text class="lab" x="656" y="171">3  WHERE</text>
+    <rect x="640" y="191" width="260" height="40" rx="5" fill="#22884C"/><text class="lab" x="656" y="218">4  GROUP BY</text>
+    <rect x="640" y="238" width="260" height="40" rx="5" fill="#7A5C00"/><text class="lab" x="656" y="265">5  HAVING</text>
+    <rect x="640" y="285" width="260" height="40" rx="5" fill="#0021A5"/><text class="lab" x="656" y="312">6  SELECT</text>
+    <rect x="640" y="332" width="260" height="40" rx="5" fill="#D32737"/><text class="lab" x="656" y="359">7  ORDER BY</text>
+    <rect x="640" y="379" width="260" height="40" rx="5" fill="#5F6168"/><text class="lab" x="656" y="406">8  LIMIT</text>
+  </g>
+  <path class="ln" d="M300,70 C470,70 470,305 640,305"/>
+  <path class="ln" d="M300,117 C470,117 470,70 640,70"/>
+  <path class="ln" d="M300,164 C470,164 470,117 640,117"/>
+  <path class="ln" d="M300,211 C470,211 470,164 640,164"/>
+  <path class="ln" d="M300,258 C470,258 470,211 640,211"/>
+  <path class="ln" d="M300,305 C470,305 470,258 640,258"/>
+  <path class="ln" d="M300,352 L640,352"/>
+  <path class="ln" d="M300,399 L640,399"/>
+  <text class="note" x="920" y="310">Aliases are born here,</text>
+  <text class="note" x="920" y="332">so WHERE can’t see them</text>
+</svg>
+```
+
+## [SELECT]{.kw .select} and [FROM]{.kw .from}
+
+::::: columns
+::: {.column width="42%"}
+
+- `FROM` names the table
+
+- `SELECT` picks the columns you want back
+
+- `LIMIT` keeps the preview small while you explore
+
+- Avoid `SELECT *` in real extracts since OMOP tables are wide, and naming columns documents intent
+
+:::
+
+::: {.column width="58%"}
+```{sql .marimo}
+#| echo: true
+#| engine: con
+SELECT person_id,
+       gender_concept_id,
+       year_of_birth,
+       race_concept_id
+FROM person
+LIMIT 6
+```
+:::
+:::::
+
+## [WHERE]{.kw .where} filters rows
+
+Move the controls to play with the query. The query text and the result both update
+
+:::::: columns
+:::: {.column width="34%"}
+```{python .marimo}
+yob = mo.ui.range_slider(1935, 2005, value=[1950, 1975], step=1,
+                         label="Year of birth", show_value=True, full_width=True)
+sex_pick = mo.ui.dropdown({"Anyone": 0, "Female (8532)": 8532, "Male (8507)": 8507},
+                          value="Anyone", label="Sex")
+mo.vstack([yob, sex_pick], gap=1.2)
+```
+
+::: muted
+- `BETWEEN` is inclusive on both ends
+
+- Filtering on `gender_concept_id`, not a text label, is the OMOP way
+
+:::
+::::
+
+::: {.column width="66%"}
+```{python .marimo}
+_sex_sql = "" if sex_pick.value == 0 else f"\n  AND gender_concept_id = {sex_pick.value}"
+where_sql = f"""
+SELECT person_id, gender_concept_id, year_of_birth
+FROM person
+WHERE year_of_birth BETWEEN {yob.value[0]} AND {yob.value[1]}{_sex_sql}
+"""
+_df = run(where_sql)
+mo.vstack([
+    show_sql(where_sql),
+    mo.md(f"**{len(_df):,}** of {run('SELECT COUNT(*) n FROM person').n[0]:,} people match"),
+    mo.ui.table(_df, page_size=5, selection=None),
+])
+```
+:::
+::::::
+
+## [ORDER BY]{.kw .order} and LIMIT
+
+:::::: columns
+:::: {.column width="34%"}
+```{python .marimo}
+sort_col = mo.ui.dropdown(["year_of_birth", "person_id", "month_of_birth"],
+                          value="year_of_birth", label="Sort by")
+sort_dir = mo.ui.radio(["ASC", "DESC"], value="DESC", label="Direction", inline=True)
+top_n = mo.ui.number(1, 25, value=8, label="LIMIT")
+mo.vstack([sort_col, sort_dir, top_n], gap=1.2)
+```
+
+::: muted
+
+- Without `ORDER BY`, row order is not guaranteed, so `LIMIT` alone returns an arbitrary sample
+:::
+::::
+
+::: {.column width="66%"}
+```{python .marimo}
+order_sql = f"""
+SELECT person_id, year_of_birth, month_of_birth
+FROM person
+ORDER BY {sort_col.value} {sort_dir.value}
+LIMIT {top_n.value}
+"""
+mo.vstack([show_sql(order_sql), mo.ui.table(run(order_sql), page_size=8, selection=None)])
+```
+:::
+::::::
+
+## [JOIN]{.kw .join} turns IDs into meaning
+
+::::: columns
+::: {.column width="45%"}
+
+- Event tables store integers 
+
+- `concept` holds the names
+
+```{=html}
+<svg viewBox="0 0 520 250" width="100%" role="img" aria-label="Joining condition_occurrence to concept on concept_id">
+  <style>
+    .t { font: 15px 'JetBrains Mono', monospace; fill: #1A1A1A; }
+    .th { font: 700 15px 'JetBrains Mono', monospace; fill: #fff; }
+  </style>
+  <rect x="0" y="10" width="220" height="30" fill="#002657"/><text class="th" x="10" y="31">condition_occurrence</text>
+  <rect x="0" y="40" width="220" height="150" fill="#fff" stroke="#C7C9C8"/>
+  <text class="t" x="10" y="68">person_id  12</text>
+  <text class="t" x="10" y="98">condition_</text>
+  <text class="t" x="10" y="116">concept_id</text>
+  <rect x="120" y="96" width="92" height="26" rx="4" fill="#F3E9F1" stroke="#6A2A60"/>
+  <text class="t" x="128" y="115">201826</text>
+  <text class="t" x="10" y="158">start 2019-03-04</text>
+  <rect x="300" y="10" width="220" height="30" fill="#002657"/><text class="th" x="310" y="31">concept</text>
+  <rect x="300" y="40" width="220" height="150" fill="#fff" stroke="#C7C9C8"/>
+  <rect x="306" y="52" width="92" height="26" rx="4" fill="#F3E9F1" stroke="#6A2A60"/>
+  <text class="t" x="314" y="71">201826</text>
+  <text class="t" x="310" y="108">Type 2 diabetes</text>
+  <text class="t" x="310" y="128">mellitus</text>
+  <text class="t" x="310" y="164">SNOMED · Condition</text>
+  <path d="M212,109 C260,109 250,65 306,65" stroke="#6A2A60" stroke-width="3" fill="none"/>
+  <text class="t" x="0" y="232" style="fill:#6A2A60">ON co.condition_concept_id = c.concept_id</text>
+</svg>
+```
+:::
+
+::: {.column width="55%"}
+```{sql .marimo}
+#| echo: true
+#| engine: con
+SELECT c.concept_name AS condition,
+       COUNT(*)       AS n_records
+FROM condition_occurrence AS co
+JOIN concept AS c
+  ON co.condition_concept_id = c.concept_id
+GROUP BY c.concept_name
+ORDER BY n_records DESC
+LIMIT 5
+```
+:::
+:::::
+
+## INNER, LEFT and ANTI JOINS
+
+::::: columns
+::: {.column width="48%"}
+```{python .marimo}
+join_kind = mo.ui.radio(["INNER JOIN", "LEFT JOIN", "Anti join (LEFT + IS NULL)"],
+                        value="INNER JOIN", label="Join type")
+join_kind
+```
+
+```{python .marimo}
+# Toy example: 5 people, 4 condition rows. Highlight what survives the join.
+_people = [1, 2, 3, 4, 5]
+_conds = [(1, "HTN"), (1, "T2DM"), (3, "CKD"), (4, "HTN")]
+if join_kind.value == "INNER JOIN":
+    _rows = [(p, c) for p, c in _conds]
+elif join_kind.value == "LEFT JOIN":
+    _rows = [(p, c) for p in _people for q, c in _conds if q == p] + \
+            [(p, "NULL") for p in _people if p not in {q for q, _ in _conds}]
+    _rows.sort()
+else:
+    _rows = [(p, "NULL") for p in _people if p not in {q for q, _ in _conds}]
+_kept = {p for p, _ in _rows}
+_svg = ['<svg viewBox="0 0 560 250" width="100%" role="img" aria-label="Toy join result">',
+        '<style>.t{font:16px "JetBrains Mono",monospace}.h{font:700 15px Georgia,serif;fill:#5F6168}</style>',
+        '<text class="h" x="0" y="16">person</text><text class="h" x="130" y="16">condition</text>',
+        '<text class="h" x="340" y="16">result</text>']
+for _i, _p in enumerate(_people):
+    _on = _p in _kept
+    _svg.append(f'<rect x="0" y="{26+_i*40}" width="90" height="32" rx="4" fill="{"#F3E9F1" if _on else "#fff"}" stroke="{"#6A2A60" if _on else "#C7C9C8"}"/>')
+    _svg.append(f'<text class="t" x="12" y="{48+_i*40}" fill="{"#1A1A1A" if _on else "#9A9C9B"}">id {_p}</text>')
+for _i, (_p, _c) in enumerate(_conds):
+    _on = join_kind.value != "Anti join (LEFT + IS NULL)"
+    _svg.append(f'<rect x="130" y="{26+_i*40}" width="150" height="32" rx="4" fill="#fff" stroke="{"#6A2A60" if _on else "#C7C9C8"}"/>')
+    _svg.append(f'<text class="t" x="140" y="{48+_i*40}" fill="{"#1A1A1A" if _on else "#9A9C9B"}">{_p} · {_c}</text>')
+for _i, (_p, _c) in enumerate(_rows[:6]):
+    _svg.append(f'<rect x="340" y="{26+_i*37}" width="210" height="30" rx="4" fill="#d17ac4"/>')
+    _svg.append(f'<text class="t" x="352" y="{47+_i*37}" fill="#fff">{_p} · {_c}</text>')
+_svg.append("</svg>")
+mo.Html("".join(_svg))
+```
+:::
+
+::: {.column width="52%"}
+```{python .marimo}
+if join_kind.value == "INNER JOIN":
+    join_sql = """
+SELECT COUNT(DISTINCT p.person_id) AS people,
+       COUNT(*)                    AS result_rows
+FROM person AS p
+INNER JOIN condition_occurrence AS co
+  ON p.person_id = co.person_id"""
+elif join_kind.value == "LEFT JOIN":
+    join_sql = """
+SELECT COUNT(DISTINCT p.person_id) AS people,
+       COUNT(*)                    AS result_rows
+FROM person AS p
+LEFT JOIN condition_occurrence AS co
+  ON p.person_id = co.person_id"""
+else:
+    join_sql = """
+SELECT COUNT(DISTINCT p.person_id) AS people,
+       COUNT(*)                    AS result_rows
+FROM person AS p
+LEFT JOIN condition_occurrence AS co
+  ON p.person_id = co.person_id
+WHERE co.person_id IS NULL"""
+_r = run(join_sql)
+mo.vstack([
+    show_sql(join_sql),
+    mo.hstack([
+        mo.stat(f"{int(_r.people[0]):,}", label="distinct people"),
+        mo.stat(f"{int(_r.result_rows[0]):,}", label="rows returned"),
+    ], justify="start", gap=2),
+    mo.md("An inner join silently drops people with no events. The anti join finds exactly those people."),
+])
+```
+:::
+:::::
+
+## [GROUP BY]{.kw .group} does aggregation
+
+:::::: columns
+:::: {.column width="32%"}
+```{python .marimo}
+domain_pick = mo.ui.radio(
+    {"Conditions": ("condition_occurrence", "condition_concept_id"),
+     "Drugs": ("drug_exposure", "drug_concept_id"),
+     "Visits": ("visit_occurrence", "visit_concept_id")},
+    value="Conditions", label="Event table")
+count_what = mo.ui.radio(["COUNT(*)", "COUNT(DISTINCT e.person_id)"],
+                         value="COUNT(DISTINCT e.person_id)", label="Count")
+mo.vstack([domain_pick, count_what], gap=1.2)
+```
+
+::: muted
+
+- `COUNT(*)` counts records
+
+- `COUNT(DISTINCT person_id)` counts patients
+
+In EHR data these differ a lot
+
+:::
+::::
+
+::: {.column width="68%"}
+```{python .marimo}
+_tbl, _col = domain_pick.value
+group_sql = f"""
+SELECT c.concept_name, {count_what.value} AS n
+FROM {_tbl} AS e
+JOIN concept AS c ON e.{_col} = c.concept_id
+GROUP BY c.concept_name
+ORDER BY n DESC
+"""
+_g = run(group_sql)
+_chart = alt.Chart(_g).mark_bar(color=CLAUSE["group"], cornerRadiusEnd=3).encode(
+    x=alt.X("n:Q", title="patients" if "DISTINCT" in count_what.value else "records"),
+    y=alt.Y("concept_name:N", sort="-x", title=None),
+    tooltip=["concept_name", alt.Tooltip("n:Q", format=",")],
+)
+mo.vstack([show_sql(group_sql), styled(_chart, w=520, h=min(28 * len(_g), 260))])
+```
+:::
+::::::
+
+## [HAVING]{.kw .having} filters
+
+:::::: columns
+:::: {.column width="34%"}
+```{python .marimo}
+min_visits = mo.ui.slider(1, 15, value=8, label="Minimum visits", show_value=True, full_width=True)
+min_visits
+```
+
+- `WHERE` runs before grouping, on rows
+
+- `HAVING` runs after grouping, on aggregates
+
+::: muted
+Use this pattern for `high utilisers`, `patients with ≥ 2 diagnosis codes` and similar phenotype rules
+:::
+::::
+
+::: {.column width="66%"}
+```{python .marimo}
+having_sql = f"""
+SELECT person_id, COUNT(*) AS n_visits
+FROM visit_occurrence
+GROUP BY person_id
+HAVING COUNT(*) >= {min_visits.value}
+"""
+_h = run(having_sql)
+_dist = run("SELECT person_id, COUNT(*) AS n_visits FROM visit_occurrence GROUP BY person_id")
+_dist["kept"] = np.where(_dist.n_visits >= min_visits.value, "kept by HAVING", "dropped")
+_hist = alt.Chart(_dist).mark_bar().encode(
+    x=alt.X("n_visits:O", title="visits per person"),
+    y=alt.Y("count():Q", title="people"),
+    color=alt.Color("kept:N", scale=alt.Scale(domain=["kept by HAVING", "dropped"],
+                                               range=[CLAUSE["having"], "#DCDDDC"]),
+                    legend=alt.Legend(orient="top", title=None)),
+)
+mo.vstack([show_sql(having_sql), mo.md(f"**{len(_h):,}** people kept"), styled(_hist, w=560, h=190)])
+```
+:::
+::::::
+
+## Dates: Visits over Time
+
+:::::: columns
+:::: {.column width="30%"}
+```{python .marimo}
+visit_types = mo.ui.multiselect(
+    {"Inpatient": 9201, "Outpatient": 9202, "Emergency": 9203},
+    value=["Inpatient", "Emergency"], label="Visit types")
+grain = mo.ui.radio(["year", "quarter"], value="year", label="Grain", inline=True)
+mo.vstack([visit_types, grain], gap=1.2)
+```
+
+::: muted
+
+**DuckDB** 
+`date_trunc('year', d)`
+
+**SQL Server**
+`DATEFROMPARTS(YEAR(d),1,1)` or `DATETRUNC(year, d)`
+
+:::
+::::
+
+::: {.column width="70%"}
+```{python .marimo}
+_ids = ", ".join(str(v) for v in visit_types.value) or "NULL"
+dates_sql = f"""
+SELECT date_trunc('{grain.value}', v.visit_start_date) AS period,
+       c.concept_name AS visit_type,
+       COUNT(*) AS n_visits
+FROM visit_occurrence AS v
+JOIN concept AS c ON v.visit_concept_id = c.concept_id
+WHERE v.visit_concept_id IN ({_ids})
+GROUP BY 1, 2
+ORDER BY 1
+"""
+_d = run(dates_sql)
+_line = alt.Chart(_d).mark_line(point=True, strokeWidth=2.5).encode(
+    x=alt.X("period:T", title=None),
+    y=alt.Y("n_visits:Q", title="visits"),
+    color=alt.Color("visit_type:N", title=None, legend=alt.Legend(orient="top"),
+                    scale=alt.Scale(range=[CLAUSE["order"], CLAUSE["select"], CLAUSE["where"]])),
+    tooltip=["period:T", "visit_type", "n_visits"],
+)
+mo.vstack([show_sql(dates_sql), styled(_line, w=600, h=200)]) if len(_d) else mo.md("Pick at least one visit type.")
+```
+:::
+::::::
+
+## Measurements and CASE WHEN
+
+:::::: columns
+:::: {.column width="32%"}
+```{python .marimo}
+lab_pick = mo.ui.dropdown(
+    {"HbA1c (%)": (3004410, 4.0, 13.0, 6.5),
+     "Creatinine (mg/dL)": (3016723, 0.3, 4.0, 1.3),
+     "Systolic BP (mmHg)": (3004249, 80.0, 190.0, 140.0)},
+    value="HbA1c (%)", label="Lab")
+lab_pick
+```
+
+```{python .marimo}
+_cid, _lo, _hi, _default = lab_pick.value
+cutoff = mo.ui.slider(_lo, _hi, value=_default, step=0.1 if _hi < 20 else 1,
+                      label="Abnormal if ≥", show_value=True, full_width=True)
+cutoff
+```
+
+::: muted
+`CASE WHEN` creates a derived column row by row, which is how most lab-based phenotype flags are built
+:::
+::::
+
+::: {.column width="68%"}
+```{python .marimo}
+_cid = lab_pick.value[0]
+lab_sql = f"""
+SELECT value_as_number,
+       CASE WHEN value_as_number >= {cutoff.value}
+            THEN 'abnormal' ELSE 'normal' END AS flag
+FROM measurement
+WHERE measurement_concept_id = {_cid}
+  AND value_as_number IS NOT NULL
+"""
+_m = run(lab_sql)
+_pct = (_m.flag == "abnormal").mean() * 100 if len(_m) else 0
+_h = alt.Chart(_m).mark_bar().encode(
+    x=alt.X("value_as_number:Q", bin=alt.Bin(maxbins=40), title=None),
+    y=alt.Y("count():Q", title="results"),
+    color=alt.Color("flag:N", scale=alt.Scale(domain=["abnormal", "normal"],
+                                               range=[CLAUSE["order"], "#B3BCE3"]),
+                    legend=alt.Legend(orient="top", title=None)),
+)
+_rule = alt.Chart(pd.DataFrame({"x": [cutoff.value]})).mark_rule(
+    color=CLAUSE["ink"], strokeDash=[5, 4], strokeWidth=2).encode(x="x:Q")
+mo.vstack([show_sql(lab_sql),
+           mo.md(f"**{_pct:.1f}%** of {len(_m):,} results flagged abnormal"),
+           styled(_h + _rule, w=580, h=180)])
+```
+:::
+::::::
+
+## Click the Chart and Query the Selection
+
+::::: columns
+::: {.column width="50%"}
+
+Age bands come from a `CASE` expression, then `GROUP BY`
+
+**Click a bar** (shift-click for several) to filter the table
+
+```{python .marimo}
+_bands = run("""
+SELECT CASE
+         WHEN 2024 - year_of_birth < 40 THEN '18–39'
+         WHEN 2024 - year_of_birth < 65 THEN '40–64'
+         ELSE '65+'
+       END AS age_band,
+       COUNT(*) AS people
+FROM person
+GROUP BY 1
+ORDER BY 1
+""")
+# No cornerRadiusEnd here: combined with a selection, marimo islands draw the bars invisible.
+age_chart = mo.ui.altair_chart(
+    styled(alt.Chart(_bands).mark_bar(color=CLAUSE["select"]).encode(
+        x=alt.X("age_band:N", title=None, axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("people:Q", title="people"),
+    ), w=440, h=260),
+    chart_selection="point",
+)
+age_chart
+```
+:::
+
+::: {.column width="50%"}
+```{python .marimo}
+_sel = age_chart.value
+_picked = sorted(_sel["age_band"].unique()) if len(_sel) else ["18–39", "40–64", "65+"]
+_in = ", ".join(f"'{b}'" for b in _picked)
+band_sql = f"""
+WITH banded AS (
+  SELECT person_id,
+         CASE WHEN 2024 - year_of_birth < 40 THEN '18–39'
+              WHEN 2024 - year_of_birth < 65 THEN '40–64'
+              ELSE '65+' END AS age_band
+  FROM person
+)
+SELECT c.concept_name AS condition,
+       COUNT(DISTINCT b.person_id) AS patients
+FROM banded AS b
+JOIN condition_occurrence AS co ON b.person_id = co.person_id
+JOIN concept AS c ON co.condition_concept_id = c.concept_id
+WHERE b.age_band IN ({_in})
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5
+"""
+mo.vstack([mo.md(f"Showing: **{', '.join(_picked)}**"),
+           show_sql(band_sql),
+           mo.ui.table(run(band_sql), selection=None, page_size=5)])
+```
+:::
+:::::
+
+## CTEs: build a cohort step by step
+
+:::::: columns
+:::: {.column width="32%"}
+
+Question: 
+
+*Of patients with type 2 diabetes, how many started metformin within N days of diagnosis?*
+
+```{python .marimo}
+window_days = mo.ui.slider(0, 240, value=90, step=15,
+                           label="Window (days)", show_value=True, full_width=True)
+window_days
+```
+
+::: muted
+Each `WITH` block is a named step
+
+Read top to bottom
+
+<!-- , like an ATLAS cohort definition. -->
+:::
+::::
+
+::: {.column width="68%"}
+```{python .marimo}
+cohort_sql = f"""
+WITH t2dm AS (          -- index date = first T2DM diagnosis
+  SELECT person_id, MIN(condition_start_date) AS index_date
+  FROM condition_occurrence
+  WHERE condition_concept_id = 201826
+  GROUP BY person_id
+),
+metformin AS (          -- first metformin exposure
+  SELECT person_id, MIN(drug_exposure_start_date) AS first_rx
+  FROM drug_exposure
+  WHERE drug_concept_id = 1503297
+  GROUP BY person_id
+)
+SELECT COUNT(*)                                  AS t2dm_patients,
+       COUNT(m.person_id)                        AS any_metformin,
+       COUNT(CASE WHEN date_diff('day', t.index_date, m.first_rx)
+                       BETWEEN 0 AND {window_days.value}
+                  THEN 1 END)                    AS within_window
+FROM t2dm AS t
+LEFT JOIN metformin AS m ON t.person_id = m.person_id
+"""
+_c = run(cohort_sql).melt(var_name="step", value_name="patients")
+_c["label"] = ["T2DM", "Any metformin", f"Metformin ≤ {window_days.value} d"]
+_f = alt.Chart(_c).mark_bar(color=CLAUSE["join"], cornerRadiusEnd=3).encode(
+    y=alt.Y("label:N", sort=None, title=None),
+    x=alt.X("patients:Q", title="patients"),
+)
+_t = _f.mark_text(align="left", dx=4, color=CLAUSE["ink"]).encode(text="patients:Q")
+mo.vstack([show_sql(cohort_sql), styled(_f + _t, w=520, h=110)])
+```
+:::
+::::::
+
+## Beyond the basics {.center .uf-section background-gradient="linear-gradient(180deg, #002657 0%, #0021A5 100%)"}
+
+Pattern matching, subqueries, set operations and window functions
+
+## [LIKE]{.kw .where} finds concepts by text
+
+:::::: columns
+:::: {.column width="34%"}
+```{python .marimo}
+like_pat = mo.ui.text(value="%chronic%", label="Pattern", full_width=True)
+like_ci = mo.ui.switch(value=True, label="Case-insensitive (ILIKE)")
+like_not = mo.ui.switch(value=False, label="NOT")
+mo.vstack([like_pat, like_ci, like_not], gap=1.2)
+```
+
+::: muted
+
+- `%` matches any run of characters
+- `_` exactly one
+
+:::
+
+::: {.callout-note collapse="true" appearance="minimal"}
+
+Try `%disease`, `_etformin`, `%in%`, `%blood%`
+
+:::
+
+::: muted
+
+- Use `LIKE` to *find* concept IDs, then filter event tables on the IDs
+
+- Text search misses synonyms and is slow on the full vocabulary
+
+:::
+::::
+
+::: {.column width="66%"}
+```{python .marimo}
+_pat = like_pat.value.replace("'", "''")
+_op = ("NOT " if like_not.value else "") + ("ILIKE" if like_ci.value else "LIKE")
+like_sql = f"""
+SELECT concept_id, concept_name, domain_id, vocabulary_id
+FROM concept
+WHERE concept_name {_op} '{_pat}'
+ORDER BY domain_id, concept_name
+"""
+_l = run(like_sql)
+mo.vstack([
+    show_sql(like_sql),
+    mo.md(f"**{len(_l):,}** of {run('SELECT COUNT(*) n FROM concept').n[0]:,} concepts match"),
+    mo.ui.table(_l, page_size=6, selection=None),
+])
+```
+:::
+::::::
+
+## String Functions: CONCAT, SPLIT_PART, REGEXP_EXTRACT
+
+:::::: columns
+:::: {.column width="30%"}
+```{python .marimo}
+str_domain = mo.ui.radio(["Measurement", "Drug", "Condition"], value="Measurement",
+                         label="Domain")
+str_domain
+```
+
+::: muted
+
+- `||` concatenates
+
+- `SPLIT_PART` and `regexp_extract` pull pieces out of a string
+
+- Source values in OMOP (`*_source_value`) are free text, so these functions do most of the cleanup.
+
+:::
+::::
+
+::: {.column width="70%"}
+```{python .marimo}
+str_sql = f"""
+SELECT concept_name,
+       LOWER(concept_name)                   AS lower_name,
+       LENGTH(concept_name)                  AS n_chars,
+       vocabulary_id || ':' || concept_id    AS code_label,
+       SPLIT_PART(concept_name, ' ', 1)      AS first_word,
+       regexp_extract(concept_name, '\\[(.*)\\]', 1) AS in_brackets
+FROM concept
+WHERE domain_id = '{str_domain.value}'
+"""
+mo.vstack([show_sql(str_sql), mo.ui.table(run(str_sql), page_size=6, selection=None)])
+```
+:::
+::::::
+
+## Subqueries: IN, EXISTS and NOT EXISTS
+
+:::::: columns
+::: {.column width="34%"}
+Question: 
+
+*Which patients have a condition but no record of the usual drug?* 
+
+This is a classic care gap query
+
+```{python .marimo}
+sub_cond = mo.ui.dropdown(
+    {"Type 2 diabetes": 201826, "Essential hypertension": 320128,
+     "Coronary arteriosclerosis": 317576},
+    value="Type 2 diabetes", label="Has condition")
+sub_drug = mo.ui.dropdown(
+    {"metformin": 1503297, "lisinopril": 1308216, "amlodipine": 1332418,
+     "atorvastatin": 1545958, "aspirin": 1112807},
+    value="metformin", label="Drug")
+sub_mode = mo.ui.radio(["EXISTS", "NOT EXISTS"], value="NOT EXISTS",
+                       label="Drug check", inline=True)
+mo.vstack([sub_cond, sub_drug, sub_mode], gap=1)
+```
+:::
+
+:::: {.column width="66%"}
+```{python .marimo}
+sub_sql = f"""
+SELECT COUNT(*) AS patients
+FROM person AS p
+WHERE p.person_id IN (                 -- has the condition
+        SELECT person_id FROM condition_occurrence
+        WHERE condition_concept_id = {sub_cond.value})
+  AND {sub_mode.value} (                   -- correlated subquery
+        SELECT 1 FROM drug_exposure AS d
+        WHERE d.person_id = p.person_id
+          AND d.drug_concept_id = {sub_drug.value})
+"""
+_n = int(run(sub_sql).patients[0])
+_base = int(run(f"SELECT COUNT(DISTINCT person_id) n FROM condition_occurrence "
+                f"WHERE condition_concept_id = {sub_cond.value}").n[0])
+mo.vstack([
+    show_sql(sub_sql),
+    mo.hstack([
+        mo.stat(f"{_base:,}", label=f"with {sub_cond.selected_key}"),
+        mo.stat(f"{_n:,}", label=f"{'on' if sub_mode.value == 'EXISTS' else 'not on'} {sub_drug.selected_key}"),
+        mo.stat(f"{100 * _n / _base:.0f}%" if _base else "–", label="share"),
+    ], justify="start", gap=2),
+])
+```
+
+::: muted
+
+- `EXISTS` stops at the first match, so it never duplicates rows the way a `JOIN` can
+
+- `NOT IN` breaks if the subquery returns a `NULL`; prefer `NOT EXISTS`
+
+:::
+::::
+::::::
+
+## UNION, INTERSECT and EXCEPT
+
+::::: columns
+::: {.column width="42%"}
+```{python .marimo}
+_conds = {"Type 2 diabetes": 201826, "Essential hypertension": 320128,
+          "Obesity": 433736, "Chronic kidney disease": 46271022,
+          "Depressive disorder": 440383}
+set_a = mo.ui.dropdown(_conds, value="Type 2 diabetes", label="A")
+set_b = mo.ui.dropdown(_conds, value="Essential hypertension", label="B")
+set_op = mo.ui.radio(["UNION", "INTERSECT", "EXCEPT", "UNION ALL"],
+                     value="INTERSECT", label="Operator", inline=True)
+mo.vstack([mo.hstack([set_a, set_b], justify="start"), set_op], gap=1)
+```
+
+```{python .marimo}
+_ab = run(f"""
+SELECT COUNT(DISTINCT person_id) FILTER (WHERE condition_concept_id = {set_a.value}) AS a,
+       COUNT(DISTINCT person_id) FILTER (WHERE condition_concept_id = {set_b.value}) AS b
+FROM condition_occurrence""")
+_both = int(run(f"""
+SELECT COUNT(*) AS n FROM (
+  SELECT person_id FROM condition_occurrence WHERE condition_concept_id = {set_a.value}
+  INTERSECT
+  SELECT person_id FROM condition_occurrence WHERE condition_concept_id = {set_b.value})""").n[0])
+_a, _b = int(_ab.a[0]), int(_ab.b[0])
+_fill = CLAUSE["from"]
+_shade = {
+    "UNION": f'<circle cx="160" cy="130" r="100" fill="{_fill}"/><circle cx="260" cy="130" r="100" fill="{_fill}"/>',
+    "UNION ALL": f'<circle cx="160" cy="130" r="100" fill="{_fill}"/><circle cx="260" cy="130" r="100" fill="{_fill}"/>',
+    "INTERSECT": f'<circle cx="160" cy="130" r="100" fill="{_fill}" clip-path="url(#venn-b)"/>',
+    "EXCEPT": f'<circle cx="160" cy="130" r="100" fill="{_fill}" mask="url(#venn-not-b)"/>',
+}[set_op.value]
+mo.Html(f"""
+<svg viewBox="0 0 420 260" width="100%" role="img" aria-label="Venn diagram of the two patient sets">
+  <style>.v{{font:700 20px 'JetBrains Mono',monospace}}.vl{{font:15px Georgia,serif;fill:#5F6168}}</style>
+  <defs>
+    <clipPath id="venn-b"><circle cx="260" cy="130" r="100"/></clipPath>
+    <mask id="venn-not-b"><rect width="420" height="260" fill="#fff"/><circle cx="260" cy="130" r="100" fill="#000"/></mask>
+  </defs>
+  <g opacity="0.3">{_shade}</g>
+  <circle cx="160" cy="130" r="100" fill="none" stroke="{_fill}" stroke-width="2.5"/>
+  <circle cx="260" cy="130" r="100" fill="none" stroke="{_fill}" stroke-width="2.5"/>
+  <text class="vl" x="70" y="22">A</text><text class="vl" x="340" y="22">B</text>
+  <text class="v" x="105" y="137" text-anchor="middle">{_a - _both}</text>
+  <text class="v" x="210" y="137" text-anchor="middle">{_both}</text>
+  <text class="v" x="315" y="137" text-anchor="middle">{_b - _both}</text>
+  <text class="vl" x="210" y="252" text-anchor="middle">distinct patients in each region</text>
+</svg>""")
+```
+:::
+
+::: {.column width="58%"}
+```{python .marimo}
+set_sql = f"""
+SELECT person_id FROM condition_occurrence
+WHERE condition_concept_id = {set_a.value}      -- A
+{set_op.value}
+SELECT person_id FROM condition_occurrence
+WHERE condition_concept_id = {set_b.value}      -- B
+"""
+_s = run(set_sql)
+mo.vstack([
+    show_sql(set_sql),
+    mo.md(f"**{len(_s):,}** rows returned, **{_s.person_id.nunique():,}** distinct patients"),
+    mo.md("Set operators stack two queries with the same columns. `UNION`, `INTERSECT` and "
+          "`EXCEPT` remove duplicates; `UNION ALL` keeps them, so a patient with both "
+          "conditions appears twice.").callout(kind="neutral"),
+])
+```
+:::
+:::::
+
+## NULL-safe summaries: COALESCE, NULLIF, FILTER
+
+:::::: columns
+:::: {.column width="34%"}
+```{python .marimo}
+use_coalesce = mo.ui.switch(value=True, label="Wrap in COALESCE")
+use_coalesce
+```
+
+::: muted
+
+- `race_concept_id = 0` means “no matching concept”, so the `LEFT JOIN` returns `NULL`
+
+- `COALESCE` swaps in a label
+
+`- FILTER (WHERE …)` counts a subset inside one group, turning rows into columns 
+
+- `NULLIF(x, 0)` returns `NULL` when `x` is 0, so a division gives `NULL` instead of an error
+
+:::
+::::
+
+::: {.column width="66%"}
+```{python .marimo}
+_race = ("COALESCE(c.concept_name, 'Unknown')" if use_coalesce.value else "c.concept_name")
+null_sql = f"""
+SELECT {_race} AS race,
+       COUNT(*) AS people,
+       COUNT(*) FILTER (WHERE p.gender_concept_id = 8532) AS female,
+       COUNT(*) FILTER (WHERE p.gender_concept_id = 8507) AS male,
+       ROUND(100.0 * COUNT(*) FILTER (WHERE p.gender_concept_id = 8532)
+             / NULLIF(COUNT(*), 0), 1) AS pct_female
+FROM person AS p
+LEFT JOIN concept AS c ON p.race_concept_id = c.concept_id
+GROUP BY 1
+ORDER BY people DESC
+"""
+mo.vstack([show_sql(null_sql), mo.ui.table(run(null_sql), selection=None)])
+```
+:::
+::::::
+
+## [OVER]{.kw .window} aggregates without collapsing rows
+
+::::: columns
+::: {.column width="38%"}
+```{python .marimo}
+win_mode = mo.ui.radio(["GROUP BY", "Window: OVER (PARTITION BY …)"],
+                       value="Window: OVER (PARTITION BY …)", label="Show")
+win_mode
+```
+
+```{=html}
+<svg viewBox="0 0 400 190" width="100%" role="img" aria-label="GROUP BY collapses rows; a window keeps every row and adds a column">
+  <style>.w{font:600 14px 'JetBrains Mono',monospace;fill:#fff}.wl{font:700 15px Georgia,serif;fill:#5F6168}</style>
+  <text class="wl" x="0" y="16">GROUP BY</text>
+  <rect x="0" y="28"  width="80" height="26" rx="4" fill="#22884C"/>
+  <rect x="0" y="58"  width="80" height="26" rx="4" fill="#22884C"/>
+  <rect x="0" y="88"  width="80" height="26" rx="4" fill="#22884C"/>
+  <path d="M88,71 L118,71" stroke="#9A9C9B" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="126" y="58" width="60" height="26" rx="4" fill="#22884C"/><text class="w" x="148" y="76">3</text>
+  <text class="wl" x="215" y="16">OVER</text>
+  <rect x="215" y="28" width="80" height="26" rx="4" fill="#343741"/><rect x="300" y="28" width="40" height="26" rx="4" fill="#343741" opacity=".55"/><text class="w" x="314" y="46">3</text>
+  <rect x="215" y="58" width="80" height="26" rx="4" fill="#343741"/><rect x="300" y="58" width="40" height="26" rx="4" fill="#343741" opacity=".55"/><text class="w" x="314" y="76">3</text>
+  <rect x="215" y="88" width="80" height="26" rx="4" fill="#343741"/><rect x="300" y="88" width="40" height="26" rx="4" fill="#343741" opacity=".55"/><text class="w" x="314" y="106">3</text>
+  <text class="wl" x="0" y="150">3 visits → 1 row</text>
+  <text class="wl" x="215" y="150">3 visits → 3 rows,</text>
+  <text class="wl" x="215" y="170">each with the count</text>
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9A9C9B"/></marker></defs>
+</svg>
+```
+:::
+
+::: {.column width="62%"}
+```{python .marimo}
+if win_mode.value == "GROUP BY":
+    win_sql = """
+SELECT person_id,
+       COUNT(*)              AS n_visits,
+       MIN(visit_start_date) AS first_visit
+FROM visit_occurrence
+WHERE person_id IN (1, 2, 3)
+GROUP BY person_id
+ORDER BY person_id"""
+else:
+    win_sql = """
+SELECT person_id, visit_start_date,
+       COUNT(*)              OVER (PARTITION BY person_id) AS n_visits,
+       MIN(visit_start_date) OVER (PARTITION BY person_id) AS first_visit,
+       date_diff('day',
+         MIN(visit_start_date) OVER (PARTITION BY person_id),
+         visit_start_date)                                AS days_since_first
+FROM visit_occurrence
+WHERE person_id IN (1, 2, 3)
+ORDER BY person_id, visit_start_date"""
+mo.vstack([show_sql(win_sql), mo.ui.table(run(win_sql), page_size=6, selection=None)])
+```
+:::
+:::::
+
+## [ROW_NUMBER]{.kw .window}, RANK and DENSE_RANK
+
+:::::: columns
+:::: {.column width="34%"}
+```{python .marimo}
+rank_person = mo.ui.dropdown(["85", "306", "679", "1005"], value="306",
+                             label="Patient (has same-day diagnoses)")
+rank_first = mo.ui.switch(value=False, label="First diagnosis per patient (rn = 1)")
+mo.vstack([rank_person, rank_first], gap=1.2)
+```
+
+::: muted
+
+- On ties, `ROW_NUMBER` still counts 1, 2, 3, `RANK` repeats and then skips, and `DENSE_RANK` repeats without skipping
+
+- `ROW_NUMBER() … = 1` is the standard OMOP “first event per person” pattern
+
+- DuckDB also lets you write `QUALIFY rn = 1` instead of the outer query
+
+:::
+::::
+
+::: {.column width="66%"}
+```{python .marimo}
+if not rank_first.value:
+    rank_sql = f"""
+SELECT co.condition_start_date, c.concept_name,
+       ROW_NUMBER() OVER w AS row_num,
+       RANK()       OVER w AS rnk,
+       DENSE_RANK() OVER w AS dense_rnk
+FROM condition_occurrence AS co
+JOIN concept AS c ON co.condition_concept_id = c.concept_id
+WHERE co.person_id = {rank_person.value}
+WINDOW w AS (ORDER BY co.condition_start_date)
+ORDER BY row_num"""
+else:
+    rank_sql = """
+WITH ranked AS (
+  SELECT co.person_id, c.concept_name, co.condition_start_date,
+         ROW_NUMBER() OVER (PARTITION BY co.person_id
+                            ORDER BY co.condition_start_date,
+                                     co.condition_occurrence_id) AS rn
+  FROM condition_occurrence AS co
+  JOIN concept AS c ON co.condition_concept_id = c.concept_id
+)
+SELECT person_id, concept_name AS first_condition, condition_start_date
+FROM ranked
+WHERE rn = 1
+ORDER BY person_id"""
+_rk = run(rank_sql)
+mo.vstack([show_sql(rank_sql),
+           mo.md(f"**{len(_rk):,}** rows, one per patient") if rank_first.value else mo.md(""),
+           mo.ui.table(_rk, page_size=6, selection=None)])
+```
+:::
+::::::
+
+## [LEAD]{.kw .window} and LAG: time between visits
+
+:::::: columns
+:::: {.column width="32%"}
+```{python .marimo}
+lag_types = mo.ui.multiselect(
+    {"Inpatient": 9201, "Outpatient": 9202, "Emergency": 9203},
+    value=["Inpatient"], label="Index visit types")
+return_days = mo.ui.slider(7, 180, value=30, step=1,
+                           label="Return within (days)", show_value=True, full_width=True)
+mo.vstack([lag_types, return_days], gap=1.2)
+```
+
+::: muted
+
+- `LEAD(x)` reads the next row's value in the window and `LAG(x)` reads the previous one
+
+- This is how readmission and gap-in-care measures are built
+:::
+::::
+
+::: {.column width="68%"}
+```{python .marimo}
+_ids = ", ".join(str(v) for v in lag_types.value) or "NULL"
+lag_sql = f"""
+WITH seq AS (
+  SELECT person_id, visit_concept_id, visit_end_date,
+         LEAD(visit_start_date) OVER (PARTITION BY person_id
+                                      ORDER BY visit_start_date) AS next_visit
+  FROM visit_occurrence
+)
+SELECT date_diff('day', visit_end_date, next_visit) AS days_to_next
+FROM seq
+WHERE visit_concept_id IN ({_ids})
+  AND next_visit >= visit_end_date
+"""
+_g = run(lag_sql)
+_g["returned"] = np.where(_g.days_to_next <= return_days.value,
+                          f"within {return_days.value} d", "later")
+_pct = (_g.days_to_next <= return_days.value).mean() * 100 if len(_g) else 0
+_hist = alt.Chart(_g[_g.days_to_next <= 730]).mark_bar().encode(
+    x=alt.X("days_to_next:Q", bin=alt.Bin(step=15), title="days to next visit (first 2 years)"),
+    y=alt.Y("count():Q", title="visits"),
+    color=alt.Color("returned:N", sort="descending",
+                    scale=alt.Scale(range=[CLAUSE["window"], "#DCDDDC"]),
+                    legend=alt.Legend(orient="top", title=None)),
+)
+mo.vstack([show_sql(lag_sql),
+           mo.md(f"**{_pct:.1f}%** of {len(_g):,} index visits had another visit within {return_days.value} days"),
+           styled(_hist, w=580, h=170)]) if len(_g) else mo.md("Pick at least one visit type.")
+```
+:::
+::::::
+
+## Window frames: running and moving values
+
+:::::: columns
+:::: {.column width="30%"}
+```{python .marimo}
+roll_person = mo.ui.dropdown(["806", "648", "644", "431"], value="806", label="Patient")
+roll_k = mo.ui.slider(0, 5, value=2, label="ROWS … PRECEDING", show_value=True, full_width=True)
+mo.vstack([roll_person, roll_k], gap=1.2)
+```
+
+::: muted
+
+- The frame says which rows around the current one feed the aggregate
+
+- `ROWS BETWEEN 2 PRECEDING AND CURRENT ROW` gives a 3-reading moving average
+
+- With only `ORDER BY`, the frame runs from the first row, giving a running total or max
+
+:::
+::::
+
+::: {.column width="70%"}
+```{python .marimo}
+roll_sql = f"""
+SELECT measurement_date,
+       value_as_number AS sbp,
+       AVG(value_as_number) OVER (PARTITION BY person_id ORDER BY measurement_date
+             ROWS BETWEEN {roll_k.value} PRECEDING AND CURRENT ROW) AS moving_avg,
+       MAX(value_as_number) OVER (PARTITION BY person_id
+             ORDER BY measurement_date)                   AS running_max
+FROM measurement
+WHERE measurement_concept_id = 3004249        -- systolic BP
+  AND person_id = {roll_person.value}
+ORDER BY measurement_date
+"""
+_r = run(roll_sql).melt(id_vars="measurement_date", var_name="series", value_name="mmHg")
+_ln = alt.Chart(_r).mark_line(point=True).encode(
+    x=alt.X("measurement_date:T", title=None),
+    y=alt.Y("mmHg:Q", scale=alt.Scale(zero=False), title="systolic BP (mmHg)"),
+    color=alt.Color("series:N", title=None, legend=alt.Legend(orient="top"),
+                    scale=alt.Scale(domain=["sbp", "moving_avg", "running_max"],
+                                    range=["#B3BCE3", CLAUSE["window"], CLAUSE["ink"]])),
+    strokeDash=alt.StrokeDash("series:N", legend=None,
+                              scale=alt.Scale(domain=["sbp", "moving_avg", "running_max"],
+                                              range=[[1, 0], [1, 0], [5, 4]])),
+    tooltip=["measurement_date:T", "series", alt.Tooltip("mmHg:Q", format=".1f")],
+)
+mo.vstack([show_sql(roll_sql), styled(_ln, w=600, h=190)])
+```
+:::
+::::::
+
+## Exercise
+
+Write any query against `person`, `visit_occurrence`, `condition_occurrence`, `drug_exposure`, `measurement` or `concept`, then run it.
+
+```{python .marimo}
+editor = mo.ui.code_editor(
+    value="""SELECT c.concept_name, ROUND(AVG(m.value_as_number), 2) AS mean_value
+FROM measurement AS m
+JOIN concept AS c ON m.measurement_concept_id = c.concept_id
+GROUP BY c.concept_name""",
+    language="sql", min_height=140)
+run_btn = mo.ui.run_button(label="Run query")
+mo.vstack([editor, run_btn])
+```
+
+```{python .marimo}
+mo.stop(not run_btn.value, mo.md("*Press **Run query** to see results.*"))
+try:
+    _out = run(editor.value)
+    _res = mo.vstack([mo.md(f"{len(_out):,} rows"), mo.ui.table(_out, page_size=6, selection=None)])
+except Exception as _e:
+    _res = mo.callout(mo.md(f"**The query failed.** {_e}"), kind="danger")
+_res
+```
+
+## Same query, three ways
+
+::: small
+| Task | DuckDB (this deck) | SQL Server | PostgreSQL |
+|------------------|------------------|------------------|------------------|
+| First *n* rows | `LIMIT 10` | `SELECT TOP 10 …` | `LIMIT 10` |
+| Days between dates | `date_diff('day', a, b)` | `DATEDIFF(day, a, b)` | `b - a` |
+| Truncate to year | `date_trunc('year', d)` | `DATETRUNC(year, d)` | `date_trunc('year', d)` |
+| Current date | `current_date` | `CAST(GETDATE() AS date)` | `current_date` |
+| String concat | `a || b` | `CONCAT(a, b)` | `a || b` |
+| Case-insensitive match | `s ILIKE '%ckd%'` | `s LIKE '%ckd%'` (default collation ignores case) | `s ILIKE '%ckd%'` |
+| Regex match | `regexp_matches(s, 'p')` | `LIKE` patterns only (`REGEXP_LIKE` from 2025) | `s ~ 'p'` |
+| Conditional count | `COUNT(*) FILTER (WHERE …)` | `SUM(CASE WHEN … THEN 1 ELSE 0 END)` | `COUNT(*) FILTER (WHERE …)` |
+| Keep first row per group | `QUALIFY ROW_NUMBER() OVER (…) = 1` | subquery with `WHERE rn = 1` | subquery with `WHERE rn = 1` |
+| Table reference | `cdm.person` | `cdm_db.dbo.person` | `cdm.person` |
+:::
+
+::: muted
+
+OHDSI’s **SqlRender** translates one parameterised query into each dialect, which is how ATLAS and HADES packages stay portable
+
+:::
+
+## Export the result
+
+:::::: columns
+:::: {.column width="45%"}
+Pipe-delimited with every field quoted survives commas inside concept names. The year leads the filename so extracts sort by period.
+
+``` sql
+COPY (
+  SELECT ...
+) TO '2024_t2dm_cohort.tsv'
+  (HEADER, DELIMITER '|', FORCE_QUOTE *);
+```
+
+::: muted
+
+SQL Server: `bcp` or `sqlcmd -s"|" -W`, then wrap values in quotes during the export query
+
+:::
+::::
+
+::: {.column width="55%"}
+```{python .marimo}
+export_year = mo.ui.dropdown([str(y) for y in range(2016, 2025)], value="2024",
+                             label="Diagnosis year")
+export_year
+```
+
+```{python .marimo}
+import csv as _csv
+_x = run(f"""
+SELECT co.person_id, c.concept_name, co.condition_start_date
+FROM condition_occurrence AS co
+JOIN concept AS c ON co.condition_concept_id = c.concept_id
+WHERE co.condition_concept_id = 201826
+  AND EXTRACT(year FROM co.condition_start_date) = {export_year.value}
+ORDER BY co.condition_start_date
+""")
+_txt = _x.to_csv(sep="|", index=False, quoting=_csv.QUOTE_ALL)
+_fname = f"{export_year.value}_t2dm_cohort.tsv"
+mo.vstack([
+    mo.md(f"**{len(_x):,}** rows → `{_fname}`"),
+    mo.md("```text\n" + "\n".join(_txt.splitlines()[:5]) + "\n```"),
+    mo.download(data=_txt.encode(), filename=_fname, mimetype="text/tab-separated-values",
+                label=f"Download {_fname}"),
+])
+```
+:::
+::::::
+
+## Recap
+
+::: recap
+[FROM]{.kw .from} which table (and alias) [JOIN … ON]{.kw .join} link tables, usually on `person_id` or `*_concept_id` [WHERE]{.kw .where} keep rows, before any grouping [GROUP BY]{.kw .group} collapse rows into groups for `COUNT`, `AVG`, `MIN` [HAVING]{.kw .having} keep groups, after aggregation [SELECT]{.kw .select} choose and compute output columns, incl. `CASE WHEN` [ORDER BY]{.kw .order} sort, then `LIMIT` to trim
+:::
+
+## Recap: beyond the basics
+
+::: recap
+[LIKE / ILIKE]{.kw .where} match text with `%` and `_`, to find concept IDs [EXISTS]{.kw .where} keep rows that have (or lack) a related row, without duplicating them [UNION · INTERSECT · EXCEPT]{.kw .from} combine two result sets that have the same columns [COALESCE · NULLIF]{.kw .select} replace `NULL`s and prevent division by zero [FILTER (WHERE …)]{.kw .group} count a subset inside each group [OVER (PARTITION BY …)]{.kw .window} aggregate per group and keep every row [ROW_NUMBER · RANK]{.kw .window} number rows, e.g. the first event per person [LAG · LEAD]{.kw .window} read the previous or next row, e.g. gaps between visits [ROWS BETWEEN …]{.kw .window} running and moving aggregates
+:::
+
+::: muted
+<!-- Next steps: concept ancestors (`concept_ancestor`) for descendant codes, and the OHDSI Eunomia dataset for practice at scale. -->
+:::
