@@ -24,17 +24,17 @@
 <h2 class="anchored" data-anchor-id="course-materials">Course Materials</h2>
 <div id="listing-materials" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="U2xpZGVzJTJDV2VlayUyMDY=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790295108380" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="994">
+<div class="quarto-post image-right" data-index="0" data-categories="UmVzb3VyY2VzJTJDV2VlayUyMDY=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790296757247" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1071">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../F26_GMS6803/week-6/Review.html" class="no-external">OMOP Common Data Model</a>
+<a href="../F26_GMS6803/week-6/Review.html" class="no-external">Review</a>
 </h3>
 <div class="listing-subtitle">
 <a href="../F26_GMS6803/week-6/Review.html" class="no-external">Fall 2026</a>
 </div>
 <div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('U2xpZGVz'); return false;">Slides</div>
+<div class="listing-category" onclick="window.quartoListingCategory('UmVzb3VyY2Vz'); return false;">Resources</div>
 
 <div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDY='); return false;">Week 6</div>
 
@@ -51,11 +51,11 @@ September 25, 2026
 <div class="listing-author">
 Piyush Chaudhari
 </div>
-<div class="listing-reading-time">5 min</div>
+<div class="listing-reading-time">6 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="U2xpZGVzJTJDV2VlayUyMDU=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790294577523" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-word-count-sort="8592">
+<div class="quarto-post image-right" data-index="1" data-categories="U2xpZGVzJTJDV2VlayUyMDY=" data-listing-date-sort="1790308800000" data-listing-file-modified-sort="1790295332911" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="43" data-listing-word-count-sort="8586">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="../F26_GMS6803/week-6/sql-basics.html" class="no-external">SQL Basics</a>
@@ -67,7 +67,7 @@ Piyush Chaudhari
 
 <div class="listing-category" onclick="window.quartoListingCategory('U2xpZGVz'); return false;">Slides</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDU='); return false;">Week 5</div>
+<div class="listing-category" onclick="window.quartoListingCategory('V2VlayUyMDY='); return false;">Week 6</div>
 
 </div>
 <div class="delink listing-description"><a href="../F26_GMS6803/week-6/sql-basics.html" class="no-external">

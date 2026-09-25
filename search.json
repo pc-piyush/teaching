@@ -51,91 +51,84 @@
   {
     "objectID": "F26_GMS6803/week-6/Review.html#omop-common-data-model",
     "href": "F26_GMS6803/week-6/Review.html#omop-common-data-model",
-    "title": "OMOP Common Data Model",
-    "section": "OMOP Common Data Model",
-    "text": "OMOP Common Data Model\n\n\n\n\nThe Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM) is an open community data standard, designed to standardize the structure and content of observational data and to enable efficient analyses that can produce reliable evidence"
-  },
-  {
-    "objectID": "F26_GMS6803/week-6/Review.html#omop-common-data-model-1",
-    "href": "F26_GMS6803/week-6/Review.html#omop-common-data-model-1",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "OMOP Common Data Model",
     "text": "OMOP Common Data Model\n\nThe OMOP Common Data Model organizes data into clinical event tables (facts about a patient over time), a person/demographic table, and standardized vocabulary tables\nEvery clinical fact is represented using a standard concept, which is why most columns end in _concept_id and resolve through concept"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#person",
     "href": "F26_GMS6803/week-6/Review.html#person",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "person",
     "text": "person\n\n\n\nOne row per patient, this is the anchor table every other table joins back to via person_id\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nperson_id\nUnique patient identifier (primary key)\n\n\ngender_concept_id\nStandard concept for sex/gender\n\n\nyear_of_birth, month_of_birth, day_of_birth\nBirth date components\n\n\nrace_concept_id, ethnicity_concept_id\nStandard demographic concepts\n\n\nlocation_id\nFK to location (address/geography)\n\n\nprovider_id\nFK to provider (usual care provider)\n\n\ncare_site_id\nFK to care_site (usual site of care)"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#observation_period",
     "href": "F26_GMS6803/week-6/Review.html#observation_period",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "observation_period",
     "text": "observation_period\n\n\n\nDefines the span(s) of time during which a patient’s data is considered complete/observable. Critical for cohort eligibility and lookback/washout logic.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nobservation_period_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nobservation_period_start_date\nStart of observable window\n\n\nobservation_period_end_date\nEnd of observable window\n\n\nperiod_type_concept_id\nHow the period was derived (e.g., from EHR, insurance enrollment)"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#visit_occurrence",
     "href": "F26_GMS6803/week-6/Review.html#visit_occurrence",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "visit_occurrence",
     "text": "visit_occurrence\n\n\n\nOne row per patient encounter (inpatient stay, outpatient visit, ER visit, etc.). Most clinical event tables optionally link back to the visit during which they occurred.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nvisit_occurrence_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nvisit_concept_id\nType of visit (inpatient, outpatient, ER, etc.)\n\n\nvisit_start_date / visit_end_date\nEncounter start/end\n\n\nvisit_type_concept_id\nProvenance of the visit record\n\n\ncare_site_id\nFK to care_site\n\n\nadmitted_from_concept_id, discharged_to_concept_id\nAdmission/discharge disposition"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#condition_occurrence",
     "href": "F26_GMS6803/week-6/Review.html#condition_occurrence",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "condition_occurrence",
     "text": "condition_occurrence\n\n\n\nDiagnoses - problems, complaints, and clinical impressions recorded for a patient.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\ncondition_occurrence_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\ncondition_concept_id\nStandard concept for the diagnosis (joins to concept)\n\n\ncondition_start_date / condition_end_date\nOnset/resolution dates\n\n\ncondition_type_concept_id\nProvenance (e.g., primary diagnosis, billing code)\n\n\nvisit_occurrence_id\nFK to the visit during which it was recorded\n\n\ncondition_status_concept_id\ne.g., admitting vs. final diagnosis"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#drug_exposure",
     "href": "F26_GMS6803/week-6/Review.html#drug_exposure",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "drug_exposure",
     "text": "drug_exposure\n\n\n\nRecords of drug utilization - prescriptions, administrations, and dispensations.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\ndrug_exposure_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\ndrug_concept_id\nStandard concept for the drug (joins to concept, typically RxNorm)\n\n\ndrug_exposure_start_date / drug_exposure_end_date\nExposure window\n\n\nquantity, days_supply, refills\nDosing/supply details\n\n\nroute_concept_id\nRoute of administration\n\n\nvisit_occurrence_id\nFK to the visit during which it was prescribed/administered"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#measurement",
     "href": "F26_GMS6803/week-6/Review.html#measurement",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "measurement",
     "text": "measurement\n\n\n\nQuantitative and qualitative clinical measurements - labs, vitals, and other structured test results.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nmeasurement_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nmeasurement_concept_id\nStandard concept for the test (joins to concept, typically LOINC)\n\n\nmeasurement_date / measurement_datetime\nWhen the measurement was taken\n\n\nvalue_as_number\nNumeric result (e.g., lab value)\n\n\nvalue_as_concept_id\nCoded result, when the value isn’t numeric\n\n\nunit_concept_id\nUnit of measure\n\n\nrange_low, range_high\nReference range for the test"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#procedure_occurrence",
     "href": "F26_GMS6803/week-6/Review.html#procedure_occurrence",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "procedure_occurrence",
     "text": "procedure_occurrence\n\n\n\nRecords of procedures performed - surgeries, imaging, therapeutic interventions.\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nprocedure_occurrence_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nprocedure_concept_id\nStandard concept for the procedure\n\n\nprocedure_date\nWhen the procedure occurred\n\n\nvisit_occurrence_id\nFK to the associated visit"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#observation",
     "href": "F26_GMS6803/week-6/Review.html#observation",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "observation",
     "text": "observation\n\n\n\nA catch-all clinical fact table for observations that don’t fit condition/drug/procedure/measurement - e.g., family history, social history, survey responses.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nobservation_id\nPrimary key\n\n\nperson_id\nFK to person\n\n\nobservation_concept_id\nStandard concept for what was observed\n\n\nobservation_date\nDate of the observation\n\n\nvalue_as_number, value_as_string, value_as_concept_id\nResult, in whichever form applies"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#concept",
     "href": "F26_GMS6803/week-6/Review.html#concept",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "concept",
     "text": "concept\n\n\n\nThe vocabulary backbone of OMOP (Standardized Vocabulary). Every *_concept_id column across every table is a foreign key into this table.\n\n\n\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nconcept_id\nPrimary key - the number stored in every event table\n\n\nconcept_name\nHuman-readable name\n\n\ndomain_id\nWhich clinical area it belongs to (Condition, Drug, Measurement, etc.)\n\n\nvocabulary_id\nSource vocabulary (SNOMED, RxNorm, LOINC, ICD10CM, etc.)\n\n\nconcept_class_id\nFiner-grained classification within the vocabulary\n\n\nstandard_concept\n'S' if this is the standard concept to use for analysis\n\n\nconcept_code\nThe original code within its source vocabulary"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#standard-concepts",
     "href": "F26_GMS6803/week-6/Review.html#standard-concepts",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "Standard Concepts",
     "text": "Standard Concepts\n\nOMOP maps heterogeneous source codes (ICD-10, local lab codes, etc.) onto a single standard vocabulary per domain, so analytic queries only need to filter on standard concept_id values\nThe concept_relationship and concept_ancestor tables support mapping between source and standard, and traversing concept hierarchies (e.g., “all descendants of Type 2 Diabetes”)"
   },
   {
     "objectID": "F26_GMS6803/week-6/Review.html#connectivity-of-omop-tables",
     "href": "F26_GMS6803/week-6/Review.html#connectivity-of-omop-tables",
-    "title": "OMOP Common Data Model",
+    "title": "Review",
     "section": "Connectivity of OMOP Tables",
     "text": "Connectivity of OMOP Tables\n\n\n\nEvery clinical event table has a person_id (who) and usually a visit_occurrence_id (during which visit), and every *_concept_id resolves through concept (what, in standardized concept term)"
   },
@@ -403,14 +396,14 @@
     "href": "F26_GMS6803/index.html",
     "title": "GMS 6803 Data Science for Clinical Research",
     "section": "",
-    "text": "Fall 2026\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n5 min\n\n\n\n\n\n\n\nA reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 5\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
+    "text": "Fall 2026\n\n\n\nResources\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n6 min\n\n\n\n\n\n\n\nA reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "F26_GMS6803/index.html#course-materials",
     "href": "F26_GMS6803/index.html#course-materials",
     "title": "GMS 6803 Data Science for Clinical Research",
     "section": "",
-    "text": "Fall 2026\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n5 min\n\n\n\n\n\n\n\nA reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 5\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
+    "text": "Fall 2026\n\n\n\nResources\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n6 min\n\n\n\n\n\n\n\nA reactive walkthrough with Quarto, reveal.js and marimo\n\n\n\nSlides\n\nWeek 6\n\n\n\n\n\n\n\n\n\nSeptember 25, 2026\n\n\nPiyush Chaudhari\n\n43 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n5 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 4\n\n\n\n\n\n\n\n\n\nSeptember 11, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 3\n\n\n\n\n\n\n\n\n\nSeptember 4, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 2\n\n\n\nSetting up HiperGator for GMS 6803\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\n\n\n\nFall 2026\n\n\n\nSlides\n\nWeek 2\n\n\n\ni2b2 Introduction, Features star schema, UF Health i2b2 Data Availability, Logging in and basic overview\n\n\n\n\n\nAugust 28, 2026\n\n\nPiyush Chaudhari | Qian Li\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nResources\n\nWeek 1\n\n\n\nUseful traings and resources for GMS 6803 Data Science for Clinical Research\n\n\n\n\n\nAugust 24, 2026\n\n\nPiyush Chaudhari\n\n1 min\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "F26_GMS6803/week-6/sql-basics.html#learning-sql-with-omop",
