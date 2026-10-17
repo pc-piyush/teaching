@@ -675,16 +675,13 @@ mo.vstack([visit_types, grain], gap=1.2)
 ```
 
 ::: muted
-
-**DuckDB** 
+**DuckDB**
 
 `date_trunc('year', d)`
 
-**SQL Server** 
+**SQL Server**
 
-`DATEFROMPARTS(YEAR(d),1,1)` OR 
-`DATETRUNC(year, d)`
-
+`DATEFROMPARTS(YEAR(d),1,1)` OR `DATETRUNC(year, d)`
 :::
 ::::
 
@@ -1474,9 +1471,8 @@ mo.vstack([
 
 ## References
 
-These slides are made using the following tools - 
+These slides are made using the following tools -
 
 - [DuckDB](https://duckdb.org/) - an in-process SQL OLAP database management system
 - [Quarto](https://quarto.org/) - a scientific and technical publishing system built on Pandoc
 - [Marimo](https://marimo.io/gallery) - a Python library for interactive data exploration and visualization
-
