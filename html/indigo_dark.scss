@@ -1,0 +1,544 @@
+/*-- scss:defaults --*/
+
+// Palette — same brand colors, dark surface
+$indigo:     #4F46E5;   // Primary identity
+$lavender:   #C4B5FD;   // Secondary accents
+$gold:       #FBBF24;   // Highlights and emphasis
+$pink:       #EC4899;   // Links and interactive highlights
+$black:      #08080F;   // Dark-mode background
+$white:      #FFFFFF;   // Light-mode background
+$violet:     #8B5CF6;
+$ink-dark:   #ECEAF7;
+$ink-muted:  #B4B1C9;
+$paper-dark: $black;
+$card-dark:  #12111C;
+$border-dark:#262438;
+
+// Fonts — serif headings, clean sans body (Public Sans / JetBrains Mono come from _brand.yml)
+$font-family-sans-serif: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-serif: Georgia, "Times New Roman", serif;
+$font-family-monospace: "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace;
+$font-family-base: $font-family-sans-serif;
+
+$primary: $indigo;
+$secondary: $lavender;
+$body-bg: $paper-dark;
+$body-color: $ink-dark;
+$link-color: $lavender;
+$link-hover-color: $pink;
+$headings-font-family: $font-family-serif;
+$headings-color: $white;
+$headings-font-weight: 400;
+$border-color: $border-dark;
+$code-color: #F9A8D4;
+
+// Quarto navbar / footer
+$navbar-bg: $black;
+$navbar-fg: $ink-dark;
+$navbar-hl: $gold;
+$footer-bg: $card-dark;
+$footer-fg: $ink-muted;
+
+/*-- scss:rules --*/
+
+// Smooth, stable fade from black to dark indigo
+$indigo-deep: #1A1745;
+body {
+  background: linear-gradient(180deg, $black 0%, mix($black, $indigo-deep, 50%) 55%, $indigo-deep 100%);
+  background-color: $black;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+::selection { background: rgba($violet, 0.5); color: $white; }
+
+// Navbar — near-black glass with gold identity
+.navbar {
+  background-color: rgba($black, 0.85) !important;
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  // Tri-color signature stripe — indigo / pink / gold
+  border-bottom: 4px solid $indigo;
+  border-image: linear-gradient(to right, $indigo 0 33%, $pink 33% 66%, $gold 66% 100%) 1;
+}
+
+// Quarto layers this dark sheet ON TOP of the light one, so every navbar
+// rule from indigo.scss is repeated here with the same selectors to win.
+.navbar .navbar-title,
+.navbar .navbar-brand .navbar-title,
+.navbar .navbar-brand-container a {
+  color: $white !important;
+}
+.navbar .quarto-color-scheme-toggle,
+.navbar .quarto-navigation-tool,
+.navbar .aa-DetachedSearchButton,
+.navbar .aa-DetachedSearchButtonIcon,
+.navbar .aa-SubmitIcon,
+.navbar #quarto-search .bi,
+.navbar .navbar-toggler {
+  color: $ink-dark !important;
+  opacity: 1;
+}
+.navbar .quarto-color-scheme-toggle .bi::before,
+.navbar .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+.navbar .navbar-toggler { border-color: rgba($white, 0.25); }
+
+// Logo file is white — tint it gold on the dark bar
+.navbar-logo {
+  filter: brightness(0) saturate(100%) invert(80%) sepia(52%) saturate(1100%) hue-rotate(337deg) brightness(101%) contrast(97%);
+}
+
+.navbar-brand,
+.navbar-title {
+  font-family: $font-family-serif;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+  color: $white !important;
+}
+:root { --pc-accent: #{$pink}; }
+
+.navbar-nav .nav-link {
+  color: $ink-dark !important;
+  font-weight: 500;
+  opacity: 0.92;
+  transition: color 0.15s ease;
+}
+.navbar-nav .nav-link:hover { color: $pink !important; }
+.navbar-nav .nav-link.active {
+  color: $gold !important;
+  border-bottom: 2px solid $gold;
+}
+
+// Hero block
+.hero {
+  background: transparent;
+  color: $ink-dark;
+  padding: 3.5rem 0 2.5rem;
+  margin: 0 0 2.5rem 0;
+}
+.hero h1 { color: $white; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.08; }
+.hero p { color: $ink-muted; max-width: 560px; font-size: 1.05rem; line-height: 1.6; }
+
+// Accent words: *word* inside h1, or [word]{.accent}
+h1 em, .hero h1 em, .accent {
+  font-style: normal;
+  background: linear-gradient(90deg, $pink, #F472B6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eyebrow, .hero .eyebrow {
+  font-family: $font-family-sans-serif;
+  font-weight: 600;
+  color: $gold;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  margin-bottom: 0.9rem;
+}
+
+// Buttons — pink→gold gradient primary, white outline secondary
+.btn-cta, .btn-primary {
+  display: inline-block;
+  background: linear-gradient(90deg, $pink, $gold);
+  color: $white !important;
+  border: 0;
+  border-radius: 10px;
+  font-family: $font-family-sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.7rem 1.4rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  box-shadow: 0 6px 22px rgba($pink, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.btn-cta:hover, .btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 28px rgba($pink, 0.38);
+  color: $white !important;
+}
+
+.btn-outline, .btn-outline-primary {
+  display: inline-block;
+  background: transparent;
+  color: $white !important;
+  border: 1.5px solid rgba($white, 0.75);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.65rem 1.35rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: background 0.15s ease;
+}
+.btn-outline:hover, .btn-outline-primary:hover {
+  background: rgba($white, 0.08);
+  color: $white !important;
+}
+
+// About page (trestles template)
+.about-entity .about-image,
+.quarto-about-trestles .about-image {
+  box-shadow: 0 0 0 6px rgba($violet, 0.3), 0 12px 34px rgba($violet, 0.25);
+}
+.about-entity .about-links .about-link,
+.quarto-about-trestles .about-link {
+  border: 1px solid rgba($lavender, 0.35) !important;
+  border-radius: 999px !important;
+  color: $lavender !important;
+  background: rgba($white, 0.03);
+  transition: all 0.15s ease;
+}
+.about-entity .about-links .about-link:hover,
+.quarto-about-trestles .about-link:hover {
+  background: $pink;
+  color: $white !important;
+  border-color: $pink !important;
+}
+
+// Listing cards — dark glass, tinted borders in rotation: lavender / gold / pink
+.quarto-grid-item {
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: rgba($indigo, 0.08);
+  border: 1px solid rgba($lavender, 0.22);
+  color: $ink-dark;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.quarto-grid-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba($black, 0.6), 0 0 0 1px rgba($lavender, 0.3);
+}
+.quarto-grid-item:nth-child(3n+2) {
+  background-color: rgba($gold, 0.05);
+  border-color: rgba($gold, 0.25);
+}
+.quarto-grid-item:nth-child(3n+3) {
+  background-color: rgba($pink, 0.05);
+  border-color: rgba($pink, 0.22);
+}
+.quarto-grid-item .card-title { color: $white; font-family: $font-family-serif; }
+.quarto-grid-item a { color: $lavender; }
+.quarto-grid-item:nth-child(3n+2) a { color: $gold; }
+.quarto-grid-item:nth-child(3n+3) a { color: $pink; }
+
+.listing-categories .listing-category {
+  font-family: $font-family-sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  border-radius: 999px;
+  color: $gold !important;
+  border-color: rgba($gold, 0.4) !important;
+  background: transparent;
+}
+
+// Footer — dark card bar
+.nav-footer {
+  background-color: $card-dark !important;
+  border-top: 1px solid rgba($white, 0.06);
+  color: $ink-muted !important;
+  font-family: $font-family-sans-serif;
+  font-size: 0.82rem;
+}
+.nav-footer a { color: $gold !important; }
+.nav-footer a:hover { color: $pink !important; }
+
+// TOC
+#TOC .nav-link.active,
+#quarto-margin-sidebar .nav-link.active {
+  color: $gold !important;
+  border-left-color: $gold !important;
+}
+
+blockquote {
+  border-left: 3px solid $violet;
+  color: $ink-muted;
+}
+
+h1 {
+  margin-bottom: 0.2rem;
+}
+
+// Section headings — short gold bar above, no underline
+h2 {
+  position: relative;
+  margin-top: 2rem;
+  padding-top: 0.85rem;
+  padding-bottom: .3rem;
+  border-bottom: 0;
+}
+h2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: $gold;
+}
+
+h3 {
+  margin-bottom: .2rem;
+}
+
+p {
+  line-height: 1.6;
+}
+
+hr {
+  opacity: .2;
+}
+
+.grid {
+  gap: 2rem;
+}
+
+.g-col-lg-4 {
+  border-right: 3px solid rgba($indigo, 0.7);
+  padding-right: 2rem;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.g-col-lg-8 {
+  padding: 1rem 2rem;
+}
+
+ul {
+  margin-bottom: 1rem;
+}
+
+strong {
+  color: $lavender;
+}
+
+@media (max-width: 992px) {
+  .g-col-lg-4 {
+    position: relative;
+    top: auto;
+    border-right: 0;
+  }
+}
+
+/* Base font */
+body {
+  font-size: 0.85rem;      // ~15px
+  line-height: 1.45;
+}
+
+/* Name */
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Section titles */
+h2 {
+  font-size: 1.05rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Job titles */
+h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+/* Paragraphs and lists */
+p,
+li {
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Sidebar */
+.g-col-lg-4 {
+  font-size: 0.9rem;
+}
+
+.g-col-lg-4 h2 {
+  font-size: 1rem;
+}
+
+///////////////////////////////////////
+
+.quarto-title-block {
+  .quarto-title .quarto-categories {
+    padding-bottom: 0;
+    flex-wrap: wrap;
+    row-gap: 0.4em;
+  }
+
+  .project-details {
+    background-color: rgba($indigo, 0.1);
+    border: 1px solid rgba($lavender, 0.2);
+    border-radius: 12px;
+    padding: 0.75em;
+    margin: 1em 0;
+  }
+
+  .quarto-title-meta-heading.manual {
+    margin-top: 2em !important;
+  }
+
+  .project-links {
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .project-link {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0 1em 0 0;
+    font-weight: bold;
+  }
+}
+
+.project-link a {
+  text-decoration: none;
+}
+
+i[class^="icon-"]:before {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.research {
+  .back-nav a {
+    color: $ink-muted;
+  }
+
+  .quarto-title .quarto-categories .quarto-category {
+    background-color: rgba($indigo, 0.35);
+    border-radius: 999px;
+    color: $ink-dark;
+    font-size: 0.65em;
+    opacity: 1;
+  }
+
+  .project-categories {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.35em 0 0.35em;
+    padding-top: 0.35em;
+    padding-left: 0.5em;
+    padding-bottom: 0;
+    row-gap: 0.4em;
+    column-gap: 0.4em;
+    font-family: $font-family-sans-serif;
+
+    .project-category {
+      padding: 0.25em 0.75em 0.25em 0em;
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $gold;
+    }
+  }
+}
+
+.project-list {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2em;
+
+    li.project {
+      margin-bottom: 2.5em;
+      border-left: 4px solid $indigo;
+      border-radius: 4px;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .project-content {
+    padding-left: 0.5em;
+
+    .status {
+      font-size: 1rem;
+      font-weight: 250;
+      padding: 0.2em;
+      margin-right: 0.5em;
+    }
+  }
+
+  ul.project-links {
+    margin-bottom: 0;
+  }
+
+  .project-details-listing {
+    margin-top: 0.8em;
+    background-color: $card-dark;
+    border: 1px solid $border-dark;
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.9rem;
+
+    .project-link {
+      display: inline-block;
+      white-space: nowrap;
+      padding: 0.5em 0.5em 0.5em 1em;
+    }
+
+    .details {
+      background: $pink;
+      padding-right: 1.5em;
+
+      a {
+        color: $white;
+      }
+    }
+  }
+}
+
+#refs {
+  background-color: $card-dark;
+  border: 1px solid $border-dark;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+:root {
+  --bib-bg: #{$white};
+  --bib-text: #1E293B;
+  --bib-border: #{$lavender};
+}
+
+/* DARK MODE (Quarto Bootstrap theme switch) */
+[data-bs-theme="dark"] {
+  --bib-bg: #{$card-dark};
+  --bib-text: #E0E7FF;
+  --bib-border: #{rgba($indigo, 0.5)};
+}
+
+.pub-card {
+  background: var(--bib-bg);
+  color: var(--bib-text);
+  border: 1px solid var(--bib-border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.pub-card pre,
+.pub-card code {
+  background: transparent !important;
+  color: var(--bib-text) !important;
+}

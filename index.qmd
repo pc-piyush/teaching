@@ -34,8 +34,8 @@ brand: brand/_brand.yml
 format:
   html:
     theme:
-      light: ["html/uf.scss","html/teaching/listing.scss","brand"]
-      dark: ["html/uf.scss","html/teaching/listing.scss","brand"]
+      light: ["brand", "html/indigo.scss", "html/teaching/listing.scss"]
+      dark: ["brand", "html/indigo_dark.scss", "html/teaching/listing.scss"]
 ---
 
 ## Course Teaching

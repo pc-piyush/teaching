@@ -1,0 +1,542 @@
+/*-- scss:defaults --*/
+
+// Palette — Indigo / Lavender / Gold / Pink
+$indigo:   #4F46E5;   // Primary identity
+$lavender: #C4B5FD;   // Secondary accents
+$gold:     #FBBF24;   // Highlights and emphasis
+$pink:     #EC4899;   // Links and interactive highlights
+$black:    #08080F;   // Dark-mode background / headings
+$white:    #FFFFFF;   // Light-mode background
+$violet:   #7C3AED;   // gradient partner for indigo
+$gold-ink: #B7791F;   // readable gold for text on white
+$ink:      #1F1D2E;
+$ink-soft: #4B4963;
+$paper:    $white;
+$border-color: #E6E1FB;
+
+// Fonts — serif headings, clean sans body (Public Sans / JetBrains Mono come from _brand.yml)
+$font-family-sans-serif: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-serif: Georgia, "Times New Roman", serif;
+$font-family-monospace: "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace;
+$font-family-base: $font-family-sans-serif;
+
+// Core Bootstrap overrides
+$primary: $indigo;
+$secondary: $lavender;
+$body-bg: $paper;
+$body-color: $ink;
+$link-color: $indigo;
+$link-hover-color: $pink;
+$headings-font-family: $font-family-serif;
+$headings-color: $black;
+$headings-font-weight: 400;
+$code-color: #BE185D;
+
+// Quarto navbar / footer
+$navbar-bg: $white;
+$navbar-fg: $ink;
+$navbar-hl: $indigo;
+$footer-bg: rgba($lavender, 0.22);
+$footer-fg: $ink-soft;
+
+/*-- scss:rules --*/
+
+// Soft lavender glow behind the page (the mockup's background wash)
+body {
+  background:
+    radial-gradient(900px 520px at 88% -8%, rgba($lavender, 0.38), transparent 62%),
+    radial-gradient(700px 480px at -10% 10%, rgba($indigo, 0.06), transparent 60%),
+    radial-gradient(600px 400px at 100% 55%, rgba($gold, 0.07), transparent 60%),
+    $white;
+  background-attachment: fixed;
+}
+
+::selection { background: rgba($lavender, 0.55); color: $black; }
+
+// Navbar — light glass bar with indigo identity
+.navbar {
+  background-color: rgba($white, 0.85) !important;
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  box-shadow: 0 1px 12px rgba($indigo, 0.05);
+  // Tri-color signature stripe — indigo / pink / gold
+  border-bottom: 4px solid $indigo;
+  border-image: linear-gradient(to right, $indigo 0 33%, $pink 33% 66%, $gold 66% 100%) 1;
+}
+
+// Logo file is white — tint it indigo on the light bar
+.navbar-logo {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(91%) saturate(3086%) hue-rotate(240deg) brightness(91%) contrast(96%);
+}
+
+.navbar-brand,
+.navbar-title {
+  font-family: $font-family-serif;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+  color: $black !important;
+}
+
+// Name, theme toggle, search and hamburger — keep them dark on the white bar
+.navbar .navbar-title,
+.navbar .navbar-brand .navbar-title,
+.navbar .navbar-brand-container a {
+  color: $black !important;
+}
+.navbar .quarto-color-scheme-toggle,
+.navbar .quarto-navigation-tool,
+.navbar .aa-DetachedSearchButton,
+.navbar .aa-DetachedSearchButtonIcon,
+.navbar .aa-SubmitIcon,
+.navbar #quarto-search .bi,
+.navbar .navbar-toggler {
+  color: $ink !important;
+  opacity: 1;
+}
+.navbar .quarto-color-scheme-toggle .bi::before,
+.navbar .navbar-toggler-icon {
+  filter: brightness(0) saturate(100%) invert(10%) sepia(18%) saturate(1200%) hue-rotate(210deg);
+}
+.navbar .navbar-toggler { border-color: rgba($indigo, 0.25); }
+
+:root { --pc-accent: #{$indigo}; }
+
+.navbar-nav .nav-link {
+  color: $ink !important;
+  font-weight: 500;
+  opacity: 0.92;
+  transition: color 0.15s ease;
+}
+.navbar-nav .nav-link:hover { color: $pink !important; }
+
+.navbar-nav .nav-link.active {
+  color: $indigo !important;
+  border-bottom: 2px solid $indigo;
+}
+
+// Hero block — wrap an intro in a div with class "hero"
+.hero {
+  background: transparent;
+  color: $ink;
+  padding: 3.5rem 0 2.5rem;
+  margin: 0 0 2.5rem 0;
+}
+.hero h1 { color: $black; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.08; }
+.hero p { color: $ink-soft; max-width: 560px; font-size: 1.05rem; line-height: 1.6; }
+
+// Gradient accent words: *word* inside h1, or [word]{.accent}
+h1 em, .hero h1 em, .accent {
+  font-style: normal;
+  background: linear-gradient(90deg, $indigo, $violet);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eyebrow, .hero .eyebrow {
+  font-family: $font-family-sans-serif;
+  font-weight: 600;
+  color: $indigo;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  margin-bottom: 0.9rem;
+}
+
+// Buttons — gradient primary, outlined secondary
+.btn-cta, .btn-primary {
+  display: inline-block;
+  background: linear-gradient(135deg, $indigo, $violet);
+  color: $white !important;
+  border: 0;
+  border-radius: 10px;
+  font-family: $font-family-sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.7rem 1.4rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  box-shadow: 0 6px 18px rgba($indigo, 0.28);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.btn-cta:hover, .btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 24px rgba($indigo, 0.34);
+  color: $white !important;
+}
+
+.btn-outline, .btn-outline-primary {
+  display: inline-block;
+  background: transparent;
+  color: $indigo !important;
+  border: 1.5px solid $indigo;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.65rem 1.35rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: background 0.15s ease;
+}
+.btn-outline:hover, .btn-outline-primary:hover {
+  background: rgba($lavender, 0.25);
+  color: $indigo !important;
+}
+
+// About page (trestles template)
+.about-entity .about-image,
+.quarto-about-trestles .about-image {
+  box-shadow: 0 0 0 6px rgba($lavender, 0.35), 0 12px 30px rgba($indigo, 0.15);
+}
+.about-entity .about-links .about-link,
+.quarto-about-trestles .about-link {
+  border: 1px solid rgba($indigo, 0.3) !important;
+  border-radius: 999px !important;
+  color: $indigo !important;
+  background: rgba($white, 0.7);
+  transition: all 0.15s ease;
+}
+.about-entity .about-links .about-link:hover,
+.quarto-about-trestles .about-link:hover {
+  background: $indigo;
+  color: $white !important;
+  border-color: $indigo !important;
+}
+
+// Listing cards — rounded, tinted in rotation: lavender / gold / pink
+.quarto-grid-item {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba($lavender, 0.75);
+  background-color: rgba($lavender, 0.14);
+  box-shadow: 0 1px 3px rgba($indigo, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.quarto-grid-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba($indigo, 0.12);
+}
+.quarto-grid-item:nth-child(3n+2) {
+  border-color: rgba($gold, 0.45);
+  background-color: rgba($gold, 0.07);
+}
+.quarto-grid-item:nth-child(3n+3) {
+  border-color: rgba($pink, 0.28);
+  background-color: rgba($pink, 0.05);
+}
+.quarto-grid-item .card-title { color: $black; font-family: $font-family-serif; }
+.quarto-grid-item a { color: $indigo; }
+.quarto-grid-item:nth-child(3n+2) a { color: $gold-ink; }
+.quarto-grid-item:nth-child(3n+3) a { color: $pink; }
+
+.listing-categories .listing-category {
+  font-family: $font-family-sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  border-radius: 999px;
+  color: $indigo !important;
+  border-color: rgba($indigo, 0.35) !important;
+  background: rgba($white, 0.6);
+}
+
+// Footer — soft lavender bar
+.nav-footer {
+  background-color: rgba($lavender, 0.22) !important;
+  border-top: 1px solid rgba($lavender, 0.5);
+  color: $ink-soft !important;
+  font-family: $font-family-sans-serif;
+  font-size: 0.82rem;
+}
+.nav-footer a { color: $indigo !important; }
+.nav-footer a:hover { color: $pink !important; }
+
+// TOC
+#TOC .nav-link.active,
+#quarto-margin-sidebar .nav-link.active {
+  color: $indigo !important;
+  border-left-color: $indigo !important;
+}
+
+blockquote {
+  border-left: 3px solid $lavender;
+  color: $ink-soft;
+}
+
+h1 {
+  margin-bottom: 0.2rem;
+}
+
+// Section headings — short gold bar above, no underline
+h2 {
+  position: relative;
+  margin-top: 2rem;
+  padding-top: 0.85rem;
+  padding-bottom: .3rem;
+  border-bottom: 0;
+}
+h2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: $gold;
+}
+
+h3 {
+  margin-bottom: .2rem;
+}
+
+p {
+  line-height: 1.6;
+}
+
+hr {
+  opacity: .2;
+}
+
+.grid {
+  gap: 2rem;
+}
+
+.g-col-lg-4 {
+  border-right: 3px solid rgba($lavender, 0.8);
+  padding-right: 2rem;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.g-col-lg-8 {
+  padding: 1rem 2rem;
+}
+
+ul {
+  margin-bottom: 1rem;
+}
+
+strong {
+  color: $indigo;
+}
+
+@media (max-width: 992px) {
+  .g-col-lg-4 {
+    position: relative;
+    top: auto;
+    border-right: 0;
+  }
+}
+
+/* Base font */
+body {
+  font-size: 0.85rem;      // ~15px
+  line-height: 1.45;
+}
+
+/* Name */
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Section titles */
+h2 {
+  font-size: 1.05rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Job titles */
+h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+/* Paragraphs and lists */
+p,
+li {
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Sidebar */
+.g-col-lg-4 {
+  font-size: 0.9rem;
+}
+
+.g-col-lg-4 h2 {
+  font-size: 1rem;
+}
+
+
+//////////////////////
+///
+.quarto-title-block {
+  .quarto-title .quarto-categories {
+    padding-bottom: 0;
+    flex-wrap: wrap;
+    row-gap: 0.4em;
+  }
+
+  .project-details {
+    background-color: rgba($lavender, 0.18);
+    border: 1px solid rgba($lavender, 0.6);
+    border-radius: 12px;
+    padding: 0.75em;
+    margin: 1em 0;
+  }
+
+  .quarto-title-meta-heading.manual {
+    margin-top: 2em !important;
+  }
+
+  .project-links {
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .project-link {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0 1em 0 0;
+    font-weight: bold;
+  }
+}
+
+.project-link a {
+  text-decoration: none;
+}
+
+i[class^="icon-"]:before {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.research {
+  .back-nav a {
+    color: $ink-soft;
+  }
+
+  .quarto-title .quarto-categories .quarto-category {
+    background-color: rgba($lavender, 0.35);
+    border-radius: 999px;
+    color: $ink;
+    font-size: 0.65em;
+    opacity: 1;
+  }
+
+  .project-categories {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.35em 0 0.35em;
+    padding-top: 0.35em;
+    padding-left: 0.5em;
+    padding-bottom: 0;
+    row-gap: 0.4em;
+    column-gap: 0.4em;
+    font-family: $font-family-sans-serif;
+
+    .project-category {
+      padding: 0.25em 0.75em 0.25em 0em;
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $indigo;
+    }
+  }
+}
+
+.project-list {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2em;
+
+    li.project {
+      margin-bottom: 2.5em;
+      border-left: 4px solid $lavender;
+      border-radius: 4px;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .project-content {
+    padding-left: 0.5em;
+
+    .status {
+      font-size: 1rem;
+      font-weight: 250;
+      padding: 0.2em;
+      margin-right: 0.5em;
+    }
+  }
+
+  ul.project-links {
+    margin-bottom: 0;
+  }
+
+  .project-details-listing {
+    margin-top: 0.8em;
+    background-color: rgba($lavender, 0.16);
+    border: 1px solid rgba($lavender, 0.55);
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.9rem;
+
+    .project-link {
+      display: inline-block;
+      white-space: nowrap;
+      padding: 0.5em 0.5em 0.5em 1em;
+    }
+
+    .details {
+      background: $indigo;
+      padding-right: 1.5em;
+
+      a {
+        color: $white;
+      }
+    }
+  }
+}
+
+/* LIGHT MODE (default) */
+:root {
+  --bib-bg: #{rgba($lavender, 0.12)};
+  --bib-text: #1E293B;
+  --bib-border: #{rgba($lavender, 0.7)};
+}
+
+/* DARK MODE (Quarto Bootstrap theme switch) */
+[data-bs-theme="dark"] {
+  --bib-bg: #14131F;
+  --bib-text: #E0E7FF;
+  --bib-border: #{rgba($indigo, 0.5)};
+}
+
+.pub-card {
+  background: var(--bib-bg);
+  color: var(--bib-text);
+  border: 1px solid var(--bib-border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.pub-card pre,
+.pub-card code {
+  background: transparent !important;
+  color: var(--bib-text) !important;
+}

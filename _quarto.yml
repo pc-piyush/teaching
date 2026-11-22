@@ -52,8 +52,8 @@ website:
 format:
   html:
     theme:
-      light: [brand, "html/dfb.scss"]
-      dark: [brand, "html/dfb_dark.scss"]
+      light: [brand, "html/indigo.scss"]
+      dark: [brand, "html/indigo_dark.scss"]
     toc: true
     page-layout: full
 

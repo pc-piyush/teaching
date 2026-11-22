@@ -4,7 +4,7 @@
 // Mirrors html/dfb.scss `.project-list` but self-contained so it can sit
 // alongside the UF theme (html/uf.scss) without pulling in that theme's defaults.
 
-$teaching-accent: #FA4616;              // UF Core Orange
+$teaching-accent: var(--pc-accent, #4F46E5);   // set by indigo / indigo_dark
 $teaching-rule:   rgba(128, 128, 128, 0.22);  // reads on both light and dark
 $teaching-chip:   rgba(128, 128, 128, 0.18);
 

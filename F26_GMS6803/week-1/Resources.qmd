@@ -15,8 +15,8 @@ navbar: false
 #         preview-links: auto
 #         logo: ../../photos/PC_UF.png
 #         theme: ../../html/uf.scss
-# #            light: ["../html/dfb.scss","brand"]
-# #            dark: ["../html/dfb_dark.scss","brand"]
+# #            light: ["brand", "../html/indigo.scss"]
+# #            dark: ["brand", "../html/indigo_dark.scss"]
 #         #css: styles.css
 # footer: "[GMS 6803: Data Science for Clinical Research](https://github.com/GatorAIM/gms6803-clinical-data-science)"
 # include-in-header:
